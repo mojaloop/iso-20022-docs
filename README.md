@@ -12,6 +12,10 @@ Business justifications are submitted to the ISO 20022 Payments SEG to explain w
 
 If a Business Justification requires new messages, then it must be approved by the ISO 20022 Registration Management Group as well as the Payments SEG.
 
+## Candidate Schemas ##
+
+The files in this directory are the new forms of existing messages, and the new messages, proposed by the Mojaloop Foundation for addition to the ISO 20022 standard.
+
 ## Change Requests ##
 
 Change requests are submitted to the ISO 20022 Payments SEG to propose a particular change to one (or sometimes more) existing message(s). They are reviewed and approved by the Payments SEG.
