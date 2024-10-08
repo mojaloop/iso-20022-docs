@@ -1,0 +1,365 @@
+HTTP method,resource,route,Importance,Unidirectional,FSPIOP Field,FSPIOP-ISO20022 Field,Comment,,
+PUT,parties,"{Type}/{ID}
+{Type}/{ID}/{SubId}",,,,Root Commponent (GetParties_IdentificationVerificationReportV03),,,
+,,,,TRUE,generateID(),Assgnmt.MsgId,Not use in FSPIOP,,
+,,,,TRUE,datetimeNow(),Assgnmt.CreDtTm,Creation Date time of message; not use in FSPIOP,,
+,,,,,header.FSPIOP-Source,Assgnmt.Assgnr.Agt.FinInstnId.Othr.Id,,,
+,,,,,header.FSPIOP-Destination,Assgnmt.Assgne.Agt.FinInstnId.Othr.Id,,,
+,,,,,,,,,
+,,,,,{TYPE}/{PartyIdentifier}/{Optional SubId},Rpt.OrgnlId,,,
+,,,,TRUE,TRUE,Rpt.Vrfctn,,,
+,,,,,,,,,
+,,,,,party.partyIdInfo.partyIdType,"if(party.PartyIdInfo.PartyIdType == BUSINESS | party.PartyIdInfo.PartyIdType ==  ALIAS | party.PartyIdInfo.PartyIdType ==  DEVICE)
+Rpt.UpdtdPtyAndAcctId.Pty.Id.OrgId.Othr.SchmeNm.Prtry
+else
+Rpt.UpdtdPtyAndAcctId.Pty.Id.PrvId.Othr.SchmeNm.Prtry",,,
+,,,,,,,,,
+,,"{Type}/{ID}
+{Type}/{ID}/{SubId}",Critical,,party.partyIdInfo.partyIdType,"if(party.PartyIdInfo.PartyIdType == BUSINESS | party.PartyIdInfo.PartyIdType ==  ALIAS | party.PartyIdInfo.PartyIdType ==  DEVICE)
+Rpt.UpdtdPtyAndAcctId.Pty.Id.OrgId.Othr.SchmeNm.Prtry
+else
+Rpt.UpdtdPtyAndAcctId.Pty.Id.PrvId.Othr.SchmeNm.Prtry",,,
+,,,Critical,,party.partyIdInfo.partyIdentifier,"if(party.PartyIdInfo.PartyIdType == BUSINESS | party.PartyIdInfo.PartyIdType ==  ALIAS | party.PartyIdInfo.PartyIdType ==  DEVICE)
+Rpt.UpdtdPtyAndAcctId.Pty.Id.OrgId.Othr.Id
+else
+Rpt.UpdtdPtyAndAcctId.Pty.Id.PrvId.Othr.Id","Or  GetParties_IdentificationVerificationReportV03.Rpt.UpdtdPtyAndAcctId.Pty.PrvtId.Othr.Id, depending which is filled in",,
+,,,Non-Critical,,party.partyIdInfo.partySubIdOrType,Not required.,In Mojaloop Connector/ add sub id if callback made on subID endpoint,,
+,,,Critical,,party.partyIdInfo.fspId,Rpt.UpdtdPtyAndAcctId.Agt.FinInstnId.Othr.Id,,,
+,,,Non-Critical,,party.merchantClassificationCode,Not required.,,,
+,,,Critical,,party.name,Rpt.UpdtdPtyAndAcctId.Pty.Nm,,FSPIOP limit 128 ISO char limit 140,
+,,,Non-Critical,,party.partyIdInfo.complexName.firstName,No substitute. Not required.,,,
+,,,Non-Critical,,party.partyIdInfo.complexName.middleName,No substitute. Not required.,,,
+,,,Non-Critical,,party.partyIdInfo.complexName.lastName,No substitute. Not required.,,,
+,,,Non-Critical,,party.partyIdInfo.dateOfBirth,See comment to right. Not required.,,"This Rpt.UpdtdPtyAndAcctId.Pty.Id.PrvtId.DtAndPlcOfBirth.BirthDt
+is a good mapping, however if this is provided, then there are numerous other fields that must be provided too to be a valid ISO message. This means that it should not be included as a default mapping.",
+,,,Non-Critical,,party.partyIdInfo.kycInformation,No substitute. ,,,
+,,,Critical,,party.supportedCurrencies,"Rpt.UpdtdPtyAndAcctId.Acct.Ccy
+",,multi-currency account would be a problem,
+,,,,,,,,,
+PUT,parties,"{Type}/{ID}/error
+{Type}/{ID}/{SubId}/error",Critical,,errorInformation.errorCode,Rpt.Rsn.Cd,,,
+,,,Non-Critical,,errorInformation.errorDescription,"ISO -> Fspiop
+getDescriptionfromCode(Rpt.Rsn.Cd)
+
+Fspiop -> ISO
+Do nothing.",,,
+,,,,TRUE,generateID(),Assgnmt.MsgId,,,
+,,,,TRUE,datetimeNow(),Assgnmt.CreDtTm,,,
+,,,,,header.FSPIOP-Source,Assgnmt.Assgnr.Agt.FinInstnId.Othr.Id,,,
+,,,,,header.FSPIOP-Destination,Assgnmt.Assgne.Agt.FinInstnId.Othr.Id,,,
+,,,,,,,,,
+,,,,,{TYPE}/{PartyIdentifier}/{Optional SubId},Rpt.OrgnlId,,,
+,,,,TRUE,FALSE,Rpt.Vrfctn,,,
+,,,,,,,,,
+POST,quotes,,,,,Root Component (TermsRequest_FIToFICustomerCreditProposal),,,
+,,,,TRUE,generateID(),GrpHdr.MsgId,,,
+,,,,TRUE,datetimeNow(),GrpHdr.CreDtTm,,,
+,,,,TRUE,"1 (For now, bulk TBD)",GprHdr.NbOfTxs,,,
+,,,,,expiration,GrpHdr.PmtInstrXpryDtTm,,,
+,,,,TRUE,CLRG,GrpHdr.SttlmInf.SttlmMtd,,,
+,,,,,,,,,
+,,,Critical,,quoteId,CdtTrfTxInf.PmtId.TxId,,,
+,,,Critical,,transactionId,CdtTrfTxInf.PmtId.EndToEndId,,,
+,,,Critical if R2P,,transactionRequestId,CdtTrfTxInf.PmtId.InstrId,,,
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+,,,Critical,,payee.partyIdInfo.partyIdType,"if(party.PartyIdInfo.PartyIdType == BUSINESS | party.PartyIdInfo.PartyIdType ==  ALIAS  | party.PartyIdInfo.PartyIdType ==  DEVICE)
+CdtTrfTxInf.Cdtr.Id.OrgId.Othr.SchmeNm.Prtry
+else
+CdtTrfTxInf.Cdtr.Id.PrvId.Othr.SchmeNm.Prtry","if(IsPartyPerson(party.PartyIdInfo)
+CdtTrfTxInf.Cdtr.Id.OrgId.Othr.SchmeNm.Prtry
+else
+CdtTrfTxInf.Cdtr.Id.PrvId.Othr.SchmeNm.Prtry",,
+,,,Critical,,payee.partyIdInfo.partyIdentifier,"if(party.PartyIdInfo.PartyIdType == BUSINESS | party.PartyIdInfo.PartyIdType ==  ALIAS  | party.PartyIdInfo.PartyIdType ==  DEVICE)
+CdtTrfTxInf.Cdtr.Id.OrgId.Othr.Id
+else
+CdtTrfTxInf.Cdtr.Id.PrvId.Othr.Id",,,
+,,,,,payee.partyIdInfo.partySubIdOrType,No substitute. Not required.,,,
+,,,Critical,,payee.partyIdInfo.fspId,CdtTrfTxInf.CdtrAgt.FinInstnId.Othr.Id,,,
+,,,,,payee.merchantClassificationCode,Not required. ,Othr.SchmeNm.Cd should be BDID,,
+,,,Critical,,payee.name,CdtTrfTxInf.Cdtr.Name,,,
+,,,,,payee.partyIdInfo.complexName.firstName,No substitute.,,,
+,,,,,payee.partyIdInfo.complexName.middleName,No substitute.,,,
+,,,,,payee.partyIdInfo.complexName.lastName,No substitute.,,,
+,,,,,payee.partyIdInfo.dateOfBirth,Not required. See comment to right.,"This Cdtr.Id.PrvtId.DtAndPlcOfBirth.BirthDt
+is a good mapping, however if this is provided, then there are numerous other fields that must be provided too to be a valid ISO message. This means that it should not be included as a default mapping.",,
+,,,,,payee.partyIdInfo.kycInformation,No substitute. Dbl check.,No. This information is explicit in the ISO fields,,
+,,,Critical,,payee.supportedCurrencies,CdtTrfTxInf.CdtrAcct.Ccy,,,
+,,,Critical,,payer.partyIdInfo.partyIdType,"if(party.PartyIdInfo.PartyIdType == BUSINESS | party.PartyIdInfo.PartyIdType ==  ALIAS | party.PartyIdInfo.PartyIdType ==  DEVICE)
+CdtTrfTxInf.Dbtr.Id.OrgId.Othr.SchmeNm.Prtry
+else
+CdtTrfTxInf.Dbtr.Id.PrvId.Othr.SchmeNm.Prtry",,,
+,,,Critical,,payer.partyIdInfo.partyIdentifier,"if(party.PartyIdInfo.PartyIdType == BUSINESS | party.PartyIdInfo.PartyIdType ==  ALIAS  | party.PartyIdInfo.PartyIdType ==  DEVICE)
+CdtTrfTxInf.Dbtr.Id.OrgId.Othr.Id
+else
+CdtTrfTxInf.Dbtr.Id.PrvId.Othr.Id",,,
+,,,,,payer.partyIdInfo.partySubIdOrType,No substitute.,,,
+,,,Critical,,payer.partyIdInfo.fspId,CdtTrfTxInf.DbtrAgt.FinInstnId.Othr.Id,,,
+,,,,,payer.merchantClassificationCode,No substitute.,,,
+,,,Critical,,payer.name,CdtTrfTxInf.Dbtr.Name,,,
+,,,,,payer.partyIdInfo.complexName.firstName,No substitute.,,,
+,,,,,payer.partyIdInfo.complexName.middleName,No substitute.,,,
+,,,,,payer.partyIdInfo.complexName.lastName,No substitute.,,,
+,,,,,payer.partyIdInfo.dateOfBirth,Not required. See comment to right.,"This Cdtr.Id.PrvtId.DtAndPlcOfBirth.BirthDt
+is a good mapping, however if this is provided, then there are numerous other fields that must be provided too to be a valid ISO message. This means that it should not be included as a default mapping.",,
+,,,,,payer.partyIdInfo.kycInformation,No substitute. Dbl check.,,,
+,,,Critical,,payer.supportedCurrencies,CdtTrfTxInf.DbtrAcct.Ccy,,,
+,,,Critical,,,,,,
+,,,Critical,,amount.currency,CdtTrfTxInf.IntrBkSttlmAmt.Ccy,,,
+,,,Critical,,amount.amount,CdtTrfTxInf.IntrBkSttlmAmt.ActiveCurrencyAndAmount,,,
+,,,Critical,,amountType,"FSPIOP -> ISO
+if (amountType=SEND)
+CdtTrfTxInf.ChrgBr = CRED
+else CdtTrfTxInf.ChrgBr = DEBT
+ISO -> FSPIOP
+if (CdtTrfTxInf.ChrgBr=DEBT)
+amountType = RECEIVE
+else amountType = SEND",,,
+,,,Critical,,fees.currency,leave out for now,,CdtTrfTxInf.InstdAmt.Ccy (Discuss this in ISO meeting),
+,,,Critical,,fees.amount,leave out for now,,CdtTrfTxInf.InstdAmt.ActiveOrHistoricCurrencyAndAmount (Discuss this in ISO meeting),
+,,,Critical,,transactionType.scenario,GrpHdr.CdtTrfTxInf.Purp.Prtry,,,
+,,,,,transactionType.subScenario,Not seeing suitable field.,,,
+,,,,,transactionType.initiator,Not seeing suitable field.,,,
+,,,,,transactionType.initiatorType,Not seeing suitable field.,,,
+,,,Critical,,transactionType.refundInfo.originalTransactionId,"FSPIOP -> ISO
+if (transactionType.refundInfo.originalTransactionId)
+CdtTrfTxInf.PmtId.InstrId = transactionType.refundInfo.originalTransactionId
+
+ISO -> FSPIOP
+if(CdtTrfTxInf.PmtId.InstrId)
+transactionType.refundInfo.originalTransactionId = CdtTrfTxInf.PmtId.InstrId",,,
+,,,,,transactionType.refundInfo.refundReason,"ISO -> FSPIOP
+If (CdtTrfTxInf.InstrForCdtrAgt.Cd == REFD)
+CdtTrfTxInf.InstrForCdtrAgt.InstrInf = transactionType.refundInfo.reason
+
+FSPIOP -> ISO
+If (transactionType.refundInfo)
+CdtTrfTxInf.InstrForCdtrAgt.Cd = ""REFD""
+CdtTrfTxInf.InstrForCdtrAgt.InstrInf = transactionType.refundInfo.reason",,,
+,,,,,transactionType.balanceOfPayments,Not seeing suitable field.,,,
+,,,,,converter,Not seeing suitable field. (Bring up in ISO meeting),,,
+,,,Critical,,currencyConversion.sourceAmount.currency,do nothing see comment,,"Using Payee.Fees here above so cannot use the field.
+TermsRequest_FIToFICustomerCreditProposal.CdtTrfTxInf.InstdAmt.Ccy",
+,,,Critical,,currencyConversion.sourceAmount.amount,do nothing see comment,,"Using Payee.fees here so cannot apply this
+TermsRequest_FIToFICustomerCreditProposal.CdtTrfTxInf.InstdAmt.ActiveCurrencyAndAmount",
+,,,Critical,,currencyConversion.targetAmount.currency,do nothing see comment,,"Already mapped 
+TermsRequest_FIToFICustomerCreditProposal.CdtTrfTxInf.IntrBkSttlmAmt.Ccy",
+,,,Critical,,currencyConversion.targetAmount.amount,do nothing see comment,,"Already mapped 
+TermsRequest_FIToFICustomerCreditProposal.CdtTrfTxInf.IntrBkSttlmAmt.ActiveCurrencyAndAmount",
+,,,,,geoCode.latitude,Not seeing suitable field.,,,
+,,,,,geoCode.longitude,Not seeing suitable field.,,,
+,,,,,note,Not seeing suitable field/Not enough ISO fields.,,,
+,,,Critical,,expiration,GrpHdr.PmtInstrXpryDtTm,,,
+,,,,,,,,,
+PUT,quotes,/{ID},,,,Root Component (TermsResponse_FIToFICustomerCreditConfirmation),,,
+,,,,,generateID(),GrpHdr.MsgId,,,
+,,,,,datetimeNow(),GrpHdr.CreDtTm,,,
+,,,,,"1 (For now, bulk TBD)",GprHdr.NbOfTxs,,,
+,,,Critical,,expiration,GrpHdr.PmtInstrXpryDtTm,,,
+,,,,,CLRG,GrpHdr.SttlmInf.SttlmMtd,,,
+,,,,,Comment -> Yellow corner,,,,
+,,,Critical,,transferAmount.currency,CdtTrfTxInf.IntrBkSttlmAmt.Ccy,,,
+,,,Critical,,transferAmount.amount,CdtTrfTxInf.IntrBkSttlmAmt.ActiveCurrencyAndAmount,,"CdtTrfTxInf.IntrBkSttlmAmt.ActiveCurrencyAndAmount?
+The transferAmount in FSPIOP is the amount that must be settled between institutions.",
+,,,,,payeeReceiveAmount.currency,CdtTrfTxInf.InstdAmt.Ccy,,,
+,,,,,payeeReceiveAmount.amount,CdtTrfTxInf.InstdAmt.ActiveCurrencyAndAmount,,,
+,,,Critical,,payeeFspFee.currency,CdtTrfTxInf.ChrgsInf.Amt.Ccy,,,
+,,,Critical,,payeeFspFee.amount,CdtTrfTxInf.ChrgsInf.Amt.ActiveOrHistoricCurrencyAndAmount,,,
+,,,Critical,,payeeFspCommission.currency,CdtTrfTxInf.ChrgsInf.Amt.Ccy,"If TermsResponse_FIToFICustomerCreditConfirmation.CdtTrfTxInf.IntrBkSttlmAmt.ChrgsInf.Tp.Cd is ""COMM""",,
+,,,Critical,,payeeFspCommission.amount,CdtTrfTxInf.ChrgsInf.Amt.ActiveOrHistoricCurrencyAndAmount,"If TermsResponse_FIToFICustomerCreditConfirmation.CdtTrfTxInf.IntrBkSttlmAmt.ChrgsInf.Tp.Cd is ""COMM""",,
+,,,,,geoCode.latitude,Not seeing suitable field.,,,
+,,,,,geoCode.longitude,Not seeing suitable field.,,,
+,,,Critical,,ilpPacket,CdtTrfTxInf.VrfctnOfTerms.IlpV4PrepPacket,,,
+,,,Critical,,condition,"ISO -> FSPIOP
+condition = decodeAndGetConditionFromIlp(CdtTrfTxInf.VrfctnOfTerms.IlpV4PrepPacket)
+
+FSPIOP -> ISO
+Do nothing with condition since it's contained in ilpPacket",Contained in the ILPV4 packet,,
+,,,,,,,,,
+PUT,quotes,/{ID}/error,,,,Root Component (PacsError_FIToFIPaymentStatusReportV15),,,
+,,,,,generateID(),GrpHdr.MsgId,,,
+,,,,,datetimeNow(),GrpHdr.CreDtTm,,,
+,,,,,,,,,
+,,,,,errorInformation.errorCode,"TxInfAndSts.StsRsnInf.Rsn.Cd
+",,,
+,,,,,errorInformation.errorDescription,"ISO -> Fspiop
+getDescriptionfromCode(TxInfAndSts.StsRsnInf.Rsn.Cd)
+
+Fspiop -> ISO
+Do nothing.",,,
+,,,,,,,,,
+POST,transfers,,,,,Root Component (Execute_FIToFICustomerCreditTransferV13),,,
+,,,,,generateID(),GrpHdr.MsgId,,,
+,,,,,datetimeNow(),GrpHdr.CreDtTm,,,
+,,,,,"1 (For now, bulk TBD)",GprHdr.NbOfTxs,,,
+,,,,,expiration,GrpHdr.PmtInstrXpryDtTm,,,
+,,,,,CLRG,GrpHdr.SttlmInf.SttlmMtd,,,
+,,,,,,,,,
+,,,Critical,,transferId,CdtTrfTxInf.PmtId.TxId,Note: Execute_FIToFICustomerCreditTransferV13.CdtTrfTxInf.PmtId.TxId should contain the transaction ID,,
+,,,Critical,,payeeFsp,CdtTrfTxInf.CdtrAgt.FinInstnId.Othr.Id,,,
+,,,Critical,,payerFsp,CdtTrfTxInf.DbtrAgt.FinInstnId.Othr.Id,,,
+,,,Critical,,amount.currency,CdtTrfTxInf.IntrBkSttlmAmt.Ccy,,,
+,,,Critical,,amount.amount,CdtTrfTxInf.IntrBkSttlmAmt.ActiveCurrencyAndAmount,,,
+,,,Critical,,ilpPacket,CdtTrfTxInf.VrfctnOfTerms.IlpV4PrepPacket,,,
+,,,Critical,,condition,"ISO -> FSPIOP
+condition = decodeAndGetConditionFromIlp(CdtTrfTxInf.VrfctnOfTerms.IlpV4PrepPacket)
+
+FSPIOP -> ISO
+Do nothing with condition since it's contained in ilpPacket     ",ILP packet will be inside the ILP V4 packet,,
+,,,,,,,,,
+PATCH,transfers,\{ID},,,,Root Component (PacsStatus_FIToFIPaymentStatusReportV15),,,
+,,,,,generateID(),GrpHdr.MsgId,,,
+,,,,,datetimeNow(),GrpHdr.CreDtTm,,,
+,,,,,,,,,
+,,,Critical,,completedTimestamp,TxInfAndSts.PrcgDt.DtTm,,,
+,,,Critical,,transferState,TxInfAndSts.TxSts,,,
+,,,,,,,,,
+,,,,,,,,,
+PUT,transfers,\{ID},,,,Root Component (PacsStatus_FIToFIPaymentStatusReportV15),,,
+,,,,,generateID(),GrpHdr.MsgId,,,
+,,,,,datetimeNow(),GrpHdr.CreDtTm,,,
+,,,,,,,,,
+,,,Critical,,fulfilment,TxInfAndSts.ExctnConf,,,
+,,,Critical,,completedTimestamp,TxInfAndSts.PrcgDt.DtTm,"This has a char limit, need to map this to fspiop enum",,
+,,,Critical,,transferState,TxInfAndSts.TxSts,,,
+,,,,,,,,,
+,,,,,,,,,
+PUT,transfers,\{ID}\error,Critical,,,Root Component (PacsError_FIToFIPaymentStatusReportV15),,,
+,,,,,generateID(),GrpHdr.MsgId,,,
+,,,,,datetimeNow(),GrpHdr.CreDtTm,,,
+,,,,,,,,,
+,,,,,errorInformation.errorCode,"TxInfAndSts.StsRsnInf.Rsn.Cd
+",,,
+,,,,,errorInformation.errorDescription,"ISO -> Fspiop
+getDescriptionfromCode(TxInfAndSts.StsRsnInf.Rsn.Cd)
+
+Fspiop -> ISO
+Do nothing.",,,
+,,,,,,,,,
+POST,fxquotes,,,,,Root Component (FxRequest_FICreditTransferProposal),,,
+,,,,,generateID(),GrpHdr.MsgId,,,
+,,,,,datetimeNow(),GrpHdr.CreDtTm,,,
+,,,,,"1 (For now, bulk TBD)",GprHdr.NbOfTxs,,,
+,,,,,expiration,GrpHdr.PmtInstrXpryDtTm,,,
+,,,,,CLRG,GrpHdr.SttlmInf.SttlmMtd,,,
+,,,,,,,,,
+,,,Critical,,conversionRequestId,CdtTrfTxInf.PmtId.TxId,Pax 9,,
+,,,Critical,,conversionTerms.conversionId,CdtTrfTxInf.PmtId.InstrId,,,
+,,,Critical,,conversionTerms.determiningTransferId,CdtTrfTxInf.PmtId.EndToEndId ,,,
+,,,,,,,,,
+,,,Critical,,conversionTerms.initiatingFsp,CdtTrfTxInf.Dbtr.FinInstnId.Othr.Id,shouldn't we use instructing agent?,,
+,,,Critical,,conversionTerms.counterPartyFsp,CdtTrfTxInf.Cdtr.FinInstnId.Othr.Id,,,TermsRequest_FIToFICustomerCreditProposal.CdtTrfTxInf.ChrgBr
+,,,Critical,,conversionTerms.amountType,"FSPIOP -> ISO
+if (amountType=SEND)
+CdtTrfTxInf.ChrgBr = CRED
+else CdtTrfTxInf.ChrgBr = DEBT
+ISO -> FSPIOP
+if (CdtTrfTxInf.ChrgBr=DEBT)
+amountType = RECEIVE
+else amountType = SEND","If CRED, then SEND; if DEBT, then RECEIVE. Otherwise, error.",,
+,,,,,conversionTerms.initiatingFsp,CdtTrfTxInf.UndrlygCstmrCdtTrf.Dbtr.OrgId.Othr.Id.Prtry,,,
+,,,,,conversionTerms.initiatingFsp,CdtTrfTxInf.UndrlygCstmrCdtTrf.DbtrAgt.FinInstnId.Othr.Id,,,
+,,,,,conversionTerms.counterPartyFsp,CdtTrfTxInf.UndrlygCstmrCdtTrf.Cdtr.OrgId.Othr.Id.Prtry,,,
+,,,,,conversionTerms.counterPartyFsp,CdtTrfTxInf.UndrlygCstmrCdtTrf.CdtrAgt.FinInstnId.Othr.Id,,,
+,,,Critical,,conversionTerms.sourceAmount.currency,CdtTrfTxInf.UndrlygCstmrCdtTrf.InstdAmt.Ccy,,,
+,,,Critical,,conversionTerms.sourceAmount.amount,CdtTrfTxInf.UndrlygCstmrCdtTrf.InstdAmt.ActiveOrHistoricCurrencyAndAmount,,,
+,,,Critical,,conversionTerms.targetAmount.currency,CdtTrfTxInf.IntrBkSttlmAmt.Ccy,,,
+,,,Critical,,conversionTerms.targetAmount.amount,CdtTrfTxInf.IntrBkSttlmAmt.ActiveCurrencyAndAmount,,,
+,,,,,conversionTerms.charges.chargeType,Unsure. Do nothing for now.,,,
+,,,,,conversionTerms.charges.sourceAmount.currency,Unsure. Do nothing for now.,,,
+,,,,,conversionTerms.charges.sourceAmount.amount,Unsure. Do nothing for now.,,,
+,,,,,conversionTerms.charges.targetAmount.currency,Unsure. Do nothing for now.,,,
+,,,,,conversionTerms.charges.targetAmount.amount,Unsure. Do nothing for now.,,,
+,,,,,,,,,
+PUT,fxquotes,\{ID},,,,Root Component (FxResponse_FICreditTransferProposal),Condition needs to be extracted from this structure,,
+,,,,,condition,CdtTrfTxInf.VrfctnOfTerms.IlpV4PrepPacket.condition        ,,,
+,,,,,conversionTerms.conversionId,CdtTrfTxInf.VrfctnOfTerms.PmtId.InstrId,,,
+,,,,,conversionTerms.determiningTransferId,CdtTrfTxInf.PmtId.TxId,,,
+,,,,,conversionTerms.initiatingFsp,CdtTrfTxInf.Dbtr.FinInstnId.Othr.Id,,,
+,,,,,conversionTerms.counterPartyFsp,CdtTrfTxInf.Cdtr.FinInstnId.Othr.Id,,,
+,,,,,conversionTerms.amountType,"FSPIOP -> ISO
+if (amountType=SEND)
+CdtTrfTxInf.ChrgBr = CRED
+else CdtTrfTxInf.ChrgBr = DEBT
+ISO -> FSPIOP
+if (CdtTrfTxInf.ChrgBr=DEBT)
+amountType = RECEIVE
+else amountType = SEND",,,
+,,,,,conversionTerms.initiatingFsp,CdtTrfTxInf.UndrlygCstmrCdtTrf.Dbtr.OrgId.Othr.Id.Prtry,,,
+,,,,,conversionTerms.initiatingFsp,CdtTrfTxInf.UndrlygCstmrCdtTrf.DbtrAgt.FinInstnId.Othr.Id,,,
+,,,,,conversionTerms.counterPartyFsp,CdtTrfTxInf.UndrlygCstmrCdtTrf.Cdtr.OrgId.Othr.Id.Prtry,,,
+,,,,,conversionTerms.counterPartyFsp,CdtTrfTxInf.UndrlygCstmrCdtTrf.CdtrAgt.FinInstnId.Othr.Id,,,
+,,,,,conversionTerms.sourceAmount.currency,CdtTrfTxInf.UndrlygCstmrCdtTrf.InstdAmt.Ccy,,,
+,,,,,conversionTerms.sourceAmount.amount,CdtTrfTxInf.UndrlygCstmrCdtTrf.InstdAmt.ActiveOrHistoricCurrencyAndAmount,,,
+,,,,,conversionTerms.targetAmount.currency,CdtTrfTxInf.IntrBkSttlmAmt.Ccy,,,
+,,,,,conversionTerms.targetAmount.amount,CdtTrfTxInf.IntrBkSttlmAmt.ActiveCurrencyAndAmount,,,
+,,,,,conversionTerms.expiration,GrpHdr.PmtInstrXpryDtTm,,,
+,,,,,conversionTerms.charges.chargeType,Unsure. Do nothing for now.,,,
+,,,,,conversionTerms.charges.sourceAmount.currency,Unsure. Do nothing for now.,,,
+,,,,,conversionTerms.charges.sourceAmount.amount,Unsure. Do nothing for now.,,,
+,,,,,conversionTerms.charges.targetAmount.currency,Unsure. Do nothing for now.,,,
+,,,,,conversionTerms.charges.targetAmount.amount,Unsure. Do nothing for now.,,,
+,,,,,,,,,
+PUT,fxquotes,\{ID}\error,,,,Root Component (PacsError_FIToFIPaymentStatusReportV15),,,
+,,,,,generateID(),GrpHdr.MsgId,,,
+,,,,,datetimeNow(),GrpHdr.CreDtTm,,,
+,,,,,,,,,
+,,,,,errorInformation.errorCode,"TxInfAndSts.StsRsnInf.Rsn.Cd
+",,,
+,,,,,errorInformation.errorDescription,"ISO -> Fspiop
+getDescriptionfromCode(TxInfAndSts.StsRsnInf.Rsn.Cd)
+
+Fspiop -> ISO
+Do nothing.",,,
+,,,,,,,,,
+POST,fxTransfers,,,,,Root Component(Fxecute_FinancialInstitutionCreditTransferV12),,,
+,,,,,,,,,
+,,,,,generateID(),GrpHdr.MsgId,,,
+,,,,,datetimeNow(),GrpHdr.CreDtTm,,,
+,,,,,"1 (For now, bulk TBD)",GprHdr.NbOfTxs,,,
+,,,,,expiration,GrpHdr.PmtInstrXpryDtTm,,,
+,,,,,CLRG,GrpHdr.SttlmInf.SttlmMtd,,,
+,,,,,,,,,
+,,,,,commitRequestId,CdtTrfTxInf.PmtId.TxId,,,
+,,,,,determiningTransferId,CdtTrfTxInf.PmtId.EndToEndId,,,
+,,,,,initiatingFsp,CdtTrfTxInf.Dbtr.FinInstnId.Othr.Id,,,
+,,,,,counterPartyFsp,CdtTrfTxInf.Cdtr.FinInstnId.Othr.Id,,,
+,,,,,initiatingFsp,CdtTrfTxInf.UndrlygCstmrCdtTrf.Dbtr.OrgId.Othr.Id.Prtry,,,
+,,,,,initiatingFsp,CdtTrfTxInf.UndrlygCstmrCdtTrf.DbtrAgt.FinInstnId.Othr.Id,,,
+,,,,,counterPartyFsp,CdtTrfTxInf.UndrlygCstmrCdtTrf.Cdtr.OrgId.Othr.Id.Prtry,,,
+,,,,,counterPartyFsp,CdtTrfTxInf.UndrlygCstmrCdtTrf.CdtrAgt.FinInstnId.Othr.Id,,,
+,,,,,sourceAmount.currency,CdtTrfTxInf.UndrlygCstmrCdtTrf.InstdAmt.Ccy,,,
+,,,,,sourceAmount.amount,CdtTrfTxInf.UndrlygCstmrCdtTrf.InstdAmt.ActiveOrHistoricCurrencyAndAmount,,,
+,,,,,targetAmount.currency,CdtTrfTxInf.IntrBkSttlmAmt.Ccy,,,
+,,,,,targetAmount.amount,CdtTrfTxInf.IntrBkSttlmAmt.ActiveCurrencyAndAmount,,,
+,,,,,condition,CdtTrfTxInf.VrfctnOfTerms.IlpV4PrepPacket.condition,,,
+,,,,,,,,,
+PUT,fxTransfers,\{ID},,,,Root Component (PacsStatus_FIToFIPaymentStatusReportV15),,,
+,,,,,generateID(),GrpHdr.MsgId,,,
+,,,,,datetimeNow(),GrpHdr.CreDtTm,,,
+,,,,,,,,,
+,,,,,fulfilment,TxInfAndSts.ExctnConf,,,
+,,,,,completedTimestamp,TxInfAndSts.PrcgDt.DtTm,,,
+,,,,,transferState,TxInfAndSts.TxSts,,,
+,,,,,,,,,
+PUT,fxTransfers,\{ID}\error,,,,Root Component (PacsError_FIToFIPaymentStatusReportV15),,,
+,,,,,generateID(),GrpHdr.MsgId,,,
+,,,,,datetimeNow(),GrpHdr.CreDtTm,,,
+,,,,,,,,,
+,,,,,errorInformation.errorCode,"TxInfAndSts.StsRsnInf.Rsn.Cd
+",,,
+,,,,,errorInformation.errorDescription,"ISO -> Fspiop
+getDescriptionfromCode(TxInfAndSts.StsRsnInf.Rsn.Cd)
+
+Fspiop -> ISO
+Do nothing.",,,
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+PATCH,fxTransfers,\{ID},,,,Root Component (PacsStatus_FIToFIPaymentStatusReportV15),,,
+,,,,,generateID(),GrpHdr.MsgId,,,
+,,,,,datetimeNow(),GrpHdr.CreDtTm,,,
+,,,,,,,,,
+,,,,,completedTimestamp,TxInfAndSts.PrcgDt.DtTm ,Up for debate. Alternative field TxInfAndSts.AccptncDtTm,,
+,,,,,transferState,TxInfAndSts.TxSts,"{""COMM"": ""COMMITED"", ""RESV"": ""RESERVED"", ""RECV"": ""RECEIVED"", ""ABOR"": ""ABORTED"", ""SETT"": ""SETTLED""}",,
