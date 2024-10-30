@@ -1,0 +1,182 @@
+HTTP method,resource,route,ISO mesage,"Required 
+by FSPIOP","Required 
+by ISO 20022",FSPIOP Field,ISO20022 Mapping,Comment,,
+PUT,parties,"{Type}/{ID}
+{Type}/{ID}/{SubId}",acmt.024.001.04,,,,,,,
+,,,,TRUE,,party.partyIdInfo.partyIdType,"if(Rpt.UpdtdPtyAndAcctId.Pty.Id.OrgId.Othr.SchmeNm.Prtry)
+party.partyIdInfo.partyIdType = Rpt.UpdtdPtyAndAcctId.Pty.Id.OrgId.Othr.SchmeNm.Prtry
+else if(Rpt.UpdtdPtyAndAcctId.Pty.Id.PrvtId.Othr.SchmeNm.Prtry)
+party.partyIdInfo.partyIdType = Rpt.UpdtdPtyAndAcctId.Pty.Id.PrvtId.Othr.SchmeNm.Prtry
+else
+party.partyIdInfo.partyIdType = Rpt.UpdtdPtyAndAcctId.Pty.PrvtId.Othr.Id",,,
+,,,,TRUE,,party.partyIdInfo.partyIdentifier,"if(Rpt.UpdtdPtyAndAcctId.Pty.Id.OrgId.Othr.Id)
+party.partyIdInfo.partyIdentifier = Rpt.UpdtdPtyAndAcctId.Pty.Id.OrgId.Othr.Id
+else 
+party.partyIdInfo.partyIdentifier = Rpt.UpdtdPtyAndAcctId.Pty.Id.PrvtId.Othr.Id",,,
+,,,,TRUE,,party.partyIdInfo.fspId,Rpt.UpdtdPtyAndAcctId.Agt.FinInstnId.Othr.Id,,,
+,,,,TRUE,,party.name,Rpt.UpdtdPtyAndAcctId.Pty.Nm,,FSPIOP limit 128 ISO char limit 140,
+,,,,TRUE,,party.supportedCurrencies,"Rpt.UpdtdPtyAndAcctId.Acct.Ccy
+",,multi-currency account would be a problem,
+,,,,,,,,,,
+PUT,parties,"{Type}/{ID}/error
+{Type}/{ID}/{SubId}/error",acmt.024.001.04,,,,,,,
+,,,,TRUE,,errorInformation.errorCode,Rpt.Rsn.Cd,,,
+,,,,Non-Critical,,errorInformation.errorDescription,getDescriptionfromCode(Rpt.Rsn.Cd),,,
+,,,,,TRUE,generateID(),Assgnmt.MsgId,,,
+,,,,,TRUE,datetimeNow(),Assgnmt.CreDtTm,,,
+,,,,,,$header.FSPIOP-Source,Assgnmt.Assgnr.Agt.FinInstnId.Othr.Id,,,
+,,,,,,$header.FSPIOP-Destination,Assgnmt.Assgne.Agt.FinInstnId.Othr.Id,,,
+,,,,,,$params.IdPath,Rpt.OrgnlId,,,
+,,,,,,,,,,
+POST,quotes,,pacs.081.001.01,,,,,,,
+,,,,TRUE,,quoteId,CdtTrfTxInf.PmtId.TxId,,,
+,,,,TRUE,,expiration,GrpHdr.PmtInstrXpryDtTm,,,
+,,,,,,transactionId,CdtTrfTxInf.PmtId.EndToEndId,,,
+,,,,,,transactionRequestId,CdtTrfTxInf.PmtId.InstrId,,,
+,,,,TRUE,,payee.partyIdInfo.partyIdType,"if(CdtTrfTxInf.Cdtr.Id.OrgId.Othr.SchmeNm.Prtry)
+payee.partyIdInfo.partyIdType = CdtTrfTxInf.Cdtr.Id.OrgId.Othr.SchmeNm.Prtry
+else
+payee.partyIdInfo.partyIdType = CdtTrfTxInf.Cdtr.Id.PrvtId.Othr.SchmeNm.Prtry","if(IsPartyPerson(party.PartyIdInfo)
+CdtTrfTxInf.Cdtr.Id.OrgId.Othr.SchmeNm.Prtry
+else
+CdtTrfTxInf.Cdtr.Id.PrvtId.Othr.SchmeNm.Prtry",,
+,,,,TRUE,,payee.partyIdInfo.partyIdentifier,"if(CdtTrfTxInf.Cdtr.Id.OrgId.Othr.Id)
+payee.partyIdInfo.partyIdentifier = CdtTrfTxInf.Cdtr.Id.OrgId.Othr.Id
+else
+payee.partyIdInfo.partyIdentifier = CdtTrfTxInf.Cdtr.Id.PrvtId.Othr.Id",,,
+,,,,TRUE,,payee.partyIdInfo.fspId,CdtTrfTxInf.CdtrAgt.FinInstnId.Othr.Id,,,
+,,,,TRUE,,payee.name,CdtTrfTxInf.Cdtr.Name,,,
+,,,,TRUE,,payee.supportedCurrencies,CdtTrfTxInf.CdtrAcct.Ccy,,,
+,,,,TRUE,,payer.partyIdInfo.partyIdType,"if(CdtTrfTxInf.Dbtr.Id.OrgId.Othr.SchmeNm.Prtry)
+payer.partyIdInfo.partyIdType = CdtTrfTxInf.Dbtr.Id.OrgId.Othr.SchmeNm.Prtry
+else
+payer.partyIdInfo.partyIdType = CdtTrfTxInf.Dbtr.Id.PrvtId.Othr.SchmeNm.Prtry",,,
+,,,,TRUE,,payer.partyIdInfo.partyIdentifier,"if(CdtTrfTxInf.Dbtr.Id.OrgId.Othr.Id)
+payer.partyIdInfo.partyIdentifier = CdtTrfTxInf.Dbtr.Id.OrgId.Othr.Id
+else
+payer.partyIdInfo.partyIdentifier = CdtTrfTxInf.Dbtr.Id.PrvtId.Othr.Id",,,
+,,,,TRUE,,payer.partyIdInfo.fspId,CdtTrfTxInf.DbtrAgt.FinInstnId.Othr.Id,,,
+,,,,TRUE,,payer.name,CdtTrfTxInf.Dbtr.Name,,,
+,,,,TRUE,,payer.supportedCurrencies,CdtTrfTxInf.DbtrAcct.Ccy,,,
+,,,,TRUE,,amount.currency,CdtTrfTxInf.IntrBkSttlmAmt.Ccy,,,
+,,,,TRUE,,amount.amount,CdtTrfTxInf.IntrBkSttlmAmt.ActiveCurrencyAndAmount,,,
+,,,,TRUE,,amountType,"if (CdtTrfTxInf.ChrgBr=DEBT)
+amountType = RECEIVE
+else amountType = SEND",,,
+,,,,TRUE,,transactionType.scenario,CdtTrfTxInf.Purp.Prtry,,,
+,,,,TRUE,,transactionType.initiator,"if (CdtTrfTxInf.PmtId.InstrId is null)
+""PAYER""
+else
+""PAYEE""",,,
+,,,,TRUE,,transactionType.initiatorType,"if (CdtTrfTxInf.PmtId.InstrId is null){
+  if(CdtTrfTxInf.Dtr.Id.Pty) 
+    transactionType.initiatorType='CONSUMER'
+  else
+    transactionType.initiatorType='BUSINESS'
+}
+else 
+{
+  if(CdtTrfTxInf.Cdr.Id.Pty) 
+    transactionType.initiatorType='CONSUMER'
+  else
+    transactionType.initiatorType='BUSINESS'
+}",,,
+,,,,,,transactionType.refundInfo.originalTransactionId,"if(CdtTrfTxInf.PmtId.InstrId)
+transactionType.refundInfo.originalTransactionId = CdtTrfTxInf.PmtId.InstrId",,,
+,,,,,,transactionType.refundInfo.refundReason,"If (CdtTrfTxInf.InstrForCdtrAgt.Cd == REFD)
+CdtTrfTxInf.InstrForCdtrAgt.InstrInf = transactionType.refundInfo.reason",,,
+,,,,,,,,,,
+PUT,quotes,/{ID},pacs.082.001.01,,,,,,,
+,,,,,,{$headers[fspiop-destination]},CdtTrfTxInf.Dbtr.Id.OrgId.Othr.Id,,,
+,,,,,,{$headers[fspiop-source],CdtTrfTxInf.Cdtr.Id.OrgId.Othr.Id,,,
+,,,,TRUE,,expiration,GrpHdr.PmtInstrXpryDtTm,,,
+,,,,TRUE,,transferAmount.currency,CdtTrfTxInf.IntrBkSttlmAmt.Ccy,,,
+,,,,TRUE,,transferAmount.amount,CdtTrfTxInf.IntrBkSttlmAmt.ActiveCurrencyAndAmount,,"CdtTrfTxInf.IntrBkSttlmAmt.ActiveCurrencyAndAmount?
+The transferAmount in FSPIOP is the amount that must be settled between institutions.",
+,,,,,,payeeReceiveAmount.currency,CdtTrfTxInf.InstdAmt.Ccy,,,
+,,,,,,payeeReceiveAmount.amount,CdtTrfTxInf.InstdAmt.ActiveCurrencyAndAmount,,,
+,,,,,,payeeFspFee.currency,CdtTrfTxInf.ChrgsInf.Amt.Ccy,,,
+,,,,,,payeeFspFee.amount,CdtTrfTxInf.ChrgsInf.Amt.ActiveOrHistoricCurrencyAndAmount,,,
+,,,,TRUE,,ilpPacket,CdtTrfTxInf.VrfctnOfTerms.IlpV4PrepPacket,,,
+,,,,TRUE,,condition,condition = decodeAndGetConditionFromIlp(CdtTrfTxInf.VrfctnOfTerms.IlpV4PrepPacket),Contained in the ILPV4 packet,,
+,,,,,,,,,,
+PUT,quotes,/{ID}/error,pacs.002.001.15,,,,,,,
+,,,,TRUE,,errorInformation.errorCode,TxInfAndSts.StsRsnInf.Rsn.Cd,,,
+,,,,,,errorInformation.errorDescription,getDescriptionfromCode(TxInfAndSts.StsRsnInf.Rsn.Cd),,,
+,,,,,,,,,,
+POST,transfers,,pacs.008.001.13,,,,,,,
+,,,,TRUE,,expiration,GrpHdr.PmtInstrXpryDtTm,,,
+,,,,TRUE,,transferId,CdtTrfTxInf.PmtId.TxId,Note: Execute_FIToFICustomerCreditTransferV13.CdtTrfTxInf.PmtId.TxId should contain the transaction ID,,
+,,,,TRUE,,payeeFsp,CdtTrfTxInf.CdtrAgt.FinInstnId.Othr.Id,,,
+,,,,TRUE,,payerFsp,CdtTrfTxInf.DbtrAgt.FinInstnId.Othr.Id,,,
+,,,,TRUE,,amount.currency,CdtTrfTxInf.IntrBkSttlmAmt.Ccy,,,
+,,,,TRUE,,amount.amount,CdtTrfTxInf.IntrBkSttlmAmt.ActiveCurrencyAndAmount,,,
+,,,,TRUE,,ilpPacket,CdtTrfTxInf.VrfctnOfTerms.IlpV4PrepPacket,,,
+,,,,TRUE,,condition,condition = decodeAndGetConditionFromIlp(CdtTrfTxInf.VrfctnOfTerms.IlpV4PrepPacket),ILP packet will be inside the ILP V4 packet,,
+,,,,,,,,,,
+PATCH,transfers,\{ID},pacs.002.001.15,,,,,,,
+,,,,TRUE,,completedTimestamp,TxInfAndSts.PrcgDt.DtTm,,,
+,,,,TRUE,,transferState,toFSPIOPTransferState(TxInfAndSts.TxSts),,,
+,,,,,,,,,,
+PUT,transfers,\{ID},pacs.002.001.15,,,,,,,
+,,,,TRUE,,fulfilment,TxInfAndSts.ExctnConf,,,
+,,,,TRUE,,completedTimestamp,TxInfAndSts.PrcgDt.DtTm,"This has a char limit, need to map this to fspiop enum",,
+,,,,TRUE,,transferState,toFSPIOPTransferState(TxInfAndSts.TxSts),,,
+,,,,,,,,,,
+PUT,transfers,\{ID}\error,pacs.002.001.15,,,,,,,
+,,,,TRUE,,errorInformation.errorCode,TxInfAndSts.StsRsnInf.Rsn.Cd,,,
+,,,,,,errorInformation.errorDescription,getDescriptionfromCode(TxInfAndSts.StsRsnInf.Rsn.Cd),,,
+,,,,,,,,,,
+POST,fxquotes,,pacs.091.001.01,,,,,,,
+,,,,TRUE,,conversionTerms.expiration,GrpHdr.PmtInstrXpryDtTm,,,
+,,,,TRUE,,conversionRequestId,CdtTrfTxInf.PmtId.TxId,Pax 9,,
+,,,,TRUE,,conversionTerms.conversionId,CdtTrfTxInf.PmtId.InstrId,,,
+,,,,TRUE,,conversionTerms.determiningTransferId,CdtTrfTxInf.PmtId.EndToEndId ,,,
+,,,,TRUE,,conversionTerms.initiatingFsp,CdtTrfTxInf.Dbtr.FinInstnId.Othr.Id,shouldn't we use instructing agent?,,
+,,,,TRUE,,conversionTerms.counterPartyFsp,CdtTrfTxInf.Cdtr.FinInstnId.Othr.Id,,,TermsRequest_FIToFICustomerCreditProposal.CdtTrfTxInf.ChrgBr
+,,,,TRUE,,conversionTerms.amountType,CdtTrfTxInf.InstrForCdtrAgt.InstrInf,,,
+,,,,TRUE,,conversionTerms.sourceAmount.currency,CdtTrfTxInf.UndrlygCstmrCdtTrf.InstdAmt.Ccy,,,
+,,,,TRUE,,conversionTerms.sourceAmount.amount,CdtTrfTxInf.UndrlygCstmrCdtTrf.InstdAmt.ActiveOrHistoricCurrencyAndAmount,,,
+,,,,TRUE,,conversionTerms.targetAmount.currency,CdtTrfTxInf.IntrBkSttlmAmt.Ccy,,,
+,,,,,,,,,,
+PUT,fxquotes,\{ID},pacs.092.001,,,,,Condition needs to be extracted from this structure,,
+,,,,TRUE,,condition,CdtTrfTxInf.VrfctnOfTerms.Sh256Sgntr,,,
+,,,,TRUE,,conversionTerms.conversionId,CdtTrfTxInf.VrfctnOfTerms.PmtId.InstrId,,,
+,,,,TRUE,,conversionTerms.determiningTransferId,CdtTrfTxInf.PmtId.TxId,,,
+,,,,TRUE,,conversionTerms.initiatingFsp,CdtTrfTxInf.Dbtr.FinInstnId.Othr.Id,,,
+,,,,TRUE,,conversionTerms.counterPartyFsp,CdtTrfTxInf.Cdtr.FinInstnId.Othr.Id,,,
+,,,,TRUE,,conversionTerms.amountType,CdtTrfTxInf.InstrForCdtrAgt.InstrInf,,,
+,,,,TRUE,,conversionTerms.sourceAmount.currency,CdtTrfTxInf.UndrlygCstmrCdtTrf.InstdAmt.Ccy,,,
+,,,,TRUE,,conversionTerms.sourceAmount.amount,CdtTrfTxInf.UndrlygCstmrCdtTrf.InstdAmt.ActiveOrHistoricCurrencyAndAmount,,,
+,,,,TRUE,,conversionTerms.targetAmount.currency,CdtTrfTxInf.IntrBkSttlmAmt.Ccy,,,
+,,,,TRUE,,conversionTerms.targetAmount.amount,CdtTrfTxInf.IntrBkSttlmAmt.ActiveCurrencyAndAmount,,,
+,,,,TRUE,,conversionTerms.expiration,GrpHdr.PmtInstrXpryDtTm,,,
+,,,,,,,,,,
+PUT,fxquotes,\{ID}\error,pacs.002.001.15,,,,,,,
+,,,,TRUE,,errorInformation.errorCode,TxInfAndSts.StsRsnInf.Rsn.Cd,,,
+,,,,,,errorInformation.errorDescription,getDescriptionfromCode(TxInfAndSts.StsRsnInf.Rsn.Cd),,,
+,,,,,,,,,,
+POST,fxTransfers,,pacs.009.001.12,,,,,,,
+,,,,TRUE,,expiration,GrpHdr.PmtInstrXpryDtTm,,,
+,,,,TRUE,,commitRequestId,CdtTrfTxInf.PmtId.TxId,,,
+,,,,TRUE,,determiningTransferId,CdtTrfTxInf.PmtId.EndToEndId,,,
+,,,,TRUE,,initiatingFsp,CdtTrfTxInf.Dbtr.FinInstnId.Othr.Id,,,
+,,,,TRUE,,counterPartyFsp,CdtTrfTxInf.Cdtr.FinInstnId.Othr.Id,,,
+,,,,TRUE,,sourceAmount.currency,CdtTrfTxInf.UndrlygCstmrCdtTrf.InstdAmt.Ccy,,,
+,,,,TRUE,,sourceAmount.amount,CdtTrfTxInf.UndrlygCstmrCdtTrf.InstdAmt.ActiveOrHistoricCurrencyAndAmount,,,
+,,,,TRUE,,targetAmount.currency,CdtTrfTxInf.IntrBkSttlmAmt.Ccy,,,
+,,,,TRUE,,targetAmount.amount,CdtTrfTxInf.IntrBkSttlmAmt.ActiveCurrencyAndAmount,,,
+,,,,TRUE,,condition,CdtTrfTxInf.VrfctnOfTerms.Sh256Sgntr,,,
+,,,,,,,,,,
+PUT,fxTransfers,\{ID},pacs.002.001.15,,,,,,,
+,,,,TRUE,,fulfilment,TxInfAndSts.ExctnConf,,,
+,,,,TRUE,,completedTimestamp,TxInfAndSts.PrcgDt.DtTm,,,
+,,,,TRUE,,transferState,toFSPIOPTransferState(TxInfAndSts.TxSts),,,
+,,,,,,,,,,
+PUT,fxTransfers,\{ID}\error,pacs.002.001.15,,,,,,,
+,,,,TRUE,,errorInformation.errorCode,TxInfAndSts.StsRsnInf.Rsn.Cd,,,
+,,,,,,errorInformation.errorDescription,getDescriptionfromCode(TxInfAndSts.StsRsnInf.Rsn.Cd),,,
+,,,,,,,,,,
+PATCH,fxTransfers,\{ID},pacs.002.001.15,,,,,,,
+,,,,TRUE,,completedTimestamp,TxInfAndSts.PrcgDt.DtTm ,Up for debate. Alternative field TxInfAndSts.AccptncDtTm,,
+,,,,TRUE,,transferState,toFSPIOPTransferState(TxInfAndSts.TxSts),"{""COMM"": ""COMMITED"", ""RESV"": ""RESERVED"", ""RECV"": ""RECEIVED"", ""ABOR"": ""ABORTED"", ""SETT"": ""SETTLED""}",,
