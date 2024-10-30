@@ -3,11 +3,11 @@ by FSPIOP","Required
 by ISO 20022",ISO20022 Field,FSPIOP Mapping
 PUT,parties,"{Type}/{ID}
 {Type}/{ID}/{SubId}",acmt.024.001.04,,,,
-,,,,TRUE,TRUE,Assgnmt.MsgId,$path_params.id
+,,,,TRUE,TRUE,Assgnmt.MsgId,generateID()
 ,,,,,TRUE,Assgnmt.CreDtTm,datetimeNow()
 ,,,,,TRUE,Assgnmt.Assgnr.Agt.FinInstnId.Othr.Id,$header.FSPIOP-Source
 ,,,,,TRUE,Assgnmt.Assgne.Agt.FinInstnId.Othr.Id,$header.FSPIOP-Destination
-,,,,,TRUE,Rpt.OrgnlId,{$path_params.TYPE}/{$path_params.PartyIdentifier}/{$path_params.Optional SubId}
+,,,,,TRUE,Rpt.OrgnlId,{$params.IdPath}
 ,,,,,TRUE,Rpt.Vrfctn,TRUE
 ,,,,TRUE,,Rpt.UpdtdPtyAndAcctId.Pty.Id.{PrvId/OrgId}.Othr.SchmeNm.Prtry,"if(party.PartyIdInfo.PartyIdType == BUSINESS | party.PartyIdInfo.PartyIdType ==  ALIAS | party.PartyIdInfo.PartyIdType ==  DEVICE)
 Rpt.UpdtdPtyAndAcctId.Pty.Id.OrgId.Othr.SchmeNm.Prtry = party.partyIdInfo.partyIdType
@@ -19,8 +19,7 @@ else
 Rpt.UpdtdPtyAndAcctId.Pty.Id.PrvId.Othr.Id = party.partyIdInfo.partyIdentifier"
 ,,,,TRUE,,Rpt.UpdtdPtyAndAcctId.Agt.FinInstnId.Othr.Id,party.partyIdInfo.fspId
 ,,,,TRUE,,Rpt.UpdtdPtyAndAcctId.Pty.Nm,party.name
-,,,,TRUE,,"Rpt.UpdtdPtyAndAcctId.Acct.Ccy
-",party.supportedCurrencies
+,,,,TRUE,,Rpt.UpdtdPtyAndAcctId.Acct.Ccy,party.supportedCurrencies
 ,,,,,,,
 PUT,parties,"{Type}/{ID}/error
 {Type}/{ID}/{SubId}/error",acmt.024.001.04,TRUE,TRUE,Rpt.Rsn.Cd,errorInformation.errorCode
@@ -28,7 +27,7 @@ PUT,parties,"{Type}/{ID}/error
 ,,,,,TRUE,Assgnmt.CreDtTm,datetimeNow()
 ,,,,,TRUE,Assgnmt.Assgnr.Agt.FinInstnId.Othr.Id,$header.FSPIOP-Source
 ,,,,,TRUE,Assgnmt.Assgne.Agt.FinInstnId.Othr.Id,$header.FSPIOP-Destination
-,,,,,TRUE,Rpt.OrgnlId,{$path_params.TYPE}/{$path_params.PartyIdentifier}/{$path_params.Optional SubId}
+,,,,,TRUE,Rpt.OrgnlId,{$params.IdPath}
 ,,,,,TRUE,Rpt.Vrfctn,FALSE
 ,,,,,,,
 POST,quotes,,pacs.081.001.01,,,,
@@ -40,25 +39,26 @@ POST,quotes,,pacs.081.001.01,,,,
 ,,,,TRUE,,CdtTrfTxInf.PmtId.TxId,quoteId
 ,,,,,,CdtTrfTxInf.PmtId.EndToEndId,transactionId
 ,,,,,,CdtTrfTxInf.PmtId.InstrId,transactionRequestId
-,,,,TRUE,TRUE,"if(payee.partyIdInfo.PartyIdType == BUSINESS | payee.partyIdInfo.PartyIdType ==  ALIAS  | payee.partyIdInfo.PartyIdType ==  DEVICE)
+,,,,TRUE,TRUE,CdtTrfTxInf.Cdtr.Id.{OrgId/PrvtId}.Othr.SchmeNm.Prtry,"if(payee.partyIdInfo.PartyIdType == BUSINESS | payee.partyIdInfo.PartyIdType ==  ALIAS  | payee.partyIdInfo.PartyIdType ==  DEVICE)
 CdtTrfTxInf.Cdtr.Id.OrgId.Othr.SchmeNm.Prtry = payee.partyIdInfo.partyIdType
 else
-CdtTrfTxInf.Cdtr.Id.PrvtId.Othr.SchmeNm.Prtry = payee.partyIdInfo.partyIdType",payee.partyIdInfo.partyIdType
-,,,,TRUE,TRUE,CdtTrfTxInf.Cdtr.Id.{OrgId/PrvtId}.Othr.Id,"if(party.PartyIdInfo.PartyIdType == BUSINESS | party.PartyIdInfo.PartyIdType ==  ALIAS  | party.PartyIdInfo.PartyIdType ==  DEVICE)
-CdtTrfTxInf.Cdtr.Id.OrgId.Othr.Id
+CdtTrfTxInf.Cdtr.Id.PrvtId.Othr.SchmeNm.Prtry = payee.partyIdInfo.partyIdType"
+,,,,TRUE,TRUE,CdtTrfTxInf.Cdtr.Id.{OrgId/PrvtId}.Othr.Id,"if(payee.PartyIdInfo.PartyIdType == BUSINESS | payee.PartyIdInfo.PartyIdType ==  ALIAS  | payee.PartyIdInfo.PartyIdType ==  DEVICE)
+CdtTrfTxInf.Cdtr.Id.OrgId.Othr.Id = payee.partyIdInfo.partyIdentifier
 else
-CdtTrfTxInf.Cdtr.Id.PrvtId.Othr.Id"
+CdtTrfTxInf.Cdtr.Id.PrvtId.Othr.Id = payee.partyIdInfo.partyIdentifier"
 ,,,,TRUE,TRUE,CdtTrfTxInf.CdtrAgt.FinInstnId.Othr.Id,payee.partyIdInfo.fspId
 ,,,,TRUE,TRUE,CdtTrfTxInf.Cdtr.Name,payee.name
 ,,,,TRUE,,CdtTrfTxInf.CdtrAcct.Ccy,payee.supportedCurrencies
-,,,,TRUE,TRUE,"if(payer.partyIdInfo.PartyIdType == BUSINESS | payer.partyIdInfo.PartyIdType ==  ALIAS  | payer.partyIdInfo.PartyIdType ==  DEVICE)
+,,,,TRUE,TRUE,CdtTrfTxInf.Dbtr.Id.{OrgId/PrvtId}.Othr.SchmeNm.Prtry,"if(payer.partyIdInfo.PartyIdType == BUSINESS | payer.partyIdInfo.PartyIdType ==  ALIAS  | payer.partyIdInfo.PartyIdType ==  DEVICE)
 CdtTrfTxInf.Dbtr.Id.OrgId.Othr.SchmeNm.Prtry = payer.partyIdInfo.partyIdType
 else
-CdtTrfTxInf.Dbtr.Id.PrvtId.Othr.SchmeNm.Prtry = payer.partyIdInfo.partyIdType",payer.partyIdInfo.partyIdType
-,,,,TRUE,TRUE,"if(payer.partyIdInfo.PartyIdType == BUSINESS | payer.partyIdInfo.PartyIdType ==  ALIAS  | payer.partyIdInfo.PartyIdType ==  DEVICE)
-CdtTrfTxInf.Dbtr.Id.OrgId.Othr.Id
+CdtTrfTxInf.Dbtr.Id.PrvtId.Othr.SchmeNm.Prtry = payer.partyIdInfo.partyIdType"
+,,,,TRUE,TRUE,"CdtTrfTxInf.Dbtr.Id.{OrgId/PrvtId}.Othr.Id
+","if(payer.partyIdInfo.PartyIdType == BUSINESS | payer.partyIdInfo.PartyIdType ==  ALIAS  | payer.partyIdInfo.PartyIdType ==  DEVICE)
+CdtTrfTxInf.Dbtr.Id.OrgId.Othr.Id = payer.partyIdInfo.partyIdentifier
 else
-CdtTrfTxInf.Dbtr.Id.PrvtId.Othr.Id",payer.partyIdInfo.partyIdentifier
+CdtTrfTxInf.Dbtr.Id.PrvtId.Othr.Id = payer.partyIdInfo.partyIdentifier"
 ,,,,TRUE,,CdtTrfTxInf.DbtrAgt.FinInstnId.Othr.Id,payer.partyIdInfo.fspId
 ,,,,TRUE,TRUE,CdtTrfTxInf.Dbtr.Name,payer.name
 ,,,,TRUE,,CdtTrfTxInf.DbtrAcct.Ccy,payer.supportedCurrencies
@@ -83,17 +83,18 @@ PUT,quotes,/{ID},pacs.082.001.01,,,,
 ,,,,,TRUE,GprHdr.NbOfTxs,1
 ,,,,TRUE,,GrpHdr.PmtInstrXpryDtTm,expiration
 ,,,,,TRUE,GrpHdr.SttlmInf.SttlmMtd,CLRG
-,,,,,TRUE,CdtTrfTxInf.Dbtr.Id.OrgId.Othr.Id,{$previous.isoPostQuote.CdtTrfTxInf.Dbtr} || {$headers[fspiop-destination]}
-,,,,,TRUE,CdtTrfTxInf.DbtrAgt.FinInstnId.Othr.Id,{$previous.isoPostQuote.CdtTrfTxInf.DbtrAgt} || || {$headers[fspiop-destination]}
-,,,,,TRUE,CdtTrfTxInf.Cdtr.Id.OrgId.Othr.Id,{$previous.isoPostQuote.CdtTrfTxInf.Cdtr} || {$headers[fspiop-source]}
-,,,,,TRUE,CdtTrfTxInf.CdtrAgt.FinInstnId.Othr.Id,{$previous.isoPostQuote.CdtTrfTxInf.CdtrAgt} ||  {$headers[fspiop-source]}
-,,,,,TRUE,CdtTrfTxInf.ChrgBr,{$previous.isoPostQuote.CdtTrfTxInf.ChrgBr} || SHAR
+,,,,,TRUE,CdtTrfTxInf.Dbtr.Id.OrgId.Othr.Id,{$previous.isoPostQuote.CdtTrfTxInf.Dbtr}
+,,,,,TRUE,CdtTrfTxInf.DbtrAgt.FinInstnId.Othr.Id,{$previous.isoPostQuote.CdtTrfTxInf.DbtrAgt}
+,,,,,TRUE,CdtTrfTxInf.Cdtr.Id.OrgId.Othr.Id,{$previous.isoPostQuote.CdtTrfTxInf.Cdtr}
+,,,,,TRUE,CdtTrfTxInf.CdtrAgt.FinInstnId.Othr.Id,{$previous.isoPostQuote.CdtTrfTxInf.CdtrAgt}
+,,,,,TRUE,CdtTrfTxInf.ChrgBr,{$previous.isoPostQuote.CdtTrfTxInf.ChrgBr}
 ,,,,TRUE,,CdtTrfTxInf.IntrBkSttlmAmt.Ccy,transferAmount.currency
 ,,,,TRUE,,CdtTrfTxInf.IntrBkSttlmAmt.ActiveCurrencyAndAmount,transferAmount.amount
 ,,,,,,CdtTrfTxInf.InstdAmt.Ccy,payeeReceiveAmount.currency
 ,,,,,,CdtTrfTxInf.InstdAmt.ActiveCurrencyAndAmount,payeeReceiveAmount.amount
 ,,,,TRUE,,CdtTrfTxInf.ChrgsInf.Amt.Ccy,payeeFspFee.currency
 ,,,,TRUE,,CdtTrfTxInf.ChrgsInf.Amt.ActiveOrHistoricCurrencyAndAmount,payeeFspFee.amount
+,,,,,TRUE,CdtTrfTxInf.ChrgsInf.Agt.FinInstnId.Othr.Id,{$previous.isoPostQuote.CdtTrfTxInf.CdtrAgt}
 ,,,,TRUE,,CdtTrfTxInf.VrfctnOfTerms.IlpV4PrepPacket,ilpPacket
 ,,,,,,,
 PUT,quotes,/{ID}/error,pacs.002.001.15,,,,
@@ -107,7 +108,7 @@ POST,transfers,,pacs.008.001.13,,,,
 ,,,,,TRUE,GprHdr.NbOfTxs,1
 ,,,,TRUE,TRUE,GrpHdr.PmtInstrXpryDtTm,expiration
 ,,,,,TRUE,GrpHdr.SttlmInf.SttlmMtd,CLRG
-,,,,,TRUE,CdtTrfTxInf.ChrgBr,{$previous.postQuoteResponse.CdtTrfTxInf.ChrgBr} || SHAR
+,,,,,TRUE,CdtTrfTxInf.ChrgBr,{$previous.postQuoteResponse.CdtTrfTxInf.ChrgBr}
 ,,,,,TRUE,CdtTrfTxInf.Cdtr,{$previous.postQuoteResponse.CdtTrfTxInf.Cdtr}
 ,,,,,TRUE,CdtTrfTxInf.Dbtr,{$previous.postQuoteResponse.CdtTrfTxInf.Dbtr}
 ,,,,TRUE,,CdtTrfTxInf.PmtId.TxId,transferId
@@ -130,7 +131,7 @@ PUT,transfers,\{ID},pacs.002.001.15,,,,
 ,,,,TRUE,,TxInfAndSts.PrcgDt.DtTm,completedTimestamp
 ,,,,TRUE,,TxInfAndSts.TxSts,transferState
 ,,,,,,,
-PUT,transfers,\{ID}\error,pacs.002.001.15,Critical,,Root Component (PacsError_FIToFIPaymentStatusReportV15),
+PUT,transfers,\{ID}\error,pacs.002.001.15,Critical,,,
 ,,,,,TRUE,GrpHdr.MsgId,generateID()
 ,,,,,TRUE,GrpHdr.CreDtTm,datetimeNow()
 ,,,,TRUE,,TxInfAndSts.StsRsnInf.Rsn.Cd,errorInformation.errorCode
