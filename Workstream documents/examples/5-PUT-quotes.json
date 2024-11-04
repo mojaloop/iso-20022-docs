@@ -1,0 +1,165 @@
+[
+    {
+        "partitionID": 9,
+        "offset": 127,
+        "timestamp": 1730725062566,
+        "compression": "lz4",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "ef60e64a18429bcd31e647313c1ca3bb",
+            "encoding": "text"
+        },
+        "value": {
+            "payload": {
+                "id": "63e0b792-e3b9-4d55-a862-13d87afb8ebb",
+                "content": {
+                    "headers": {
+                        "host": "extapi.region-stg.devbaremetal.moja-onprem.net",
+                        "content-type": "application/vnd.interoperability.iso20022.quotes+json;version=1.0",
+                        "date": "Mon, 04 Nov 2024 12:57:42 GMT",
+                        "fspiop-source": "test-mwk-dfsp",
+                        "fspiop-destination": "test-zmw-dfsp",
+                        "fspiop-http-method": "PUT",
+                        "fspiop-signature": "{\"signature\":\"giTJFGykSHEFxTCQ2szefmn-H3dwuF9_9CqaPJujSSKWHkhxvZfduUKAXRo4-liaBFs-OFTtz4Yb9ml29h_WyKyc7K3D5oG53Zos8v0CqTLDtE1cVVROfoi7OigNxhU1KAAwUFwZvV4X2LvyK1jG3jdy6-46Xw2JanfjB1f5Mgl7A_pqzQyI0D8-npblr_EQqjzlJGHwyQ-eBbHj0GVsJDElf3uZ2yP8-GNKwf9qDohHX8nBxDJWxneLKR0kmE0N6zu8OnmY4wb0xOXbIKS22xjyzwl1lCjzZy0N4skPFviHcSNtlXWmlZBI8EFL-9qqjBKmvR01yh0PX12nPRIx7g\",\"protectedHeader\":\"eyJhbGciOiJSUzI1NiIsIkZTUElPUC1VUkkiOiIvcXVvdGVzLzAxSkJWTTE5REZLTlJXQzIxRkdKTlRIUkFUIiwiRlNQSU9QLUhUVFAtTWV0aG9kIjoiUFVUIiwiRlNQSU9QLVNvdXJjZSI6InRlc3QtbXdrLWRmc3AiLCJGU1BJT1AtRGVzdGluYXRpb24iOiJ0ZXN0LXptdy1kZnNwIiwiRGF0ZSI6Ik1vbiwgMDQgTm92IDIwMjQgMTI6NTc6NDIgR01UIn0\"}",
+                        "fspiop-uri": "/quotes/01JBVM19DFKNRWC21FGJNTHRAT",
+                        "traceparent": "00-ef60e64a18429bcd31e647313c1ca3bb-8782d866071da339-21",
+                        "tracestate": "mojaloop=eyJzcGFuSWQiOiI4NzgyZDg2NjA3MWRhMzM5In0=,tx_callback_start_ts=1730725062452",
+                        "fspiop-proxy": "proxy-mwk",
+                        "authorization": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJmd0NTRFJIalFmRHJUR1pYRjlxblJtcGZrUGV5QjNqb1UtYThwSjZPZDFnIn0.eyJleHAiOjE3MzA3MjUzMzksImlhdCI6MTczMDcyNTAzOSwianRpIjoiZDM4ZGIwMmUtNGQ3Mi00MzA0LWFlMjItNmJhZDNjNWUxOWZlIiwiaXNzIjoiaHR0cHM6Ly9rZXljbG9hay5yZWdpb24tc3RnLmRldmJhcmVtZXRhbC5tb2phLW9ucHJlbS5uZXQvcmVhbG1zL2Rmc3BzIiwic3ViIjoiMzIxMjQ1ZjAtMDU1My00YjEzLWJkMTYtM2U5NDc2OGY1N2NlIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoicHJveHktbXdrIiwiYWNyIjoiMSIsInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJkZWZhdWx0LXJvbGVzLWRmc3BzIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJjbGllbnRIb3N0IjoiMTAuMS4zOC4xNCIsInByZWZlcnJlZF91c2VybmFtZSI6InNlcnZpY2UtYWNjb3VudC1wcm94eS1td2siLCJjbGllbnRBZGRyZXNzIjoiMTAuMS4zOC4xNCIsImNsaWVudF9pZCI6InByb3h5LW13ayJ9.rdWJIwPtM3wVMniF05WmkZ8ZrwqwvxrELqd8GYbqG2cSaPJEfEMJzlw_lo1QgJ5zaZe5BQd9mJ88FKhOqKKZLZ_t2MFGaBgR0o7RBqtTm9nWhs1rttdqf9f25ni_pirisQ2ATkp-6Qcqtmnss9wOsx71NxrkEGKnCO4-cohumIskA0un0jVOHM1FUbY3xpBEWSbcVQnpAkX2H5FCIKGX5bnOUJv3PAK0cMQh5WQWxsjZ8IWFQ1xOuKzRC2XbucFIo6QXu_ckQau1kYTjZCySuKlOu_kg5VT-saj4HBc93Bja-rV0PJbWsLRri0f4kuxoXCVlORgudQuCHPJLSTIKMg",
+                        "user-agent": "axios/1.7.7",
+                        "content-length": "1812",
+                        "accept-encoding": "gzip, compress, deflate, br",
+                        "x-forwarded-for": "10.10.200.1",
+                        "x-forwarded-proto": "https",
+                        "x-request-id": "c5014aa8-6bc6-4b08-8997-202000a2cce0",
+                        "x-envoy-attempt-count": "1",
+                        "x-envoy-internal": "true",
+                        "x-b3-traceid": "8660833fb22238b9435bbd165d302c52",
+                        "x-b3-spanid": "86db0c3222d2785b",
+                        "x-b3-parentspanid": "435bbd165d302c52",
+                        "x-b3-sampled": "0"
+                    },
+                    "payload": {
+                        "GrpHdr": {
+                            "MsgId": "01JBVM19SPQAQV9EEP0QC1RNAD",
+                            "CreDtTm": "2024-11-04T12:57:42.455Z",
+                            "NbOfTxs": "1",
+                            "SttlmInf": {
+                                "SttlmMtd": "CLRG"
+                            },
+                            "PmtInstrXpryDtTm": "2024-11-04T12:58:42.450Z"
+                        },
+                        "CdtTrfTxInf": {
+                            "PmtId": {
+                                "TxId": "01JBVM19DFKNRWC21FGJNTHRAT"
+                            },
+                            "Dbtr": {
+                                "Id": {
+                                    "PrvtId": {
+                                        "Othr": {
+                                            "SchmeNm": {
+                                                "Prtry": "MSISDN"
+                                            },
+                                            "Id": "16135551001"
+                                        }
+                                    }
+                                },
+                                "Name": "string"
+                            },
+                            "DbtrAgt": {
+                                "FinInstnId": {
+                                    "Othr": {
+                                        "Id": "test-zmw-dfsp"
+                                    }
+                                }
+                            },
+                            "Cdtr": {
+                                "Id": {
+                                    "PrvtId": {
+                                        "Othr": {
+                                            "SchmeNm": {
+                                                "Prtry": "MSISDN"
+                                            },
+                                            "Id": "16665551002"
+                                        }
+                                    }
+                                }
+                            },
+                            "CdtrAgt": {
+                                "FinInstnId": {
+                                    "Othr": {
+                                        "Id": "test-mwk-dfsp"
+                                    }
+                                }
+                            },
+                            "ChrgBr": "CRED",
+                            "IntrBkSttlmAmt": {
+                                "Ccy": "MWK",
+                                "ActiveCurrencyAndAmount": "1080"
+                            },
+                            "InstdAmt": {
+                                "Ccy": "MWK",
+                                "ActiveOrHistoricCurrencyAndAmount": "1080"
+                            },
+                            "ChrgsInf": {
+                                "Amt": {
+                                    "Ccy": "MWK",
+                                    "ActiveOrHistoricCurrencyAndAmount": "0"
+                                },
+                                "Agt": {
+                                    "FinInstnId": {
+                                        "Othr": {
+                                            "Id": "test-mwk-dfsp"
+                                        }
+                                    }
+                                }
+                            },
+                            "VrfctnOfTerms": {
+                                "IlpV4PrepPacket": "DIICzQAAAAAAAaXgMjAyNDExMDQxMjU4NDI0NTDpiphaypBnpcrWiT9ddwaNMOaKrxeMY4XOLlkx-CDY_ApnLm1vamFsb29wggKGZXlKeGRXOTBaVWxrSWpvaU1ERktRbFpOTVRsRVJrdE9VbGRETWpGR1IwcE9WRWhTUVZRaUxDSjBjbUZ1YzJGamRHbHZia2xrSWpvaU1ERktRbFpOTVROVFVWbFFOVEEzU2tJeFJGbENXbFpEVFVZaUxDSjBjbUZ1YzJGamRHbHZibFI1Y0dVaU9uc2ljMk5sYm1GeWFXOGlPaUpVVWtGT1UwWkZVaUlzSW1sdWFYUnBZWFJ2Y2lJNklsQkJXVVZTSWl3aWFXNXBkR2xoZEc5eVZIbHdaU0k2SWtKVlUwbE9SVk5USW4wc0luQmhlV1ZsSWpwN0luQmhjblI1U1dSSmJtWnZJanA3SW5CaGNuUjVTV1JVZVhCbElqb2lUVk5KVTBST0lpd2ljR0Z5ZEhsSlpHVnVkR2xtYVdWeUlqb2lNVFkyTmpVMU5URXdNRElpTENKbWMzQkpaQ0k2SW5SbGMzUXRiWGRyTFdSbWMzQWlmWDBzSW5CaGVXVnlJanA3SW5CaGNuUjVTV1JKYm1adklqcDdJbkJoY25SNVNXUlVlWEJsSWpvaVRWTkpVMFJPSWl3aWNHRnlkSGxKWkdWdWRHbG1hV1Z5SWpvaU1UWXhNelUxTlRFd01ERWlMQ0ptYzNCSlpDSTZJblJsYzNRdGVtMTNMV1JtYzNBaWZTd2libUZ0WlNJNkluTjBjbWx1WnlKOUxDSmxlSEJwY21GMGFXOXVJam9pTWpBeU5DMHhNUzB3TkZReE1qbzFPRG8wTWk0ME5UQmFJaXdpWVcxdmRXNTBJanA3SW1GdGIzVnVkQ0k2SWpFd09EQWlMQ0pqZFhKeVpXNWplU0k2SWsxWFN5SjlmUQ"
+                            }
+                        }
+                    }
+                },
+                "type": "application/json",
+                "metadata": {
+                    "event": {
+                        "id": "51d8d585-904c-4a6a-860e-8167db8ab348",
+                        "type": "audit",
+                        "action": "start",
+                        "createdAt": "2024-11-04T12:57:42.566Z",
+                        "state": {
+                            "status": "success"
+                        }
+                    },
+                    "trace": {
+                        "service": "QuotesByIdPut",
+                        "traceId": "ef60e64a18429bcd31e647313c1ca3bb",
+                        "spanId": "fa149d66a3bb0c27",
+                        "sampled": 1,
+                        "flags": "21",
+                        "parentSpanId": "8782d866071da339",
+                        "startTimestamp": "2024-11-04T12:57:42.564Z",
+                        "tags": {
+                            "tracestate": "mojaloop=eyJzcGFuSWQiOiJmYTE0OWQ2NmEzYmIwYzI3In0=,tx_callback_start_ts=1730725062452",
+                            "transactionType": "quote",
+                            "transactionAction": "put",
+                            "transactionId": "01JBVM19DFKNRWC21FGJNTHRAT",
+                            "quoteId": "01JBVM19DFKNRWC21FGJNTHRAT",
+                            "source": "test-mwk-dfsp",
+                            "destination": "test-zmw-dfsp"
+                        },
+                        "tracestates": {
+                            "mojaloop": {
+                                "spanId": "fa149d66a3bb0c27"
+                            },
+                            "tx_callback_start_ts": "1730725062452"
+                        }
+                    },
+                    "protocol.createdAt": 1730725062566
+                }
+            },
+            "encoding": "json"
+        }
+    }
+]
