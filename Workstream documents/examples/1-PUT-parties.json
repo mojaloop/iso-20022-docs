@@ -1,0 +1,137 @@
+[
+    {
+        "partitionID": 5,
+        "offset": 27,
+        "timestamp": 1730725057487,
+        "compression": "lz4",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "51ed0e684340297457943a76fb802e9b",
+            "encoding": "text"
+        },
+        "value": {
+            "payload": {
+                "id": "195bc1a7-47d9-43aa-b472-6bef7725e9f7",
+                "content": {
+                    "headers": {
+                        "host": "extapi.region-stg.devbaremetal.moja-onprem.net",
+                        "content-type": "application/vnd.interoperability.iso20022.parties+json;version=1.0",
+                        "date": "Mon, 04 Nov 2024 12:57:37 GMT",
+                        "fspiop-source": "test-mwk-dfsp",
+                        "fspiop-destination": "test-zmw-dfsp",
+                        "tracestate": "mojaloop=eyJzcGFuSWQiOiJmNzIzMzhmMDA4ZWI5YWIzIn0=,tx_callback_start_ts=1730725057316",
+                        "traceparent": "00-51ed0e684340297457943a76fb802e9b-f72338f008eb9ab3-33",
+                        "fspiop-http-method": "PUT",
+                        "fspiop-uri": "/parties/MSISDN/16665551002",
+                        "fspiop-signature": "{\"signature\":\"ai6RJJ_m4vshb3v4YzjgIi4v1N6Jy4DUOhKzNc24LVtj0k6qMxKboRbjvgwYB1k-SASJNeqkCs1LFDfbXXcuPoL1nLLd6JEmXl0KT9u5__ryaVxPkTdk3lqodrltilpvzoRnlcWys7ToeTOaBRqYtmt0D5EcIJttlrJEgDbNrmhaQZ00oLVc_eSX-3wQAKE5Fj6wxWpcnWHy_T6f_G-gDlpde13EAz1JD2XWASmuvvHCq0KbJHX8EOsBKjTfwJxxUvDDzKsYuBGC4CKkg4uCKyymzDgh8viPeIoRztLgIXwqZe8khDCjGUZ-HGl1ABujfnBeOIo9keZ6CnXYMSBKzw\",\"protectedHeader\":\"eyJhbGciOiJSUzI1NiIsIkZTUElPUC1VUkkiOiIvcGFydGllcy9NU0lTRE4vMTY2NjU1NTEwMDIiLCJGU1BJT1AtSFRUUC1NZXRob2QiOiJQVVQiLCJGU1BJT1AtU291cmNlIjoidGVzdC1td2stZGZzcCIsIkZTUElPUC1EZXN0aW5hdGlvbiI6InRlc3Qtem13LWRmc3AiLCJEYXRlIjoiTW9uLCAwNCBOb3YgMjAyNCAxMjo1NzozNyBHTVQifQ\"}",
+                        "traceid": "28a933e1-3733-407a-a210-76d3a514b825",
+                        "fspiop-proxy": "proxy-mwk",
+                        "authorization": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJmd0NTRFJIalFmRHJUR1pYRjlxblJtcGZrUGV5QjNqb1UtYThwSjZPZDFnIn0.eyJleHAiOjE3MzA3MjUzMzksImlhdCI6MTczMDcyNTAzOSwianRpIjoiZDM4ZGIwMmUtNGQ3Mi00MzA0LWFlMjItNmJhZDNjNWUxOWZlIiwiaXNzIjoiaHR0cHM6Ly9rZXljbG9hay5yZWdpb24tc3RnLmRldmJhcmVtZXRhbC5tb2phLW9ucHJlbS5uZXQvcmVhbG1zL2Rmc3BzIiwic3ViIjoiMzIxMjQ1ZjAtMDU1My00YjEzLWJkMTYtM2U5NDc2OGY1N2NlIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoicHJveHktbXdrIiwiYWNyIjoiMSIsInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJkZWZhdWx0LXJvbGVzLWRmc3BzIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJjbGllbnRIb3N0IjoiMTAuMS4zOC4xNCIsInByZWZlcnJlZF91c2VybmFtZSI6InNlcnZpY2UtYWNjb3VudC1wcm94eS1td2siLCJjbGllbnRBZGRyZXNzIjoiMTAuMS4zOC4xNCIsImNsaWVudF9pZCI6InByb3h5LW13ayJ9.rdWJIwPtM3wVMniF05WmkZ8ZrwqwvxrELqd8GYbqG2cSaPJEfEMJzlw_lo1QgJ5zaZe5BQd9mJ88FKhOqKKZLZ_t2MFGaBgR0o7RBqtTm9nWhs1rttdqf9f25ni_pirisQ2ATkp-6Qcqtmnss9wOsx71NxrkEGKnCO4-cohumIskA0un0jVOHM1FUbY3xpBEWSbcVQnpAkX2H5FCIKGX5bnOUJv3PAK0cMQh5WQWxsjZ8IWFQ1xOuKzRC2XbucFIo6QXu_ckQau1kYTjZCySuKlOu_kg5VT-saj4HBc93Bja-rV0PJbWsLRri0f4kuxoXCVlORgudQuCHPJLSTIKMg",
+                        "user-agent": "axios/1.7.7",
+                        "content-length": "469",
+                        "accept-encoding": "gzip, compress, deflate, br",
+                        "x-forwarded-for": "10.10.200.1",
+                        "x-forwarded-proto": "https",
+                        "x-request-id": "8ee76034-cbcc-4845-958b-1cad7dfabf0c",
+                        "x-envoy-attempt-count": "1",
+                        "x-envoy-internal": "true",
+                        "x-b3-traceid": "b47b7b858718cf516ced20442a3cd0d2",
+                        "x-b3-spanid": "d2bb8e6d6abd7a66",
+                        "x-b3-parentspanid": "6ced20442a3cd0d2",
+                        "x-b3-sampled": "0"
+                    },
+                    "payload": {
+                        "Assgnmt": {
+                            "MsgId": "01JBVM14S6SC453EY9XB9GXQB5",
+                            "CreDtTm": "2024-11-04T12:57:37.318Z",
+                            "Assgnr": {
+                                "Agt": {
+                                    "FinInstnId": {
+                                        "Othr": {
+                                            "Id": "test-mwk-dfsp"
+                                        }
+                                    }
+                                }
+                            },
+                            "Assgne": {
+                                "Agt": {
+                                    "FinInstnId": {
+                                        "Othr": {
+                                            "Id": "test-zmw-dfsp"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "Rpt": {
+                            "Vrfctn": true,
+                            "OrgnlId": "MSISDN/16665551002",
+                            "UpdtdPtyAndAcctId": {
+                                "Pty": {
+                                    "Id": {
+                                        "PrvtId": {
+                                            "Othr": {
+                                                "SchmeNm": {
+                                                    "Prtry": "MSISDN"
+                                                },
+                                                "Id": "16665551002"
+                                            }
+                                        }
+                                    },
+                                    "Nm": "Chikondi Banda"
+                                },
+                                "Agt": {
+                                    "FinInstnId": {
+                                        "Othr": {
+                                            "Id": "test-mwk-dfsp"
+                                        }
+                                    }
+                                },
+                                "Acct": {
+                                    "Ccy": "MWK"
+                                }
+                            }
+                        }
+                    }
+                },
+                "type": "application/json",
+                "metadata": {
+                    "event": {
+                        "id": "8775285c-5fd8-4bcb-b3a8-7c6466a08c42",
+                        "type": "audit",
+                        "action": "start",
+                        "createdAt": "2024-11-04T12:57:37.486Z",
+                        "state": {
+                            "status": "success"
+                        }
+                    },
+                    "trace": {
+                        "service": "PartiesByTypeAndIDPut",
+                        "traceId": "51ed0e684340297457943a76fb802e9b",
+                        "spanId": "d171f0ea1b2b2183",
+                        "sampled": 1,
+                        "flags": "33",
+                        "parentSpanId": "f72338f008eb9ab3",
+                        "startTimestamp": "2024-11-04T12:57:37.483Z",
+                        "tags": {
+                            "tracestate": "mojaloop=eyJzcGFuSWQiOiJkMTcxZjBlYTFiMmIyMTgzIn0=,tx_callback_start_ts=1730725057316",
+                            "transactionType": "party",
+                            "transactionAction": "put",
+                            "source": "test-mwk-dfsp",
+                            "destination": "test-zmw-dfsp"
+                        },
+                        "tracestates": {
+                            "mojaloop": {
+                                "spanId": "d171f0ea1b2b2183"
+                            },
+                            "tx_callback_start_ts": "1730725057316"
+                        }
+                    },
+                    "protocol.createdAt": 1730725057487
+                }
+            },
+            "encoding": "json"
+        }
+    }
+]

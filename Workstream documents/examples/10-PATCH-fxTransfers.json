@@ -1,0 +1,111 @@
+[
+    {
+        "partitionID": 4,
+        "offset": 33,
+        "timestamp": 1730725067363,
+        "compression": "lz4",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "f2d86989672972a848b3fa71cc166fe2",
+            "encoding": "text"
+        },
+        "value": {
+            "payload": {
+                "id": "0eb4bf37-f6c9-4e58-b271-daab6e7221ff",
+                "content": {
+                    "url": "http://conn-test-fxp.pm-stg.devbaremetal.moja-onprem.net/fxTransfers/01JBVM16V1ZXP2DM34BQT40NWA",
+                    "method": "PATCH",
+                    "headers": {
+                        "content-type": "application/vnd.interoperability.iso20022.fxTransfers+json;version=2.0",
+                        "date": "Mon, 04 Nov 2024 12:57:46 GMT",
+                        "fspiop-http-method": "PATCH",
+                        "fspiop-uri": "/fxTransfers/01JBVM16V1ZXP2DM34BQT40NWA",
+                        "traceparent": "00-f2d86989672972a848b3fa71cc166fe2-952339e73ae740fc-30",
+                        "tracestate": "mojaloop=eyJzcGFuSWQiOiI5NTIzMzllNzNhZTc0MGZjIiwidGltZUFwaUZ1bGZpbCI6IjE3MzA3MjUwNjcxMDAifQ==",
+                        "fspiop-proxy": "proxy-mwk",
+                        "authorization": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJmd0NTRFJIalFmRHJUR1pYRjlxblJtcGZrUGV5QjNqb1UtYThwSjZPZDFnIn0.eyJleHAiOjE3MzA3MjUzMzksImlhdCI6MTczMDcyNTAzOSwianRpIjoiZDM4ZGIwMmUtNGQ3Mi00MzA0LWFlMjItNmJhZDNjNWUxOWZlIiwiaXNzIjoiaHR0cHM6Ly9rZXljbG9hay5yZWdpb24tc3RnLmRldmJhcmVtZXRhbC5tb2phLW9ucHJlbS5uZXQvcmVhbG1zL2Rmc3BzIiwic3ViIjoiMzIxMjQ1ZjAtMDU1My00YjEzLWJkMTYtM2U5NDc2OGY1N2NlIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoicHJveHktbXdrIiwiYWNyIjoiMSIsInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJkZWZhdWx0LXJvbGVzLWRmc3BzIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJjbGllbnRIb3N0IjoiMTAuMS4zOC4xNCIsInByZWZlcnJlZF91c2VybmFtZSI6InNlcnZpY2UtYWNjb3VudC1wcm94eS1td2siLCJjbGllbnRBZGRyZXNzIjoiMTAuMS4zOC4xNCIsImNsaWVudF9pZCI6InByb3h5LW13ayJ9.rdWJIwPtM3wVMniF05WmkZ8ZrwqwvxrELqd8GYbqG2cSaPJEfEMJzlw_lo1QgJ5zaZe5BQd9mJ88FKhOqKKZLZ_t2MFGaBgR0o7RBqtTm9nWhs1rttdqf9f25ni_pirisQ2ATkp-6Qcqtmnss9wOsx71NxrkEGKnCO4-cohumIskA0un0jVOHM1FUbY3xpBEWSbcVQnpAkX2H5FCIKGX5bnOUJv3PAK0cMQh5WQWxsjZ8IWFQ1xOuKzRC2XbucFIo6QXu_ckQau1kYTjZCySuKlOu_kg5VT-saj4HBc93Bja-rV0PJbWsLRri0f4kuxoXCVlORgudQuCHPJLSTIKMg",
+                        "user-agent": "axios/1.7.7",
+                        "accept-encoding": "gzip, compress, deflate, br",
+                        "x-forwarded-for": "10.10.200.1",
+                        "x-forwarded-proto": "https",
+                        "x-envoy-internal": "true",
+                        "x-request-id": "c40169dc-641a-48dc-85a4-60ffbfa2dcdf",
+                        "x-forwarded-client-cert": "Hash=da6af3be1ab002f919c23ece8b3cdd1ce53aa387bd3a9e46ecc832469db19a3c;Cert=\"-----BEGIN%20CERTIFICATE-----%0AMIIDfDCCAmSgAwIBAgIUYrEO2VF6e6Dndu6V227BsWm69UMwDQYJKoZIhvcNAQEL%0ABQAwADAeFw0yNDEwMDMxOTI0NDhaFw0yNTAxMDExOTI1MThaMGExDzANBgNVBAoT%0ABkluZml0eDEcMBoGA1UECxMTSW5mcmFzdHJ1Y3R1cmUgVGVhbTEwMC4GA1UEAxMn%0AcmVnaW9uLXN0Zy5kZXZiYXJlbWV0YWwubW9qYS1vbnByZW0ubmV0MIIBIjANBgkq%0AhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzMcQCaKmbAEZzF%2Ftf3PjzQxsHZPb6C2P%0AJTiuE3%2F1LsHkQAwlBrN6Ffo%2BtfTSqhdcVDSi5RLcYKny5GyWhP18lwYjVdqeOFp7%0AArG5lwmyQ3yOlooR42leTIeMx2IMZNCldysXxvHEmCQUxn%2F6KGZfdUDUGNjkx4zL%0A1ROZzVidsBrojs1oVwAdtLLqxHCG22SbBIFAsTstw5VzSVDgwIluKaeg8yfsOOtI%0AABR%2F%2F%2BwWl8%2F6PKuPzwNIIUD7TeTu3ucz7Nox1VkHcZl3u1AJREYxlEIh2PRZgiS%2B%0AvbfE4XdhpVdCbm%2FGhZBH8AXZH9wjhjnNoZUn%2F8zgn9yJCo4yKGNZpQIDAQABo4GM%0AMIGJMBMGA1UdJQQMMAoGCCsGAQUFBwMCMB0GA1UdDgQWBBTvOR88h8P7hBrRpIUr%0APIbQbkwefjAfBgNVHSMEGDAWgBSd3zw9u30srYQ7GDP5FxUfEW3dnTAyBgNVHREE%0AKzApgidyZWdpb24tc3RnLmRldmJhcmVtZXRhbC5tb2phLW9ucHJlbS5uZXQwDQYJ%0AKoZIhvcNAQELBQADggEBAD7IZjMo4aUFLtNQ37MSSp1GwzmrzP8t%2F4ati9UBKkXW%0AuPqYi11RVNdLoErM4CLULV%2Bis4B%2FrSZDpdcYQ3mu%2FwGVlyMS2iGcs2cqHKLZqdaP%0AhQrYKRoK8FapNfvxRAH7O65S46kmpYwgLp5dGI9MXQvIU3jgz56ADpW86l4WRUcJ%0AjtMnqyb5J4Z1pYh2ouac%2BNPWs1EinUij9zUREMYWEjZyF7ik2tzbaBy7epFIVMPe%0A0R%2FfK6oToVnhTYnc1ICBaHQLH7C130XjhrUmI6rBO%2FGVFXpNhJZVc5%2FEdXlI%2FTJ%2B%0A3tfT7mNUnC8dCt7AnUA4ha7SVgRQbLIIf59%2FCuESdzU%3D%0A-----END%20CERTIFICATE-----%0A\";Subject=\"CN=region-stg.devbaremetal.moja-onprem.net,OU=Infrastructure Team,O=Infitx\";URI=;DNS=region-stg.devbaremetal.moja-onprem.net",
+                        "x-envoy-decorator-operation": "moja-ml-api-adapter-service.mojaloop.svc.cluster.local:80/transfers*",
+                        "x-envoy-peer-metadata": "ChQKDkFQUF9DT05UQUlORVJTEgIaAAoaCgpDTFVTVEVSX0lEEgwaCkt1YmVybmV0ZXMKHQoMSU5TVEFOQ0VfSVBTEg0aCzEwLjEuMTU3Ljc4ChkKDUlTVElPX1ZFUlNJT04SCBoGMS4xOC4yCrYCCgZMQUJFTFMSqwIqqAIKIgoDYXBwEhsaGWlzdGlvLWV4dGVybmFsLWluZ3Jlc3MtZ3cKKAoYY29udHJvbGxlci1yZXZpc2lvbi1oYXNoEgwaCjY4OWM2N2Y3YzgKJAoFaXN0aW8SGxoZaXN0aW8tZXh0ZXJuYWwtaW5ncmVzcy1ndwoeChdwb2QtdGVtcGxhdGUtZ2VuZXJhdGlvbhIDGgExCj4KH3NlcnZpY2UuaXN0aW8uaW8vY2Fub25pY2FsLW5hbWUSGxoZaXN0aW8tZXh0ZXJuYWwtaW5ncmVzcy1ndwovCiNzZXJ2aWNlLmlzdGlvLmlvL2Nhbm9uaWNhbC1yZXZpc2lvbhIIGgZsYXRlc3QKIQoXc2lkZWNhci5pc3Rpby5pby9pbmplY3QSBhoEdHJ1ZQoaCgdNRVNIX0lEEg8aDWNsdXN0ZXIubG9jYWwKKQoETkFNRRIhGh9pc3Rpby1leHRlcm5hbC1pbmdyZXNzLWd3LThxZng1CiAKCU5BTUVTUEFDRRITGhFpc3Rpby1pbmdyZXNzLWV4dApmCgVPV05FUhJdGltrdWJlcm5ldGVzOi8vYXBpcy9hcHBzL3YxL25hbWVzcGFjZXMvaXN0aW8taW5ncmVzcy1leHQvZGFlbW9uc2V0cy9pc3Rpby1leHRlcm5hbC1pbmdyZXNzLWd3ChcKEVBMQVRGT1JNX01FVEFEQVRBEgIqAAosCg1XT1JLTE9BRF9OQU1FEhsaGWlzdGlvLWV4dGVybmFsLWluZ3Jlc3MtZ3c=",
+                        "x-envoy-peer-metadata-id": "router~10.1.157.78~istio-external-ingress-gw-8qfx5.istio-ingress-ext~istio-ingress-ext.svc.cluster.local",
+                        "x-envoy-attempt-count": "1",
+                        "x-b3-traceid": "993b4867962ef1b0018e320fb146518c",
+                        "x-b3-spanid": "018e320fb146518c",
+                        "x-b3-sampled": "0",
+                        "fspiop-source": "hub-region-stg",
+                        "fspiop-destination": "test-fxp",
+                        "fspiop-signature": "{\"signature\":\"W4H6WVlRvnEEt460epFEVzNSUctpkKjbT8s7vDr2GDsQ4kFTRtR3g3rrUGfpYe_u_VYxZ0F0aLJrXI5PdNEZy3Lhjivh-hnFtDL7dstsVPTZCLNbSrc6tvmFZla4yvLy1jGepUKIjntnW73FwGp2Dr_vT5_IP79ZAkc1tuKJ9sBThIFYpJt_WFQlxpWrsNRWK_oVBcPpEWVGIKC19vvhPhbnVHAD5c1RQd8JyJ0G8ionudMaHcw1hTaDPtZx5xfVAdqYjI7joCkPbb1_8aFRNtW2Bst7CvQ7JSfw_qwCJEwKiIYKHDfB8VFpeDXWk6FMs7exqg_pjNuhFU2LJShUADLyc8BKU4Jh-ZoT5sbD5FLGBLge_Xlqj5-8X0v_KzBPFH02ZlFep7dVjHSFwJI7Qmvc5CnQRNYQu50U4ldwaJxuE28zANpMSS2XYD8KH_9CGDiWUBtfDmIKBDTVcAxg3L6XAoAqPRVwdAJYi-gub7iIdfoRgtuKZNmSS_IGWrIxn7i86s8bqtATIIW1Vwx2fTqItny3brTp__zk5BUUUAmeJSx8oIle4lii5ormxLqLC8AOhIZxgnzXMExS0pEMMnKrxUrXg7klFCam0VGaZLDxJsol1S40s23mQJ5ooSXO9oI0eOzwsZK8JYvtwXEF6ASI9lQzdPil9cEQdrkPCeo\",\"protectedHeader\":\"eyJhbGciOiJSUzI1NiIsIkZTUElPUC1VUkkiOiIvZnhUcmFuc2ZlcnMvMDFKQlZNMTZWMVpYUDJETTM0QlFUNDBOV0EiLCJGU1BJT1AtSFRUUC1NZXRob2QiOiJQQVRDSCIsIkZTUElPUC1Tb3VyY2UiOiJodWItcmVnaW9uLXN0ZyIsIkZTUElPUC1EZXN0aW5hdGlvbiI6InRlc3QtZnhwIiwiRGF0ZSI6Ik1vbiwgMDQgTm92IDIwMjQgMTI6NTc6NDYgR01UIn0\"}"
+                    },
+                    "data": "{\"GrpHdr\":{\"MsgId\":\"01JBVM1E2CRWFZFPN7W4AZJ976\",\"CreDtTm\":\"2024-11-04T12:57:46.828Z\"},\"TxInfAndSts\":{\"PrcgDt\":{\"DtTm\":\"2024-11-04T12:57:46.812Z\"},\"TxSts\":\"COMM\"}}",
+                    "responseType": "json",
+                    "httpAgent": {
+                        "_events": {},
+                        "_eventsCount": 2,
+                        "defaultPort": 80,
+                        "protocol": "http:",
+                        "options": {
+                            "keepAlive": true,
+                            "noDelay": true,
+                            "path": null
+                        },
+                        "requests": {},
+                        "sockets": {},
+                        "freeSockets": {},
+                        "keepAliveMsecs": 1000,
+                        "keepAlive": true,
+                        "maxSockets": null,
+                        "maxFreeSockets": 256,
+                        "scheduling": "lifo",
+                        "maxTotalSockets": null,
+                        "totalSocketCount": 0
+                    }
+                },
+                "type": "application/json",
+                "metadata": {
+                    "event": {
+                        "id": "d9e9c77c-c9ef-48c1-82bc-54ec9ec2af7b",
+                        "type": "audit",
+                        "action": "egress",
+                        "createdAt": "2024-11-04T12:57:47.362Z",
+                        "state": {
+                            "status": "success"
+                        }
+                    },
+                    "trace": {
+                        "service": "ml_notification_event",
+                        "traceId": "f2d86989672972a848b3fa71cc166fe2",
+                        "spanId": "952339e73ae740fc",
+                        "sampled": 0,
+                        "flags": "00",
+                        "parentSpanId": "b4f9f1b5ca068d19",
+                        "startTimestamp": "2024-11-04T12:57:47.343Z",
+                        "tags": {
+                            "tracestate": "mojaloop=eyJzcGFuSWQiOiI5NTIzMzllNzNhZTc0MGZjIiwidGltZUFwaUZ1bGZpbCI6IjE3MzA3MjUwNjcxMDAifQ==",
+                            "transactionType": "transfer",
+                            "transactionAction": "fulfil",
+                            "source": "test-mwk-dfsp",
+                            "destination": "test-zmw-dfsp",
+                            "processedAsBatch": true,
+                            "binId": "119-119"
+                        },
+                        "tracestates": {
+                            "mojaloop": {
+                                "spanId": "952339e73ae740fc",
+                                "timeApiFulfil": "1730725067100"
+                            }
+                        }
+                    },
+                    "protocol.createdAt": 1730725067363
+                }
+            },
+            "encoding": "json"
+        }
+    }
+]

@@ -1,0 +1,155 @@
+[
+    {
+        "partitionID": 7,
+        "offset": 8,
+        "timestamp": 1730725059877,
+        "compression": "lz4",
+        "isTransactional": false,
+        "headers": [],
+        "key": {
+            "payload": "44bd8f9ee84716cca7860f25ab7fa09f",
+            "encoding": "text"
+        },
+        "value": {
+            "payload": {
+                "id": "b6c91d02-366e-44b4-8e02-683da37961c9",
+                "content": {
+                    "headers": {
+                        "host": "extapi.region-stg.devbaremetal.moja-onprem.net",
+                        "content-type": "application/vnd.interoperability.iso20022.fxQuotes+json;version=2.0",
+                        "date": "Mon, 04 Nov 2024 12:57:39 GMT",
+                        "fspiop-source": "test-fxp",
+                        "fspiop-destination": "test-zmw-dfsp",
+                        "authorization": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJmd0NTRFJIalFmRHJUR1pYRjlxblJtcGZrUGV5QjNqb1UtYThwSjZPZDFnIn0.eyJleHAiOjE3MzA3MjUwODYsImlhdCI6MTczMDcyNDc4NiwianRpIjoiNTdlMzQxNjAtNzQxYS00OWFkLTlkNmQtMGE5N2QyZjZhY2JhIiwiaXNzIjoiaHR0cHM6Ly9rZXljbG9hay5yZWdpb24tc3RnLmRldmJhcmVtZXRhbC5tb2phLW9ucHJlbS5uZXQvcmVhbG1zL2Rmc3BzIiwic3ViIjoiZDViNGU1MjgtYTMyMC00NmM5LThlYzMtYWU2MWJmZjczOTVlIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoidGVzdC1meHAiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMtZGZzcHMiLCJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIl19LCJzY29wZSI6ImVtYWlsIHByb2ZpbGUiLCJjbGllbnRIb3N0IjoiMTAuMS42NS43NCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwicHJlZmVycmVkX3VzZXJuYW1lIjoic2VydmljZS1hY2NvdW50LXRlc3QtZnhwIiwiY2xpZW50QWRkcmVzcyI6IjEwLjEuNjUuNzQiLCJjbGllbnRfaWQiOiJ0ZXN0LWZ4cCJ9.7iOnEXXzfidbnqcfDRaVSoNRXOV1MAZ2E1a35kaykDdcjgR14Ol6GPDB-6jQUNE5Me2K2VL05YBryEwfbg85Uk7n3gFks6mmp9kjxza2TPZKiBVZ5WaoEMm8IV1uEIctG0ir8e_DlBfodmKbP2nHITnxbsqWa4Ptc1z5UVBvxj7rCtX7N4UfjdQjljNfYwYG3Z2ebHKoc8-UrTckPepB6h_6Eh5_F2hPKQBLooTS1M0BBlivOrYlEE7Wx3vOjejppIHCZD4hLOai6j1RStqugEoNnGfGEiqj0B89TkhLs_JdpFkCRjiydkVYI_jbesvBOKx24dLtEf9x8s8Aei7Plg",
+                        "fspiop-http-method": "PUT",
+                        "fspiop-uri": "/fxQuotes/01JBVM16V1ZXP2DM34BQT40NW9",
+                        "fspiop-signature": "{\"signature\":\"mJKJ3UwkfTI_7Ash2lsYGm6UVZUx15EqKHE6jffYttkFSattlvGzm4mG0KDKRSp2zMymgmPRo6-EDOW2WS3hEjmuDxb8pYB5o15qWEqYxn_6AH0w8Rnj4n13-sxRVlzyU_3VqSX6bniPOYf9fc2IEGD5-gZJ1o4m6XGqOMKvkaZanMp7eEc5LaJWjs-5djoby-Ze-i5TanWZ3S5LvWjE0EnSOGLY-Vr2QBafgaGYY-l8MiPz2_YYswlzoAZGc7dE4O2Ws_ZERjUE4Ok3iIyu7cBD20uI1fSUsYu_REipIIZ740mhm3B6r0enVk_G2SJSUI9kUJOCoR7F8t7V_OYnfA\",\"protectedHeader\":\"eyJhbGciOiJSUzI1NiIsIkZTUElPUC1VUkkiOiIvZnhRdW90ZXMvMDFKQlZNMTZWMVpYUDJETTM0QlFUNDBOVzkiLCJGU1BJT1AtSFRUUC1NZXRob2QiOiJQVVQiLCJGU1BJT1AtU291cmNlIjoidGVzdC1meHAiLCJGU1BJT1AtRGVzdGluYXRpb24iOiJ0ZXN0LXptdy1kZnNwIiwiRGF0ZSI6Ik1vbiwgMDQgTm92IDIwMjQgMTI6NTc6MzkgR01UIn0\"}",
+                        "content-length": "865",
+                        "x-forwarded-for": "76.212.95.237",
+                        "x-forwarded-proto": "https",
+                        "x-envoy-external-address": "76.212.95.237",
+                        "x-request-id": "2a398d71-a8eb-4e37-8ab0-2134542b1bad",
+                        "x-envoy-attempt-count": "1",
+                        "x-b3-traceid": "b22f78d2580c0812db4294121550e411",
+                        "x-b3-spanid": "778142aa70ea4875",
+                        "x-b3-parentspanid": "db4294121550e411",
+                        "x-b3-sampled": "0"
+                    },
+                    "payload": {
+                        "GrpHdr": {
+                            "MsgId": "01JBVM176FTHB9F2ZQJJ7AFCN8",
+                            "CreDtTm": "2024-11-04T12:57:39.791Z",
+                            "NbOfTxs": "1",
+                            "SttlmInf": {
+                                "SttlmMtd": "CLRG"
+                            },
+                            "PmtInstrXpryDtTm": "2024-11-04T12:58:39.425Z"
+                        },
+                        "CdtTrfTxInf": {
+                            "VrfctnOfTerms": {
+                                "Sh256Sgntr": "KVHFmdTD6Ao9lh5UybQjsxk8YoXFt3HgA3WvR6j3X_s"
+                            },
+                            "PmtId": {
+                                "InstrId": "01JBVM16V1ZXP2DM34BQT40NWA",
+                                "TxId": "01JBVM13SQYP507JB1DYBZVCMF"
+                            },
+                            "Dbtr": {
+                                "FinInstnId": {
+                                    "Othr": {
+                                        "Id": "test-zmw-dfsp"
+                                    }
+                                }
+                            },
+                            "UndrlygCstmrCdtTrf": {
+                                "Dbtr": {
+                                    "Id": {
+                                        "OrgId": {
+                                            "Othr": {
+                                                "Id": "test-zmw-dfsp"
+                                            }
+                                        }
+                                    }
+                                },
+                                "DbtrAgt": {
+                                    "FinInstnId": {
+                                        "Othr": {
+                                            "Id": "test-zmw-dfsp"
+                                        }
+                                    }
+                                },
+                                "Cdtr": {
+                                    "Id": {
+                                        "OrgId": {
+                                            "Othr": {
+                                                "Id": "test-fxp"
+                                            }
+                                        }
+                                    }
+                                },
+                                "CdtrAgt": {
+                                    "FinInstnId": {
+                                        "Othr": {
+                                            "Id": "test-fxp"
+                                        }
+                                    }
+                                },
+                                "InstdAmt": {
+                                    "Ccy": "ZMW",
+                                    "ActiveOrHistoricCurrencyAndAmount": "21"
+                                }
+                            },
+                            "Cdtr": {
+                                "FinInstnId": {
+                                    "Othr": {
+                                        "Id": "test-fxp"
+                                    }
+                                }
+                            },
+                            "IntrBkSttlmAmt": {
+                                "Ccy": "MWK",
+                                "ActiveCurrencyAndAmount": "1080"
+                            },
+                            "InstrForCdtrAgt": {
+                                "InstrInf": "SEND"
+                            }
+                        }
+                    }
+                },
+                "type": "application/json",
+                "metadata": {
+                    "event": {
+                        "id": "164083ac-265a-4a96-96b8-438e4078c85c",
+                        "type": "audit",
+                        "action": "start",
+                        "createdAt": "2024-11-04T12:57:39.877Z",
+                        "state": {
+                            "status": "success"
+                        }
+                    },
+                    "trace": {
+                        "service": "FxQuotesByIdPut",
+                        "traceId": "44bd8f9ee84716cca7860f25ab7fa09f",
+                        "spanId": "cdb4e772d529a966",
+                        "startTimestamp": "2024-11-04T12:57:39.875Z",
+                        "tags": {
+                            "tracestate": "mojaloop=eyJzcGFuSWQiOiJjZGI0ZTc3MmQ1MjlhOTY2In0=",
+                            "transactionType": "quote",
+                            "transactionAction": "put",
+                            "transactionId": "01JBVM16V1ZXP2DM34BQT40NW9",
+                            "quoteId": "01JBVM16V1ZXP2DM34BQT40NW9",
+                            "source": "test-fxp",
+                            "destination": "test-zmw-dfsp"
+                        },
+                        "tracestates": {
+                            "mojaloop": {
+                                "spanId": "cdb4e772d529a966"
+                            }
+                        }
+                    },
+                    "protocol.createdAt": 1730725059877
+                }
+            },
+            "encoding": "json"
+        }
+    }
+]
