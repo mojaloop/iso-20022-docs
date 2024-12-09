@@ -12,6 +12,7 @@ note left
 **pacs.081.001.01**
 **Financial Institution to Financial Institution** 
 **Customer Credit Transfer Quote Request**
+{
 "GrpHdr": {
         "MsgId": "01JBVM19DJQ96BS9X6VA5AMW2Y",
         "CreDtTm": "2024-11-04T12:57:42.066Z",
@@ -19,23 +20,22 @@ note left
         "PmtInstrXpryDtTm": "2024-11-04T12:58:42.063Z",
         "SttlmInf": { "SttlmMtd": "CLRG" }
     },
-    "CdtTrfTxInf": {
+"CdtTrfTxInf": {
         "PmtId": {
             "TxId": "01JBVM19DFKNRWC21FGJNTHRAT",
             "EndToEndId": "01JBVM13SQYP507JB1DYBZVCMF"},
         "Cdtr": { "Id": { "PrvtId": { "Othr": { "SchmeNm": { "Prtry": "MSISDN" },
-                                                "Id": "16665551002" } } },
-        "CdtrAgt": { "FinInstnId": { "Othr": { "Id": "test-mwk-dfsp" } } },
+                                                "Id": "16665551002" }}}},
+        "CdtrAgt": { "FinInstnId": { "Othr": { "Id": "test-mwk-dfsp" }}},
         "Dbtr": { "Id": { "PrvtId": { "Othr": { "SchmeNm": { "Prtry": "MSISDN" },
-                                                "Id": "16135551001" } } },
+                                                "Id": "16135551001" }}},
             "Name": "Joe Blogs"},
-        "DbtrAgt": { "FinInstnId": { "Othr": { "Id": "payer-dfsp" } } },
+        "DbtrAgt": { "FinInstnId": { "Othr": { "Id": "payer-dfsp" }}},
         "IntrBkSttlmAmt": {
             "Ccy": "MWK",
             "ActiveCurrencyAndAmount": "1080"},
         "Purp": { "Prtry": "TRANSFER"},
-        "ChrgBr": "CRED"
-    }
+        "ChrgBr": "CRED"}
 }
 end note
 Mojaloop -> PayeeDFSP: POST /quotes
@@ -87,7 +87,7 @@ note right
 "GrpHdr": {
     "MsgId":"01JBVM1CGC5A18XQVYYRF68FD1",
     "CreDtTm":"2024-11-04T12:57:45.228Z"},
-"TxInfAndSts":{"StsRsnInf":{"Rsn": {"Cd":"ErrorCode"}}
+"TxInfAndSts":{"StsRsnInf":{"Rsn": {"Cd":"ErrorCode"}}}
 end note
 Mojaloop -> PayerDFSP: PUT/quotes/{ID}/error 
 
