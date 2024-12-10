@@ -68,7 +68,7 @@ parser.parseString(iso20022Xml, (err, iso20022Doc) => {
       const recurse = (itemSet && itemSet.find(f => f == this.fullName)) ? false : true;
       if (recurse) {
         this.children.forEach(child => {
-          fields = fields.concat(child.getAllFields());
+          fields = fields.concat(child.getAllFields(itemSet));
         });
       }
       return fields;
@@ -363,7 +363,7 @@ parser.parseString(iso20022Xml, (err, iso20022Doc) => {
   
     const requiredTable = generateTable('Required Fields', requiredFields.flatMap(f => f.getAllFields()));
     const optionalTable = generateTable('Optional Fields', optionalFields,OptionalFieldsSet);
-    const unsupportedTable = generateTable('Unsupported Fields', unsupportedFields);
+    const unsupportedTable = generateTable('Unsupported Fields', unsupportedFields,unsupportedFieldsSet);
   
   // Replace placeholders in the template with the generated tables
   const markdownDoc = template
