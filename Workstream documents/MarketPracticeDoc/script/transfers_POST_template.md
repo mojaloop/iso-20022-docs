@@ -1,4 +1,4 @@
-### 
+### POST /transfers
 | Financial Institution to Financial Institution Customer Credit Transfer - **pacs.008.001.13**|
 |--|
 

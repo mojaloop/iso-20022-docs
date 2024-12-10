@@ -1,71 +1,45 @@
 # Mojaloop ISO 20022 Market Practice Document
 
+<!-- TOC depthfrom:2 depthto:3 orderedlist:true -->
 
-# Introduction
-## Purpose of the Document
-The purpose of this document is to provide a comprehensive, generic framework for implementing ISO 20022 messaging within Mojaloop ecosystems, specifically for supporting peer-to-peer (P2P) cross-border (FX) transfers. It is designed to assist Digital Financial Service Providers (DFSPs) in understanding the structure, expectations, and usage of ISO 20022 messages as they integrate into Mojaloop-powered schemes.
-This document focuses on the foundational aspects of ISO 20022 messaging required for Mojaloop integration. It aims to establish clear practices and conventions for using ISO 20022 while maintaining flexibility for schemes to define specific rules and adaptations. The primary scope includes:
-Offering a generic guide to ISO 20022 messaging as applied in Mojaloop for P2P FX transactions.
-Providing clarity on which fields are supported, which are not, and how unsupported fields should be handled.
-Ensuring DFSPs understand the transactional flows and message interactions necessary for successful integration.
-Discussing fraud detection and prevention considerations without imposing restrictive practices.
-Highlighting the relationship between this document and scheme-specific rules, allowing schemes to customize and enforce additional requirements.
-By offering a standard reference point, this document empowers DFSPs to meet Mojaloop message requirements effectively and fosters consistency across different schemes using Mojaloop. However, it does not prescribe scheme-specific fields, validations, or rules, which must be defined and governed through individual scheme rules and agreements.
-## Intended Audience
-This document is intended for stakeholders involved in the design, implementation, and operation of Mojaloop ISO 20022-based schemes, specifically:
-1. **Direct Financial Service Providers (DFSPs):**
-DFSPs building integrations into Mojaloop schemes can use this document as a guide to understand the messaging framework, field requirements, and transaction flows. It provides the necessary context to ensure compliance with Mojaloop ISO 20022 messaging standards while leaving room for scheme-specific adaptations.
-1. **Foreign Exchange Providers:**
-Foreign Exchange Providers building integrations into Mojaloop schemes can use this document as a guide to understand the messaging framework, field requirements, and transaction flows. It provides the necessary context to ensure compliance with Mojaloop ISO 20022 messaging standards while leaving room for scheme-specific adaptations.
-1. **Scheme Administrators:**
-Administrators overseeing the setup and management of Mojaloop-based payment schemes can reference this document to define and enforce scheme-specific rules. It serves as a foundational framework for understanding the general practices and capabilities of Mojaloop ISO 20022 messaging.
-Solution Architects and System Integrators:
-Architects and integrators designing Mojaloop-compatible systems will benefit from the detailed explanation of ISO 20022 message structures and transaction flows. The document provides a blueprint for aligning technical solutions with Mojaloop’s messaging framework.
-1. **Other Stakeholders:**
-While primarily aimed at DFSPs and scheme administrators, this document may also be useful for fraud prevention teams, regulatory bodies, and technology providers looking to understand the broader operational context of Mojaloop’s ISO 20022 implementation.
+- [1.1. How to Use This Document?](#11-how-to-use-this-document)
+    - [1.1.1. Relationship with Scheme-Specific Rules Documents](#111-relationship-with-scheme-specific-rules-documents)
+    - [1.1.2. Distinction Between Generic Practices and Scheme-Specific Requirements](#112-distinction-between-generic-practices-and-scheme-specific-requirements)
+- [1.2. Message Expectations, Obligations, and Rules](#12-message-expectations-obligations-and-rules)
+    - [1.2.1. Currency Conversion](#121-currency-conversion)
+    - [1.2.2. JSON Messages](#122-json-messages)
+    - [1.2.3. APIs](#123-apis)
+    - [1.2.4. ULIDs as Unique Identifiers](#124-ulids-as-unique-identifiers)
+    - [1.2.5. Inter-ledger Protocol v4 to represent the Cryptographic Terms](#125-inter-ledger-protocol-v4-to-represent-the-cryptographic-terms)
+    - [1.2.6. ISO 20022 Supplementary Data Fields](#126-iso-20022-supplementary-data-fields)
+- [1.3. Discovery Phase](#13-discovery-phase)
+    - [1.3.1. Message flow](#131-message-flow)
+    - [1.3.2. Parties Resource](#132-parties-resource)
+- [1.4. Agreement Phase](#14-agreement-phase)
+    - [1.4.1. Currency Conversion Agreement Sub-Phase](#141-currency-conversion-agreement-sub-phase)
+    - [1.4.2. Transfer Terms Agreement Sub-Phase](#142-transfer-terms-agreement-sub-phase)
+- [1.5. Transfer Phase](#15-transfer-phase)
+    - [1.5.1. Accepting Currency Conversion terms](#151-accepting-currency-conversion-terms)
+    - [1.5.2. Transfer Execution and Clearing](#152-transfer-execution-and-clearing)
 
-By addressing the needs of these audiences, the document ensures consistency and clarity in the integration process, enabling participants to effectively collaborate within Mojaloop-based schemes.
-# Overview of Mojaloop and ISO 20022
-
-## Introduction to Mojaloop
-Mojaloop is an open-source, inclusive instant payment platform designed to meet the needs of financial ecosystems in promoting greater financial inclusion. It offers a scalable, interoperable framework for facilitating low-cost, real-time digital payments, particularly for underserved populations. By utilizing a modular architecture and open standards, Mojaloop ensures affordability, efficiency, and accessibility, in line with the principles of financial inclusion.
-A Mojaloop transfer typically progresses through three key phases:
-1. **Discovery Phase**<br>
-The payer DFSP identifies and confirms the payee, ensuring that the payee exists and can receive funds. This step often includes alias resolution and account validation.
-1. **Agreement Phase** <br>
-Both parties agree on the terms of the transaction, including fees, FX rates (if applicable), and any other relevant details. All parties conduct necessary checks to ensure the transfer can proceed. This phase ensures mutual understanding and consent before committing to the transfer. If currency conversion is necessary to support the transfer, the terms for obtaining that liquidity cover are also determined in this phase.
-1. **Transfer Phase** <br>
-In the transfer phase, funds are instantly cleared and made available to the end parties, and obligations are set to reflect the amount owed between DFSPs.
-
-These phases form the basis of all payments, ensuring a structured approach to instant payments while minimizing risks and uncertainties for all participants.
-
-## ISO 20022 and Its Advantages
-ISO 20022 is a global financial messaging standard designed to improve interoperability, consistency, and efficiency in payment systems. Its use in Mojaloop provides several advantages:
-1. **Rich Data and Standardization** <br>
-ISO 20022 allows for comprehensive and structured data, enhancing transparency, reconciliation, and compliance with regulatory requirements.
-1. **Interoperability** <br>
-The standard enables seamless communication across diverse financial institutions and payment systems, fostering greater collaboration and ecosystem integration.
-1. **Flexibility and Scalability** <br>
-ISO 20022 supports various financial products and services, making it adaptable to the unique needs of Mojaloop schemes, including cross-border P2P transfers.
-
-**ISO 20022 for IIPS**
+<!-- /TOC -->
 
 By combining the principles of financial inclusion with the robust capabilities of ISO 20022, Mojaloop ensures that DFSPs and other stakeholders can deliver real-time payment solutions that are cost-effective, secure, and scalable to meet the demands of inclusive financial ecosystems.
 
-# How to Use This Document?
+## How to Use This Document?
 This document provides a foundational reference for implementing ISO 20022 messaging for IIPS within Mojaloop-based schemes. It outlines general guidelines and practices that apply universally across Mojaloop schemes, focusing on the base-level requirements. However, it is designed to be supplemented by scheme-specific rules documents, which can define additional message fields, validations, and rules necessary to meet the unique regulations and requirements of individual schemes. This layered approach enables each scheme to tailor its implementation details while maintaining consistency with the broader Mojaloop framework.
 
-## Relationship with Scheme-Specific Rules Documents
+### Relationship with Scheme-Specific Rules Documents
 This document serves as a foundation for understanding how ISO 20022 is applied in Mojaloop, focusing on core principles and practices. However, it does not prescribe the detailed business requirements, validations, and governance frameworks that are specific to individual schemes. Scheme-specific rules address these details, including mandatory and optional field specifications, tailored compliance protocols, and defined procedures for error handling. They also encompass business rules governing message flows, participant roles, and responsibilities within the scheme. The flexibility of this document allows scheme administrators to adapt and extend its guidance to meet their unique operational needs.
 
-## Distinction Between Generic Practices and Scheme-Specific Requirements
+### Distinction Between Generic Practices and Scheme-Specific Requirements
 This document distinctly separates generic practices from scheme-specific requirements to achieve a balance between consistency and adaptability in ISO 20022 implementations within Mojaloop. The generic practices outlined here establish foundational principles, including expectations for message structures, required fields to meet switch requirements, supported fields, and transactional flows. Additionally, they provide a high-level overview of the Mojaloop P2P FX transfer lifecycle.
 
 Scheme-specific requirements, documented separately, delve into additional field mappings, enhanced validations, and precise rules for settlement, reconciliation, and dispute resolution. These requirements also encompass governance policies and compliance obligations tailored to the unique needs of individual schemes.
 
 This distinction enables DFSPs to implement a consistent core messaging framework while granting scheme administrators the flexibility to define operational specifics. The generic practices presented in this document are purposefully designed to be extensible, ensuring seamless integration with scheme-specific rules and supporting adherence to Mojaloop’s ISO 20022 for IIPS standards.
 
-# Message Expectations, Obligations, and Rules
+## Message Expectations, Obligations, and Rules
 The Mojaloop transfer process is divided into three key phases, each essential to ensuring secure and efficient transactions. These phases use specific resources to enable participant interactions, ensuring clear communication, agreement, and execution. While some phases and resources are optional, the ultimate goal is to ensure every transfer is accurate, secure, and aligns with agreed terms. 
 1. [Discovery](#discovery-phase)
 2. [Agreement](#agreement-phase)
@@ -90,6 +64,8 @@ Mojaloop leverages the Inter-ledger Protocol (ILP) version 4 to define and repre
 
 It is not expected that ISO 20022 supplementary data fields will be required for any of the messages used. If supplementary data is provided, the switch will not reject the message; however, it will ignore its contents and behave as if the supplementary data was not present.
 
+<div style="page-break-before:always"></div>
+
 ## Discovery Phase
 The Discovery Phase is an optional step in the transfer process, necessary only when the payee (end party) must be identified and confirmed before initiating an agreement. This phase utilizes the parties resource, which facilitates the retrieval and validation of the payee’s information to ensure they are eligible to receive the transfer. Key checks performed during this phase include verifying that the payee's account is active, identifying the currencies that can be transferred into the account, and confirming the account owner’s details. This information allows the payer to verify the payee's details accurately, reducing the risk of errors and ensuring a secure foundation for the subsequent phases of the transfer process.
 
@@ -108,20 +84,33 @@ The Parties resource provides all the necessary functionality in the discovery p
 |[PUT /parties/{type}/{partyIdentifier}[/{subId}]](./script/parties_PUT.md) | acmt.024.001.04 |
 |[PUT /parties/{type}/{partyIdentifier}[/{subId}]/error](./script/parties_error_PUT.md) | acmt.024.001.04 |
 
+<div style="page-break-before:always"></div>
 
-# Agreement Phase
+## Agreement Phase
+The **Agreement Phase** is a critical step in the Mojaloop transfer process, ensuring that all parties involved have a shared understanding of the transfer terms before any funds are committed. This phase serves several essential purposes:
+1. **Calculation and Agreement of Fees**<br>
+The Agreement Phase provides an opportunity for the calculation and mutual agreement on any applicable fees. This ensures transparency and prevents disputes related to charges after the transfer is initiated.
+1. **Pre-Commitment Validation**<br>
+It allows each participating organization to verify whether the transfer can proceed. This step helps identify and address potential issues early, reducing errors during the transfer and minimizing reconciliation discrepancies.
+1. **Cryptographic Signing of Terms**<br>
+The terms of the transfer are cryptographically signed during this phase. This mechanism ensures non-repudiation, meaning that parties cannot deny their involvement in or agreement to the transaction.
+1. **Promoting Financial Inclusion**<br>
+By presenting all parties with the complete terms of the transfer upfront, the Agreement Phase ensures that participants are fully informed before making any commitments. This transparency supports financial inclusively by enabling fair and informed decision-making for all stakeholders.
 
+The Agreement Phase not only improves the reliability and efficiency of Mojaloop transfers but also aligns with its broader goal of fostering trust and inclusively in digital financial ecosystems.
 
-## Currency Conversion Agreement - defining terms for obtaining Liquidity Cover
-This is optional
+The agreement phase is further divided into two phases. 
 
-### Message flow
+### Currency Conversion Agreement Sub-Phase
+The Currency Conversion Agreement Sub-Phase is an optional step within the Agreement Phase, activated only when the transfer involves a currency conversion. During this sub-phase, the payer DFSP (Digital Financial Services Provider) coordinates with a foreign exchange (FX) provider to secure cross-currency liquidity required to complete the transaction. This step establishes the FX rates and associated fees, ensuring that both the DFSP and the FXP can rely on transparent and agreed-upon conversion terms. By addressing currency conversion needs before committing to the transfer, this sub-phase helps prevent delays and discrepancies, supporting a seamless cross-border transaction experience.
+
+#### Message flow
 
 
 The sequence diagram shows the discovery example messages in a Payer initiated P2P transfer.
 ![Agreement Conversion Flow](./SequenceDiagrams/AgreementConversion.svg)
 
-### fxQuotes Resource
+#### fxQuotes Resource
 
 | Endpoint | Message |
 |--- | --- |
@@ -129,15 +118,15 @@ The sequence diagram shows the discovery example messages in a Payer initiated P
 |[PUT /fxQuotes/{ID}](./script/fxquotes_PUT.md) | **pacs.092.001** |
 |[PUT /fxQuotes/{ID}/error](./script/fxquotes_error_PUT.md) | **pacs.002.001.15** |
 
-## Transfer Agreement - defining terms for the transfer
+### Transfer Terms Agreement Sub-Phase
+The End-to-End Terms Agreement Sub-Phase involves the collaborative establishment of the transfer terms between the payer DFSP and the payee DFSP. This process ensures both parties are aligned on critical details such as the amount to be transferred, fees, and timing requirements. This sub-phase also facilitates the cryptographic signing of these terms, providing a robust framework for non-repudiation and accountability. By finalizing the transfer terms in a transparent manner, this sub-phase minimizes the risk of errors or disputes, enhancing the efficiency and trustworthiness of the overall Mojaloop transfer process.
 
-### Message flow
-
+#### Message flow
 
 The sequence diagram shows the discovery example messages in a Payer initiated P2P transfer.
 ![Agreement Flow](./SequenceDiagrams/Agreement.svg)
 
-### Quotes Resource
+#### Quotes Resource
 
 | Endpoint | Message |
 |--- | --- |
@@ -145,20 +134,21 @@ The sequence diagram shows the discovery example messages in a Payer initiated P
 |[PUT /quotes/{ID}](./script/quotes_PUT.md) | **pacs.082.001** |
 |[PUT /quotes/{ID}/error](./script/quotes_error_PUT.md) | **pacs.002.001.15** |
 
+<div style="page-break-before:always"></div>
 
-# Transfer Phase
+## Transfer Phase
+Once the agreements have been successfully established during the Agreement Phase, accepting these terms triggers the Transfer Phase, where the actual movement of funds occurs. This phase is executed with precision to ensure that the agreed terms are honored, and all participants fulfill their commitments. The Transfer Phase is divided into two sub-phases: the Currency Conversion Execution Sub-Phase and the Transfer Clearing Sub-Phase, each corresponding to its respective sub-phase in the Agreement Phase.
 
+### Accepting Currency Conversion terms
+The Currency Conversion Execution Sub-Phase occurs if the transfer involves a currency exchange. In this step, the foreign exchange provider, as agreed during the Agreement Phase, executes the currency conversion. The liquidity required for the cross-currency transfer is provided, and the converted funds are prepared for onward movement to the payee DFSP. This sub-phase is an opportunity for the FXP to ensure that the FX rates and fees agreed upon earlier are adhered to, safeguarding the transaction's financial integrity and transparency.
 
-## Currency Conversion Transfer - accepting terms for obtaining Liquidity Cover
-This is optional
-
-### Message flow
+#### Message flow
 
 
 The sequence diagram shows the transfer example messages in a Payer initiated P2P transfer.
 ![Conversion Transfer Flow](./SequenceDiagrams/ConversionTransfer.svg)
 
-### fxTransfers Resource
+#### fxTransfers Resource
 
 | Endpoint | Message |
 |--- | --- |
@@ -167,15 +157,16 @@ The sequence diagram shows the transfer example messages in a Payer initiated P2
 |[PUT /fxTransfers/{ID}/error](./script/fxtransfers_error_PUT.md) | **pacs.002.001.15** |
 |[PATCH /fxTransfers/{ID}/error](./script/fxtransfers_PATCH.md) | **pacs.002.001.15** |
 
-## Transfer Agreement - defining terms for the transfer
+### Transfer Execution and Clearing 
+The Funds Settlement Sub-Phase involves the actual transfer of funds between the payer DFSP and the payee DFSP. This step ensures that the amount agreed upon, including any associated fees, is accurately cleared in the appropriate accounts. This sub-phase completes the financial transaction, fulfilling the commitments made during the Agreement Phase. Through secure and efficient fund movement mechanisms, this sub-phase ensures that the transfer is completed smoothly and in compliance with the agreed terms.
 
-### Message flow
+#### Message flow
 
 
 The sequence diagram shows the discovery example messages in a Payer initiated P2P transfer.
 ![Transfer Flow](./SequenceDiagrams/Transfer.svg)
 
-### Transfers Resource
+#### Transfers Resource
 
 | Endpoint | Message |
 |--- | --- |

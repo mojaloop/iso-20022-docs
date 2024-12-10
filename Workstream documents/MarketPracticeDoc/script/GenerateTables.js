@@ -328,7 +328,7 @@ parser.parseString(iso20022Xml, (err, iso20022Doc) => {
   
   
       // Determine optionalFields fields
-      const optionalFields = SupportedFields.flatMap(f => f.getAllFields()).filter(field => {
+      const optionalFields = SupportedFields.flatMap(f => f.getAllFields(OptionalFieldsSet)).filter(field => {
         return (!requiredFieldsSet.find(f => f==field.fullName));
       });
   

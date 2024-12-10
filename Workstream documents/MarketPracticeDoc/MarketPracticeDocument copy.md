@@ -39,7 +39,7 @@ In the transfer phase, funds are instantly cleared and made available to the end
 
 These phases form the basis of all payments, ensuring a structured approach to instant payments while minimizing risks and uncertainties for all participants.
 
-## ISO 20022 and Its Advantages
+### ISO 20022 and Its Advantages
 ISO 20022 is a global financial messaging standard designed to improve interoperability, consistency, and efficiency in payment systems. Its use in Mojaloop provides several advantages:
 1. **Rich Data and Standardization** <br>
 ISO 20022 allows for comprehensive and structured data, enhancing transparency, reconciliation, and compliance with regulatory requirements.
@@ -345,7 +345,7 @@ Here is a list of all the optional fields. Some of these fields when specified r
 |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name `Nm`     | Name of the branch. |
 |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PostalAddress `PstlAdr`     | Postal address of the branch. |
 
-#### Unsuported Fields
+#### Unsupported Fields
 
 Mojaloop is an end-to-end messaging system where messages are signed at each end by the participating organisation. This is imperitive to maintain non-repudiation. The following field therefore are unsupported and if provided will reject the message, as these violate this end-to-end message support.
 
@@ -611,7 +611,7 @@ Here is a list of all the optional fields. Some of these fields when specified r
 |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PostalAddress `PstlAdr`     | Postal address of the branch. |
 
 
-#### Unsuported Fields
+#### Unsupported Fields
 
 Mojaloop is an end-to-end messaging system where messages are signed at each end by the participating organisation. This is imperitive to maintain non-repudiation. The following field therefore are unsupported and if provided will reject the message, as these violate this end-to-end message support.
 
@@ -786,7 +786,7 @@ Here is a list of all the optional fields. Some of these fields when specified r
 |&nbsp;&nbsp;&nbsp;&nbsp;UnderlyingCustomerCreditTransfer `UndrlygCstmrCdtTrf`        |  |
 
 
-#### Unsuported Fields
+#### Unsupported Fields
 
 Mojaloop is an end-to-end messaging system where messages are signed at each end by the participating organisation. This is imperitive to maintain non-repudiation. The following field therefore are unsupported and if provided will reject the message, as these violate this end-to-end message support.
 
@@ -1035,7 +1035,7 @@ Here is a list of all the optional fields. Some of these fields when specified r
 |&nbsp;&nbsp;&nbsp;&nbsp;Purpose `Purp`        | Purpose of the transaction. |
 
 
-#### Unsuported Fields
+#### Unsupported Fields
 
 Mojaloop is an end-to-end messaging system where messages are signed at each end by the participating organisation. This is imperitive to maintain non-repudiation. The following field therefore are unsupported and if provided will reject the message, as these violate this end-to-end message support.
 
@@ -1201,7 +1201,7 @@ Here is a list of all the optional fields. Some of these fields when specified r
 | &nbsp;&nbsp;&nbsp;&nbsp;ClearingSystemReference `ClrSysRef`        | Reference assigned by the clearing system. |
 
 
-#### Unsuported Fields
+#### Unsupported Fields
 
 Mojaloop is an end-to-end messaging system where messages are signed at each end by the participating organisation. This is imperitive to maintain non-repudiation. The following field therefore are unsupported and if provided will reject the message, as these violate this end-to-end message support.
 

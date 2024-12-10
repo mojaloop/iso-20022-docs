@@ -19,3 +19,6 @@ node generateTables.js  /fxTransfers/{ID} put ./pacs.009.001.11.xsd fxtransfers_
 node generateTables.js  /fxTransfers/{ID}/error put ./pacs.002.001.14.xsd fxtransfers_error_PUT.md ./fxtransfers_error_PUT_template.md ./fspiop-rest-v2.0-ISO20022-openapi3-snippets.yaml 
 node generateTables.js  /fxTransfers/{ID} patch ./pacs.002.001.14.xsd fxtransfers_PATCH.md ./fxtransfers_PATCH_template.md ./fspiop-rest-v2.0-ISO20022-openapi3-snippets.yaml 
 
+
+
+copy ..\MarketPracticeDocument.md+..\MessageDetails.md+parties_GET.md+parties_PUT.md+parties_error_PUT.md+fxquotes_POST.md+fxquotes_PUT.md+fxquotes_error_PUT.md+quotes_POST.md+quotes_PUT.md+quotes_error_PUT.md+fxtransfers_POST.md+fxtransfers_PUT.md+fxtransfers_error_PUT.md+fxtransfers_PATCH.md+transfers_POST.md+transfers_PUT.md+transfers_error_PUT.md+transfers_PATCH.md+..\Appendix.md ..\MarketPracticeDocument_full.md /Y

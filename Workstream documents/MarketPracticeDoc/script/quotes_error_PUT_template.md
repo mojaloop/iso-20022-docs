@@ -1,5 +1,5 @@
 
-### PUT /parties/{type}/{partyIdentifier}[/{subId}]/error
+### PUT /quotes/{ID}/error
 | Financial Institution to Financial Institution Payment Status Report - **pacs.002.001.15**|
 |--|
 
@@ -56,7 +56,7 @@ Here is a list of all the optional fields. Some of these fields when specified r
 
 {{optionalTable}}
 
-#### Unsuported Fields
+#### Unsupported Fields
 
 Mojaloop is an end-to-end messaging system where messages are signed at each end by the participating organisation. This is imperative to maintain non-repudiation. The following field therefore are unsupported and if provided will reject the message, as these violate this end-to-end message support.
 
