@@ -1,4 +1,4 @@
-### PUT /transfers/{ID}
+## 7.15 PUT /transfers/{ID}
 | Financial Institution to Financial Institution Payment Status Report - **pacs.002.001.15**|
 |--|
 

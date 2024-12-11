@@ -1,4 +1,4 @@
-### PUT /Parties/{type}/{partyIdentifier}[/{subId}]
+## 7.2 PUT /Parties/{type}/{partyIdentifier}[/{subId}]
 |**Account Identification Verification Report - acmt.024.001.04**|
 |--|
 
@@ -80,6 +80,11 @@ There are the required fields that are needed by the switch to operate.
 |  * **Rpt** - Report | Information concerning the verification of the identification data for which verification was requested.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **OrgnlId** - OriginalIdentification | Unique identification, as assigned by a sending party, to unambiguously identify the party and account identification information group within the original message.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **Vrfctn** - Verification | Identifies whether the party and/or account information received is correct. Boolean value.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **UpdtdPtyAndAcctId** - UpdatedPartyAndAccountIdentification | Provides party and/or account identification information.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Pty** - Party | Account owner that owes an amount of money or to whom an amount of money is due.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Id** - Identification | Unique and unambiguous way to identify an organisation.<br> |
+| {or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **OrgId** - Organisation | Unique and unambiguous way to identify an organisation.<br> |
+| or}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **PrvtId** - PrivateIdentification | Unique and unambiguous identification of a person, for example a passport.<br> |
 
 
 #### Optional Fields
@@ -119,9 +124,19 @@ Here is a list of all the optional fields. Some of these fields when specified r
 |   Assgnmt.Assgne.Agt.FinInstnId.**PstlAdr** - PostalAddress | Information that locates and identifies a specific address, as defined by postal services.<br> |
 |   Assgnmt.Assgne.Agt.FinInstnId.**Othr** - Other | Unique identification of an agent, as assigned by an institution, using an identification scheme.<br> |
 |   Assgnmt.Assgne.Agt.**BrnchId** - BranchIdentification | Definition: Identifies a specific branch of a financial institution.<br>Usage: This component should be used in case the identification information in the financial institution component does not provide identification up to branch level.<br> |
+|   Rpt.UpdtdPtyAndAcctId.Pty.Id.OrgId.**AnyBIC** - AnyBIC | Business identification code of the organisation.<br> |
+|   Rpt.UpdtdPtyAndAcctId.Pty.Id.OrgId.**LEI** - LEI | Legal entity identification as an alternate identification for a party.<br> |
+|   Rpt.UpdtdPtyAndAcctId.Pty.Id.OrgId.**Othr** - Other | Unique identification of an organisation, as assigned by an institution, using an identification scheme.<br> |
+|   Rpt.UpdtdPtyAndAcctId.Pty.Id.PrvtId.**DtAndPlcOfBirth** - DateAndPlaceOfBirth | Date and place of birth of a person.<br> |
+|   Rpt.UpdtdPtyAndAcctId.Pty.Id.PrvtId.**Othr** - Other | Unique identification of a person, as assigned by an institution, using an identification scheme.<br> |
+|   Rpt.UpdtdPtyAndAcctId.Pty.**Nm** - Name | Name by which a party is known and which is usually used to identify that party.<br> |
+|   Rpt.UpdtdPtyAndAcctId.Pty.**PstlAdr** - PostalAddress | Information that locates and identifies a specific address, as defined by postal services.<br> |
+|   Rpt.UpdtdPtyAndAcctId.Pty.**CtryOfRes** - CountryOfResidence | Country in which a person resides (the place of a person's home). In the case of a company, it is the country from which the affairs of that company are directed.<br> |
+|   Rpt.UpdtdPtyAndAcctId.Pty.**CtctDtls** - ContactDetails | Set of elements used to indicate how to contact the party.<br> |
+|   Rpt.UpdtdPtyAndAcctId.**Acct** - Account | Unambiguous identification of the account of a party.<br> |
+|   Rpt.UpdtdPtyAndAcctId.**Agt** - Agent | Financial institution servicing an account for a party.<br> |
 |   Rpt.**Rsn** - Reason | Specifies the reason why the verified identification information is incorrect.<br> |
 |   Rpt.**OrgnlPtyAndAcctId** - OriginalPartyAndAccountIdentification | Provides party and/or account identification information as given in the original message.<br> |
-|   Rpt.**UpdtdPtyAndAcctId** - UpdatedPartyAndAccountIdentification | Provides party and/or account identification information.<br> |
 |   **SplmtryData** - SupplementaryData | Additional information that cannot be captured in the structured elements and/or any other specific block.<br> |
 
 

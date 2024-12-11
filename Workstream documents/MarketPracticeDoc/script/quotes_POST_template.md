@@ -1,4 +1,4 @@
-### POST /quotes
+## 7.7 POST /quotes
 |**Financial Institution to Financial Institution Customer Credit Transfer Quote Request - pacs.081.001.01**|
 |--|
 

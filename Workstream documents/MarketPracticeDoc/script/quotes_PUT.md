@@ -1,4 +1,4 @@
-### PUT /quotes/{ID}
+## PUT 7.8 /quotes/{ID}
 |Financial Institution to Financial Institution Customer Credit Transfer Quote Response - **pacs.082.001.01**|
 |--|
 
@@ -25,7 +25,8 @@ Here is an example of the message:
     "SttlmInf": { "SttlmMtd": "CLRG" },
     "PmtInstrXpryDtTm": "2024-11-04T12:58:42.450Z"
 },
-"CdtTrfTxInf": { "PmtId": { "TxId": "01JBVM19DFKNRWC21FGJNTHRAT" },
+"CdtTrfTxInf": { 
+    "PmtId": { "TxId": "01JBVM19DFKNRWC21FGJNTHRAT" },
     "Dbtr": { "Id": { "PrvtId": { "Othr": { "SchmeNm": { "Prtry": "MSISDN" },
                                             "Id": "16135551001"}}},
         "Name": "Payer Joe" },
@@ -86,6 +87,7 @@ Here are the required fields that are needed by the switch to operate.
 | &nbsp;&nbsp;&nbsp;&nbsp; * **NbOfTxs** - Number of Transactions | Specifies a numeric string with a maximum length of 15 digits.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **SttlmInf** - Settlement Information | Specifies the details on how the settlement of the original transaction(s) between the<br>instructing agent and the instructed agent was completed.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **SttlmMtd** - SettlementMethodCode | Specifies the method used to settle the credit transfer instruction.<br><br>INDA: Indirect Account<br>INGA: Indirect Agent<br>COVE: Cover<br>CLRG: Clearing<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **PmtInstrXpryDtTm** - Payment Instruction Expiry Date and Time | A particular point in the progression of time defined by a mandatory<br>date and a mandatory time component, expressed in either UTC time<br>format (YYYY-MM-DDThh:mm:ss.sssZ), local time with UTC offset format<br>(YYYY-MM-DDThh:mm:ss.sss+/-hh:mm), or local time format<br>(YYYY-MM-DDThh:mm:ss.sss). These representations are defined in<br>"XML Schema Part 2: Datatypes Second Edition -<br>W3C Recommendation 28 October 2004" which is aligned with ISO 8601.<br><br>Note on the time format:<br>1) beginning / end of calendar day<br>00:00:00 = the beginning of a calendar day<br>24:00:00 = the end of a calendar day<br><br>2) fractions of second in time format<br>Decimal fractions of seconds may be included. In this case, the<br>involved parties shall agree on the maximum number of digits that are allowed.<br> |
 |  * **CdtTrfTxInf** - Credit Transfer Transaction Information | Set of elements providing information specific to the individual credit transfer(s).<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **PmtId** - PaymentIdentification | Set of elements used to reference a payment instruction.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **TxId** - TransactionIdentification (FSPIOP equivalent: quoteId in quote request, transferId in transfer request) | <br>Definition: Unique identification, as assigned by the first instructing agent, to unambiguously identify the<br>transaction that is passed on, unchanged, throughout the entire interbank chain.<br><br>Usage: The transaction identification can be used for reconciliation, tracking or to link tasks relating to<br>the transaction on the interbank level.<br><br>Usage: The instructing agent has to make sure that the transaction identification is unique for a preagreed period.<br><br>This field has been changed from the original ISO20022 `Max35Text`` schema to a ULIDIdentifier schema.<br> |
@@ -105,6 +107,9 @@ Here are the required fields that are needed by the switch to operate.
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Id** - Identification | Unique and unambiguous identification of a party.<br> |
 | {or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **OrgId** - Organisation | Unique and unambiguous way to identify an organisation.<br> |
 | or}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **PrvtId** - Person | Unique and unambiguous identification of a person, for example a passport.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **VrfctnOfTerms** - CryptographicLockChoice | Cryptographically signed terms<br> |
+| {or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **IlpV4PrepPacket** - Interledger Protocol packet (ILPv4) containing Cryptographically signed terms | Interledger Protocol packet (ILPv4) containing Cryptographically signed terms<br> |
+| or}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Sh256Sgntr** - SHA-256 signature of the terms | Specifies a hexadecimal string.<br><br>NOTE: This pattern is not the original ISO20022 specification.<br> |
 
 
 #### Optional Fields
@@ -112,8 +117,6 @@ Here is a list of all the optional fields. Some of these fields when specified r
 
 | **ISO 20022 Field** | **Description** |
 | --- | --- |
-|   GrpHdr.SttlmInf.**PmtTpInf** - PaymentTypeInformation | Provides further details of the type of payment.<br> |
-|   GrpHdr.**PmtInstrXpryDtTm** - Payment Instruction Expiry Date and Time | A particular point in the progression of time defined by a mandatory<br>date and a mandatory time component, expressed in either UTC time<br>format (YYYY-MM-DDThh:mm:ss.sssZ), local time with UTC offset format<br>(YYYY-MM-DDThh:mm:ss.sss+/-hh:mm), or local time format<br>(YYYY-MM-DDThh:mm:ss.sss). These representations are defined in<br>"XML Schema Part 2: Datatypes Second Edition -<br>W3C Recommendation 28 October 2004" which is aligned with ISO 8601.<br><br>Note on the time format:<br>1) beginning / end of calendar day<br>00:00:00 = the beginning of a calendar day<br>24:00:00 = the end of a calendar day<br><br>2) fractions of second in time format<br>Decimal fractions of seconds may be included. In this case, the<br>involved parties shall agree on the maximum number of digits that are allowed.<br> |
 |   CdtTrfTxInf.PmtId.**InstrId** - InstructionIdentification (FSPIOP equivalent: transactionRequestId) | <br>Definition: Unique identification, as assigned by an instructing party for an instructed party, to<br>unambiguously identify the instruction.<br><br>Usage: The instruction identification is a point to point reference that can be used between the<br>instructing party and the instructed party to refer to the individual instruction. It can be included in<br>several messages related to the instruction.<br><br>This field has been changed from the original ISO20022 `Max35Text`` schema to a ULIDIdentifier schema.<br> |
 |   CdtTrfTxInf.PmtId.**EndToEndId** - EndToEndIdentification (FSPIOP equivalent: transactionId) | <br>Definition: Unique identification, as assigned by the initiating party, to unambiguously identify the<br>transaction. This identification is passed on, unchanged, throughout the entire end-to-end chain.<br><br>Usage: The end-to-end identification can be used for reconciliation or to link tasks relating to the<br>transaction. It can be included in several messages related to the transaction.<br><br>Usage: In case there are technical limitations to pass on multiple references, the end-to-end<br>identification must be passed on throughout the entire end-to-end chain.<br><br>This field has been changed from the original ISO20022 `Max35Text`` schema to a ULIDIdentifier schema.<br> |
 |   CdtTrfTxInf.PmtId.**UETR** - UETR | Universally unique identifier to provide an end-to-end reference of a payment transaction.<br> |
@@ -162,7 +165,6 @@ Here is a list of all the optional fields. Some of these fields when specified r
 |   CdtTrfTxInf.**Purp** - Purpose | Underlying reason for the payment transaction.<br> |
 |   CdtTrfTxInf.**RgltryRptg** - RegulatoryReporting | Information needed due to regulatory and statutory requirements.<br> |
 |   CdtTrfTxInf.**Tax** - Tax | Provides details on the tax.<br> |
-|   CdtTrfTxInf.**VrfctnOfTerms** - CryptographicLockChoice | Cryptographically signed terms<br> |
 
 
 #### Unsupported Fields

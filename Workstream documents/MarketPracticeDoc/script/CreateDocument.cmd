@@ -8,7 +8,7 @@ node generateTables.js  /quotes/{ID}/error put ./pacs.002.001.14.xsd quotes_erro
 node generateTables.js  /transfers post ./pacs.008.001.12.xsd transfers_POST.md ./transfers_POST_template.md ./fspiop-rest-v2.0-ISO20022-openapi3-snippets.yaml 
 node generateTables.js  /transfers/{ID} put ./pacs.008.001.12.xsd transfers_PUT.md ./transfers_PUT_template.md ./fspiop-rest-v2.0-ISO20022-openapi3-snippets.yaml 
 node generateTables.js  /transfers/{ID}/error put ./pacs.002.001.14.xsd transfers_error_PUT.md ./transfers_error_PUT_template.md ./fspiop-rest-v2.0-ISO20022-openapi3-snippets.yaml 
-node generateTables.js  /transfers/{ID} patch ./pacs.002.001.14.xsd transfers_PATCH.md ./transfers_error_PUT_template.md ./fspiop-rest-v2.0-ISO20022-openapi3-snippets.yaml 
+node generateTables.js  /transfers/{ID} patch ./pacs.002.001.14.xsd transfers_PATCH.md ./transfers_PATCH_template.md ./fspiop-rest-v2.0-ISO20022-openapi3-snippets.yaml 
 
 node generateTables.js  /fxQuotes post ./pacs.009.001.11.xsd fxquotes_POST.md ./fxquotes_POST_template.md ./fspiop-rest-v2.0-ISO20022-openapi3-snippets.yaml 
 node generateTables.js  /fxQuotes/{ID} put ./pacs.009.001.11.xsd fxquotes_PUT.md ./fxquotes_PUT_template.md ./fspiop-rest-v2.0-ISO20022-openapi3-snippets.yaml 

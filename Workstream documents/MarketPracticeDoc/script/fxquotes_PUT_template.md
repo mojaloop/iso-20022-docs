@@ -1,4 +1,4 @@
-### PUT /fxQuotes/{ID}
+## 7.5 PUT /fxQuotes/{ID}
 |Financial Institution Credit Transfer Quote Response - **pacs.092.001.01**|
 |--|
 

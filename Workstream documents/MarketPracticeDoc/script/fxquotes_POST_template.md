@@ -1,4 +1,4 @@
-### POST /fxQuotes/
+## 7.4 POST /fxQuotes/
 | Financial Institution Credit Transfer Quote Request - **pacs.091.001.01**|
 |--|
 

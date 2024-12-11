@@ -1,4 +1,4 @@
-### PATCH /transfers/{ID}
+## 7.17 PATCH /transfers/{ID}
 | Financial Institution to Financial Institution Payment Status Report - **pacs.002.001.15**|
 |--|
 

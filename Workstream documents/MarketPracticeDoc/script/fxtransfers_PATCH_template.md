@@ -1,4 +1,4 @@
-### PATCH /fxTransfers/{ID}
+## 7.13 PATCH /fxTransfers/{ID}
 | Financial Institution to Financial Institution Payment Status Report - **pacs.002.001.15**|
 |--|
 
@@ -16,7 +16,7 @@ Here is an example of the message:
 "TxInfAndSts":{
     "PrcgDt":{
         "DtTm":"2024-11-04T12:57:45.213Z"},
-        "TxSts":"COMM"}
+    "TxSts":"COMM"}
 }
 ```
 

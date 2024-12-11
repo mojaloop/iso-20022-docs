@@ -1,4 +1,4 @@
-### PUT /quotes/{ID}
+## PUT 7.8 /quotes/{ID}
 |Financial Institution to Financial Institution Customer Credit Transfer Quote Response - **pacs.082.001.01**|
 |--|
 
@@ -25,7 +25,8 @@ Here is an example of the message:
     "SttlmInf": { "SttlmMtd": "CLRG" },
     "PmtInstrXpryDtTm": "2024-11-04T12:58:42.450Z"
 },
-"CdtTrfTxInf": { "PmtId": { "TxId": "01JBVM19DFKNRWC21FGJNTHRAT" },
+"CdtTrfTxInf": { 
+    "PmtId": { "TxId": "01JBVM19DFKNRWC21FGJNTHRAT" },
     "Dbtr": { "Id": { "PrvtId": { "Othr": { "SchmeNm": { "Prtry": "MSISDN" },
                                             "Id": "16135551001"}}},
         "Name": "Payer Joe" },

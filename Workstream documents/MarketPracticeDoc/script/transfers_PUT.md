@@ -1,4 +1,4 @@
-### PUT /transfers/{ID}
+## 7.15 PUT /transfers/{ID}
 | Financial Institution to Financial Institution Payment Status Report - **pacs.002.001.15**|
 |--|
 
@@ -58,6 +58,12 @@ Here are the required fields that are needed by the switch to operate.
 |  * **GrpHdr** - Set of characteristics shared by all individual transactions included in the message. | Set of characteristics shared by all individual transactions included in the message.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **MsgId** - MessageIdentification | Definition: Point to point reference, as assigned by the instructing party, and sent to the next party in the chain to unambiguously identify the message.<br>Usage: The instructing party has to make sure that MessageIdentification is unique per instructed party for a pre-agreed period.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **CreDtTm** - CreationDateTime | Date and time at which the message was created.<br> |
+|  * **TxInfAndSts** - Information concerning the original transactions, to which the status report message refers. | Provides further details on the original transactions, to which the status report message refers.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **ExctnConf** - Unique reference, as assigned by the account servicing institution, to unambiguously identify the confirmation. | Specifies a hexadecimal string.<br><br>NOTE: This pattern is not the original ISO20022 specification.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **PrcgDt** - Date/time at which the instruction was processed by the specified party. | Specifies the reason for the status.<br> |
+| {or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Dt** - Date | Specified date.<br> |
+| or}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **DtTm** - DateTime | Specified date and time.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **TxSts** - Specifies the status of the transaction. | Specifies the external payment transaction status code.<br><br>For FSPIOP transfer state enumeration mappings:<br>{<br>  "COMM": "COMMITED",<br>  "RESV": "RESERVED",<br>  "RECV": "RECEIVED",<br>  "ABOR": "ABORTED"<br>}<br><br>NOTE: enum enforcement is not apart of the ISO20022 specification, but is added here for FSPIOP mappings.<br> |
 
 
 
@@ -66,7 +72,16 @@ Here is a list of all the optional fields. Some of these fields when specified r
 
 | **ISO 20022 Field** | **Description** |
 | --- | --- |
-|   **TxInfAndSts** - Information concerning the original transactions, to which the status report message refers. | Provides further details on the original transactions, to which the status report message refers.<br> |
+|   TxInfAndSts.**StsId** - Unique identification, as assigned by the original sending party, to unambiguously identify the status report. | Specifies a character string with a maximum length of 35 characters.<br> |
+|   TxInfAndSts.**OrgnlInstrId** - Unique identification, as assigned by the original sending party, to | unambiguously identify the original instruction.<br><br>(FSPIOP equivalent: transactionRequestId)<br> |
+|   TxInfAndSts.**OrgnlEndToEndId** - Unique identification, as assigned by the original sending party, to | unambiguously identify the original end-to-end transaction.<br><br>(FSPIOP equivalent: transactionId)<br> |
+|   TxInfAndSts.**OrgnlTxId** - Unique identification, as assigned by the original sending party, to | unambiguously identify the original transaction.<br><br>(FSPIOP equivalent: quoteId)<br> |
+|   TxInfAndSts.**OrgnlUETR** - Unique end-to-end transaction reference, as assigned by the original sending party, to unambiguously identify the original transaction. | Unique end-to-end transaction reference, as assigned by the original sending party, to unambiguously identify the original transaction.<br> |
+|   TxInfAndSts.**StsRsnInf** - Information concerning the reason for the status. | Unsure on description.<br> |
+|   TxInfAndSts.**AccptncDtTm** - Date and time at which the status was accepted. | A particular point in the progression of time defined by a mandatory<br>date and a mandatory time component, expressed in either UTC time<br>format (YYYY-MM-DDThh:mm:ss.sssZ), local time with UTC offset format<br>(YYYY-MM-DDThh:mm:ss.sss+/-hh:mm), or local time format<br>(YYYY-MM-DDThh:mm:ss.sss). These representations are defined in<br>"XML Schema Part 2: Datatypes Second Edition -<br>W3C Recommendation 28 October 2004" which is aligned with ISO 8601.<br><br>Note on the time format:<br>1) beginning / end of calendar day<br>00:00:00 = the beginning of a calendar day<br>24:00:00 = the end of a calendar day<br><br>2) fractions of second in time format<br>Decimal fractions of seconds may be included. In this case, the<br>involved parties shall agree on the maximum number of digits that are allowed.<br> |
+|   TxInfAndSts.**AcctSvcrRef** - Unique reference, as assigned by the account servicing institution, to unambiguously identify the status report. | Specifies a character string with a maximum length of 35 characters.<br> |
+|   TxInfAndSts.**ClrSysRef** - Reference that is assigned by the account servicing institution and sent to the account owner to unambiguously identify the transaction. | Specifies a character string with a maximum length of 35 characters.<br> |
+|   TxInfAndSts.**SplmtryData** - Additional information that cannot be captured in the structured elements and/or any other specific block. | Additional information that cannot be captured in the structured fields and/or any other specific block.<br> |
 |   **SplmtryData** - Additional information that cannot be captured in the structured elements and/or any other specific block. | Additional information that cannot be captured in the structured fields and/or any other specific block.<br> |
 
 

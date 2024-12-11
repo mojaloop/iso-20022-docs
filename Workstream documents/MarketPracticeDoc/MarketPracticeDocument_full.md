@@ -1,102 +1,115 @@
 # Mojaloop ISO 20022 Market Practice Document
 
-<!-- TOC depthfrom:2 depthto:3 orderedlist:true -->
+<!-- TOC depthfrom:1 depthto:3 orderedlist:true -->
 
-- [1.1. How to Use This Document?](#11-how-to-use-this-document)
-    - [1.1.1. Relationship with Scheme-Specific Rules Documents](#111-relationship-with-scheme-specific-rules-documents)
-    - [1.1.2. Distinction Between Generic Practices and Scheme-Specific Requirements](#112-distinction-between-generic-practices-and-scheme-specific-requirements)
-- [1.2. Message Expectations, Obligations, and Rules](#12-message-expectations-obligations-and-rules)
-    - [1.2.1. Currency Conversion](#121-currency-conversion)
-    - [1.2.2. JSON Messages](#122-json-messages)
-    - [1.2.3. APIs](#123-apis)
-    - [1.2.4. ULIDs as Unique Identifiers](#124-ulids-as-unique-identifiers)
-    - [1.2.5. Inter-ledger Protocol v4 to represent the Cryptographic Terms](#125-inter-ledger-protocol-v4-to-represent-the-cryptographic-terms)
-    - [1.2.6. ISO 20022 Supplementary Data Fields](#126-iso-20022-supplementary-data-fields)
-- [1.3. Discovery Phase](#13-discovery-phase)
-    - [1.3.1. Message flow](#131-message-flow)
-    - [1.3.2. Parties Resource](#132-parties-resource)
-- [1.4. Agreement Phase](#14-agreement-phase)
-    - [1.4.1. Currency Conversion Agreement Sub-Phase](#141-currency-conversion-agreement-sub-phase)
-    - [1.4.2. Transfer Terms Agreement Sub-Phase](#142-transfer-terms-agreement-sub-phase)
-- [1.5. Transfer Phase](#15-transfer-phase)
-    - [1.5.1. Accepting Currency Conversion terms](#151-accepting-currency-conversion-terms)
-    - [1.5.2. Transfer Execution and Clearing](#152-transfer-execution-and-clearing)
-- [1.6. API Message Details](#16-api-message-details)
-    - [1.6.1. GET /parties/{type}/{partyIdentifier}[/{subId}]](#161-get-partiestypepartyidentifiersubid)
-    - [1.6.2. PUT /Parties/{type}/{partyIdentifier}[/{subId}]](#162-put-partiestypepartyidentifiersubid)
-    - [1.6.3. PUT /parties/{type}/{partyIdentifier}[/{subId}]/error](#163-put-partiestypepartyidentifiersubiderror)
-    - [1.6.4. POST /fxQuotes/](#164-post-fxquotes)
-    - [1.6.5. PUT /fxQuotes/{ID}](#165-put-fxquotesid)
-    - [1.6.6. PUT /fxQuotes/{ID}/error](#166-put-fxquotesiderror)
-    - [1.6.7. POST /quotes](#167-post-quotes)
-    - [1.6.8. PUT /quotes/{ID}](#168-put-quotesid)
-    - [1.6.9. PUT /quotes/{ID}/error](#169-put-quotesiderror)
-    - [1.6.10. POST /fxTransfers](#1610-post-fxtransfers)
-    - [1.6.11. PUT /fxTransfers/{ID}](#1611-put-fxtransfersid)
-    - [1.6.12. PUT /fxTransfers/{ID}/error](#1612-put-fxtransfersiderror)
-    - [1.6.13. PATCH /fxTransfers/{ID}](#1613-patch-fxtransfersid)
-    - [1.6.14. POST /transfers](#1614-post-transfers)
-    - [1.6.15. PUT /transfers/{ID}](#1615-put-transfersid)
-    - [1.6.16. PUT /transfers/{ID}/error](#1616-put-transfersiderror)
-    - [1.6.17. PUT /transfers/{ID}/error](#1617-put-transfersiderror)
-- [1.7. Appendix A: Payment Identifier Type Codes](#17-appendix-a-payment-identifier-type-codes)
-    - [1.7.1. FSPIOP Identifier types](#171-fspiop-identifier-types)
-    - [1.7.2. Personal Identifier Code Table](#172-personal-identifier-code-table)
-    - [1.7.3. Organisation Identifier Code Table](#173-organisation-identifier-code-table)
+- [1. Mojaloop ISO 20022 Market Practice Document](#1-mojaloop-iso-20022-market-practice-document)
+- [2. Introduction](#2-introduction)
+    - [2.1. How to Use This Document?](#21-how-to-use-this-document)
+        - [2.1.1. Relationship with Scheme-Specific Rules Documents](#211-relationship-with-scheme-specific-rules-documents)
+        - [2.1.2. Distinction Between Generic Practices and Scheme-Specific Requirements](#212-distinction-between-generic-practices-and-scheme-specific-requirements)
+- [3. Message Expectations, Obligations, and Rules](#3-message-expectations-obligations-and-rules)
+    - [3.1. Currency Conversion](#31-currency-conversion)
+    - [3.2. JSON Messages](#32-json-messages)
+    - [3.3. APIs](#33-apis)
+    - [3.4. ULIDs as Unique Identifiers](#34-ulids-as-unique-identifiers)
+    - [3.5. Inter-ledger Protocol v4 to represent the Cryptographic Terms](#35-inter-ledger-protocol-v4-to-represent-the-cryptographic-terms)
+    - [3.6. ISO 20022 Supplementary Data Fields](#36-iso-20022-supplementary-data-fields)
+- [4. Discovery Phase](#4-discovery-phase)
+    - [4.1. Message flow](#41-message-flow)
+    - [4.2. Parties Resource](#42-parties-resource)
+- [5. Agreement Phase](#5-agreement-phase)
+    - [5.1. Currency Conversion Agreement Sub-Phase](#51-currency-conversion-agreement-sub-phase)
+        - [5.1.1. Message flow](#511-message-flow)
+        - [5.1.2. fxQuotes Resource](#512-fxquotes-resource)
+    - [5.2. Transfer Terms Agreement Sub-Phase](#52-transfer-terms-agreement-sub-phase)
+        - [5.2.1. Message flow](#521-message-flow)
+        - [5.2.2. Quotes Resource](#522-quotes-resource)
+- [6. Transfer Phase](#6-transfer-phase)
+    - [6.1. Accepting Currency Conversion terms](#61-accepting-currency-conversion-terms)
+        - [6.1.1. Message flow](#611-message-flow)
+        - [6.1.2. fxTransfers Resource](#612-fxtransfers-resource)
+    - [6.2. Transfer Execution and Clearing](#62-transfer-execution-and-clearing)
+        - [6.2.1. Message flow](#621-message-flow)
+        - [6.2.2. Transfers Resource](#622-transfers-resource)
+- [7. API Message Details](#7-api-message-details)
+    - [7.1. GET /parties/{type}/{partyIdentifier}[/{subId}]](#71-get-partiestypepartyidentifiersubid)
+    - [7.2. PUT /Parties/{type}/{partyIdentifier}[/{subId}]](#72-put-partiestypepartyidentifiersubid)
+    - [7.3. PUT /parties/{type}/{partyIdentifier}[/{subId}]/error](#73-put-partiestypepartyidentifiersubiderror)
+    - [7.4. POST /fxQuotes/](#74-post-fxquotes)
+    - [7.5. PUT /fxQuotes/{ID}](#75-put-fxquotesid)
+    - [7.6. PUT /fxQuotes/{ID}/error](#76-put-fxquotesiderror)
+    - [7.7. POST /quotes](#77-post-quotes)
+    - [7.8. PUT 7.8 /quotes/{ID}](#78-put-78-quotesid)
+    - [7.9. PUT /quotes/{ID}/error](#79-put-quotesiderror)
+    - [7.10. POST /fxTransfers](#710-post-fxtransfers)
+    - [7.11. PUT /fxTransfers/{ID}](#711-put-fxtransfersid)
+    - [7.12. PUT /fxTransfers/{ID}/error](#712-put-fxtransfersiderror)
+    - [7.13. PATCH /fxTransfers/{ID}](#713-patch-fxtransfersid)
+    - [7.14. POST /transfers](#714-post-transfers)
+    - [7.15. PUT /transfers/{ID}](#715-put-transfersid)
+    - [7.16. PUT /transfers/{ID}/error](#716-put-transfersiderror)
+    - [7.17. PATCH /transfers/{ID}](#717-patch-transfersid)
+- [8. Appendix A: Payment Identifier Type Codes](#8-appendix-a-payment-identifier-type-codes)
+    - [8.1. FSPIOP Identifier types](#81-fspiop-identifier-types)
+    - [8.2. Personal Identifier Code Table](#82-personal-identifier-code-table)
+    - [8.3. Organisation Identifier Code Table](#83-organisation-identifier-code-table)
 
 <!-- /TOC -->
+  
+
+# 2. Introduction
 
 By combining the principles of financial inclusion with the robust capabilities of ISO 20022, Mojaloop ensures that DFSPs and other stakeholders can deliver real-time payment solutions that are cost-effective, secure, and scalable to meet the demands of inclusive financial ecosystems.
 
-## How to Use This Document?
+## 2.1 How to Use This Document?
 This document provides a foundational reference for implementing ISO 20022 messaging for IIPS within Mojaloop-based schemes. It outlines general guidelines and practices that apply universally across Mojaloop schemes, focusing on the base-level requirements. However, it is designed to be supplemented by scheme-specific rules documents, which can define additional message fields, validations, and rules necessary to meet the unique regulations and requirements of individual schemes. This layered approach enables each scheme to tailor its implementation details while maintaining consistency with the broader Mojaloop framework.
 
-### Relationship with Scheme-Specific Rules Documents
+### 2.1.1 Relationship with Scheme-Specific Rules Documents
 This document serves as a foundation for understanding how ISO 20022 is applied in Mojaloop, focusing on core principles and practices. However, it does not prescribe the detailed business requirements, validations, and governance frameworks that are specific to individual schemes. Scheme-specific rules address these details, including mandatory and optional field specifications, tailored compliance protocols, and defined procedures for error handling. They also encompass business rules governing message flows, participant roles, and responsibilities within the scheme. The flexibility of this document allows scheme administrators to adapt and extend its guidance to meet their unique operational needs.
 
-### Distinction Between Generic Practices and Scheme-Specific Requirements
+### 2.1.2 Distinction Between Generic Practices and Scheme-Specific Requirements
 This document distinctly separates generic practices from scheme-specific requirements to achieve a balance between consistency and adaptability in ISO 20022 implementations within Mojaloop. The generic practices outlined here establish foundational principles, including expectations for message structures, required fields to meet switch requirements, supported fields, and transactional flows. Additionally, they provide a high-level overview of the Mojaloop P2P FX transfer lifecycle.
 
 Scheme-specific requirements, documented separately, delve into additional field mappings, enhanced validations, and precise rules for settlement, reconciliation, and dispute resolution. These requirements also encompass governance policies and compliance obligations tailored to the unique needs of individual schemes.
 
 This distinction enables DFSPs to implement a consistent core messaging framework while granting scheme administrators the flexibility to define operational specifics. The generic practices presented in this document are purposefully designed to be extensible, ensuring seamless integration with scheme-specific rules and supporting adherence to Mojaloop’s ISO 20022 for IIPS standards.
 
-## Message Expectations, Obligations, and Rules
+# 3 Message Expectations, Obligations, and Rules
 The Mojaloop transfer process is divided into three key phases, each essential to ensuring secure and efficient transactions. These phases use specific resources to enable participant interactions, ensuring clear communication, agreement, and execution. While some phases and resources are optional, the ultimate goal is to ensure every transfer is accurate, secure, and aligns with agreed terms. 
 1. [Discovery](#discovery-phase)
 2. [Agreement](#agreement-phase)
 3. [Transfer](#transfer-phase)
 
-### Currency Conversion
+## 3.1 Currency Conversion
 Currency conversion is included to support cross-currency transactions. As it is not always required, the associated messages and flows are only used when needed, ensuring flexibility for both single-currency and multi-currency scenarios.
 
-### JSON Messages
+## 3.2 JSON Messages
 Mojaloop adopts a JSON variant of ISO 20022 messages, moving away from the traditional XML format to enhance efficiency and compatibility with modern APIs. The ISO 20022 organization is actively developing a canonical JSON representation of its messages, and Mojaloop aims to align with this standard as it evolves.
 
-### APIs
+## 3.3 APIs
 ISO 20022 messages are exchanged in Mojaloop via REST-like API calls. This approach enhances interoperability, reduces data overhead through lightweight JSON messages, and supports scalable and modular implementations. By integrating ISO 20022 with REST APIs, Mojaloop delivers a robust, adaptable framework that balances global standards with practical implementation needs. 
 
-### ULIDs as Unique Identifiers
+## 3.4 ULIDs as Unique Identifiers
 Mojaloop employs Universally Unique Lexicographically Sortable Identifiers (ULIDs) as the standard for unique identifiers across its messaging system. ULIDs offer a robust alternative to traditional UUIDs, ensuring globally unique identifiers while also enabling natural ordering by time of creation. This lexicographical sorting simplifies traceability, troubleshooting, and operational analytics.
 
-### Inter-ledger Protocol (v4) to represent the Cryptographic Terms
+## 3.5 Inter-ledger Protocol (v4) to represent the Cryptographic Terms
 Mojaloop leverages the Inter-ledger Protocol (ILP) version 4 to define and represent cryptographic terms in its transfer processes. ILP v4 provides a standardized framework for secure and interoperable exchange of payment instructions, ensuring integrity and non-repudiation of transactions. By integrating ILP's cryptographic capabilities, Mojaloop supports precise and tamper-proof agreements between participants, enabling secure end-to-end transfer execution while maintaining compatibility with global payment ecosystems.
 
-### ISO 20022 Supplementary Data Fields
+## 3.6 ISO 20022 Supplementary Data Fields
 
 It is not expected that ISO 20022 supplementary data fields will be required for any of the messages used. If supplementary data is provided, the switch will not reject the message; however, it will ignore its contents and behave as if the supplementary data was not present.
 
 <div style="page-break-before:always"></div>
 
-## Discovery Phase
+# 4. Discovery Phase
 The Discovery Phase is an optional step in the transfer process, necessary only when the payee (end party) must be identified and confirmed before initiating an agreement. This phase utilizes the parties resource, which facilitates the retrieval and validation of the payee’s information to ensure they are eligible to receive the transfer. Key checks performed during this phase include verifying that the payee's account is active, identifying the currencies that can be transferred into the account, and confirming the account owner’s details. This information allows the payer to verify the payee's details accurately, reducing the risk of errors and ensuring a secure foundation for the subsequent phases of the transfer process.
 
-### Message flow
+## 4.1 Message flow
 
 The sequence diagram shows the discovery example messages in a Payer initiated P2P transfer.
 ![Discovery Flow](./SequenceDiagrams/Discovery.svg)
 
-### Parties Resource
+## 4.2 Parties Resource
 The Parties resource provides all the necessary functionality in the discovery phase of a transfer. The functionality is always initiated with a GET /parties call, and responses to this are returned to the originator through a PUT /parties callback. Error messages are returned through the PUT /parties/.../error callback. These endpoints support an optional sub id type.
 
 
@@ -108,7 +121,7 @@ The Parties resource provides all the necessary functionality in the discovery p
 
 <div style="page-break-before:always"></div>
 
-## Agreement Phase
+# 5. Agreement Phase
 The **Agreement Phase** is a critical step in the Mojaloop transfer process, ensuring that all parties involved have a shared understanding of the transfer terms before any funds are committed. This phase serves several essential purposes:
 1. **Calculation and Agreement of Fees**<br>
 The Agreement Phase provides an opportunity for the calculation and mutual agreement on any applicable fees. This ensures transparency and prevents disputes related to charges after the transfer is initiated.
@@ -123,16 +136,16 @@ The Agreement Phase not only improves the reliability and efficiency of Mojaloop
 
 The agreement phase is further divided into two phases. 
 
-### Currency Conversion Agreement Sub-Phase
+## 5.1 Currency Conversion Agreement Sub-Phase
 The Currency Conversion Agreement Sub-Phase is an optional step within the Agreement Phase, activated only when the transfer involves a currency conversion. During this sub-phase, the payer DFSP (Digital Financial Services Provider) coordinates with a foreign exchange (FX) provider to secure cross-currency liquidity required to complete the transaction. This step establishes the FX rates and associated fees, ensuring that both the DFSP and the FXP can rely on transparent and agreed-upon conversion terms. By addressing currency conversion needs before committing to the transfer, this sub-phase helps prevent delays and discrepancies, supporting a seamless cross-border transaction experience.
 
-#### Message flow
+### 5.1.1 Message flow
 
 
 The sequence diagram shows the discovery example messages in a Payer initiated P2P transfer.
 ![Agreement Conversion Flow](./SequenceDiagrams/AgreementConversion.svg)
 
-#### fxQuotes Resource
+### 5.1.2 fxQuotes Resource
 
 | Endpoint | Message |
 |--- | --- |
@@ -140,15 +153,15 @@ The sequence diagram shows the discovery example messages in a Payer initiated P
 |[PUT /fxQuotes/{ID}](./script/fxquotes_PUT.md) | **pacs.092.001** |
 |[PUT /fxQuotes/{ID}/error](./script/fxquotes_error_PUT.md) | **pacs.002.001.15** |
 
-### Transfer Terms Agreement Sub-Phase
+## 5.2 Transfer Terms Agreement Sub-Phase
 The End-to-End Terms Agreement Sub-Phase involves the collaborative establishment of the transfer terms between the payer DFSP and the payee DFSP. This process ensures both parties are aligned on critical details such as the amount to be transferred, fees, and timing requirements. This sub-phase also facilitates the cryptographic signing of these terms, providing a robust framework for non-repudiation and accountability. By finalizing the transfer terms in a transparent manner, this sub-phase minimizes the risk of errors or disputes, enhancing the efficiency and trustworthiness of the overall Mojaloop transfer process.
 
-#### Message flow
+### 5.2.1 Message flow
 
 The sequence diagram shows the discovery example messages in a Payer initiated P2P transfer.
 ![Agreement Flow](./SequenceDiagrams/Agreement.svg)
 
-#### Quotes Resource
+### 5.2.2 Quotes Resource
 
 | Endpoint | Message |
 |--- | --- |
@@ -158,19 +171,19 @@ The sequence diagram shows the discovery example messages in a Payer initiated P
 
 <div style="page-break-before:always"></div>
 
-## Transfer Phase
+# 6. Transfer Phase
 Once the agreements have been successfully established during the Agreement Phase, accepting these terms triggers the Transfer Phase, where the actual movement of funds occurs. This phase is executed with precision to ensure that the agreed terms are honored, and all participants fulfill their commitments. The Transfer Phase is divided into two sub-phases: the Currency Conversion Execution Sub-Phase and the Transfer Clearing Sub-Phase, each corresponding to its respective sub-phase in the Agreement Phase.
 
-### Accepting Currency Conversion terms
+## 6.1 Accepting Currency Conversion terms
 The Currency Conversion Execution Sub-Phase occurs if the transfer involves a currency exchange. In this step, the foreign exchange provider, as agreed during the Agreement Phase, executes the currency conversion. The liquidity required for the cross-currency transfer is provided, and the converted funds are prepared for onward movement to the payee DFSP. This sub-phase is an opportunity for the FXP to ensure that the FX rates and fees agreed upon earlier are adhered to, safeguarding the transaction's financial integrity and transparency.
 
-#### Message flow
+### 6.1.1 Message flow
 
 
 The sequence diagram shows the transfer example messages in a Payer initiated P2P transfer.
 ![Conversion Transfer Flow](./SequenceDiagrams/ConversionTransfer.svg)
 
-#### fxTransfers Resource
+### 6.1.2 fxTransfers Resource
 
 | Endpoint | Message |
 |--- | --- |
@@ -179,16 +192,16 @@ The sequence diagram shows the transfer example messages in a Payer initiated P2
 |[PUT /fxTransfers/{ID}/error](./script/fxtransfers_error_PUT.md) | **pacs.002.001.15** |
 |[PATCH /fxTransfers/{ID}/error](./script/fxtransfers_PATCH.md) | **pacs.002.001.15** |
 
-### Transfer Execution and Clearing 
+## 6.2 Transfer Execution and Clearing 
 The Funds Settlement Sub-Phase involves the actual transfer of funds between the payer DFSP and the payee DFSP. This step ensures that the amount agreed upon, including any associated fees, is accurately cleared in the appropriate accounts. This sub-phase completes the financial transaction, fulfilling the commitments made during the Agreement Phase. Through secure and efficient fund movement mechanisms, this sub-phase ensures that the transfer is completed smoothly and in compliance with the agreed terms.
 
-#### Message flow
+### 6.2.1 Message flow
 
 
 The sequence diagram shows the discovery example messages in a Payer initiated P2P transfer.
 ![Transfer Flow](./SequenceDiagrams/Transfer.svg)
 
-#### Transfers Resource
+### 6.2.2 Transfers Resource
 
 | Endpoint | Message |
 |--- | --- |
@@ -200,9 +213,9 @@ The sequence diagram shows the discovery example messages in a Payer initiated P
 
 
 
-## API Message Details
+# 7. API Message Details
 
-### GET /parties/{type}/{partyIdentifier}[/{subId}]
+## GET /parties/{type}/{partyIdentifier}[/{subId}]
 The GET /parties endpoint does not support or require a payload, and can be seen as an instruction to trigger an Account identification Verification report.
 - **{type}** - Party identifier types<br>
 The **{type}** refers to the classification of the party Identifier type. Each scheme only supports a limited number of these codes. The codes supported by the scheme may be derived from the ISO 20022 external organisation or personal identification codes, or they could be FSPIOP supported codes. The full list of supported codes is available in the [**Appendix A**](#appendix_A).
@@ -234,7 +247,7 @@ All error responses return a common payload structure that includes a specific m
 
 This common error payload helps clients understand the nature of the error and take appropriate actions.
 
-### PUT /Parties/{type}/{partyIdentifier}[/{subId}]
+## 7.2 PUT /Parties/{type}/{partyIdentifier}[/{subId}]
 |**Account Identification Verification Report - acmt.024.001.04**|
 |--|
 
@@ -316,6 +329,11 @@ There are the required fields that are needed by the switch to operate.
 |  * **Rpt** - Report | Information concerning the verification of the identification data for which verification was requested.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **OrgnlId** - OriginalIdentification | Unique identification, as assigned by a sending party, to unambiguously identify the party and account identification information group within the original message.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **Vrfctn** - Verification | Identifies whether the party and/or account information received is correct. Boolean value.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **UpdtdPtyAndAcctId** - UpdatedPartyAndAccountIdentification | Provides party and/or account identification information.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Pty** - Party | Account owner that owes an amount of money or to whom an amount of money is due.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Id** - Identification | Unique and unambiguous way to identify an organisation.<br> |
+| {or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **OrgId** - Organisation | Unique and unambiguous way to identify an organisation.<br> |
+| or}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **PrvtId** - PrivateIdentification | Unique and unambiguous identification of a person, for example a passport.<br> |
 
 
 #### Optional Fields
@@ -355,9 +373,19 @@ Here is a list of all the optional fields. Some of these fields when specified r
 |   Assgnmt.Assgne.Agt.FinInstnId.**PstlAdr** - PostalAddress | Information that locates and identifies a specific address, as defined by postal services.<br> |
 |   Assgnmt.Assgne.Agt.FinInstnId.**Othr** - Other | Unique identification of an agent, as assigned by an institution, using an identification scheme.<br> |
 |   Assgnmt.Assgne.Agt.**BrnchId** - BranchIdentification | Definition: Identifies a specific branch of a financial institution.<br>Usage: This component should be used in case the identification information in the financial institution component does not provide identification up to branch level.<br> |
+|   Rpt.UpdtdPtyAndAcctId.Pty.Id.OrgId.**AnyBIC** - AnyBIC | Business identification code of the organisation.<br> |
+|   Rpt.UpdtdPtyAndAcctId.Pty.Id.OrgId.**LEI** - LEI | Legal entity identification as an alternate identification for a party.<br> |
+|   Rpt.UpdtdPtyAndAcctId.Pty.Id.OrgId.**Othr** - Other | Unique identification of an organisation, as assigned by an institution, using an identification scheme.<br> |
+|   Rpt.UpdtdPtyAndAcctId.Pty.Id.PrvtId.**DtAndPlcOfBirth** - DateAndPlaceOfBirth | Date and place of birth of a person.<br> |
+|   Rpt.UpdtdPtyAndAcctId.Pty.Id.PrvtId.**Othr** - Other | Unique identification of a person, as assigned by an institution, using an identification scheme.<br> |
+|   Rpt.UpdtdPtyAndAcctId.Pty.**Nm** - Name | Name by which a party is known and which is usually used to identify that party.<br> |
+|   Rpt.UpdtdPtyAndAcctId.Pty.**PstlAdr** - PostalAddress | Information that locates and identifies a specific address, as defined by postal services.<br> |
+|   Rpt.UpdtdPtyAndAcctId.Pty.**CtryOfRes** - CountryOfResidence | Country in which a person resides (the place of a person's home). In the case of a company, it is the country from which the affairs of that company are directed.<br> |
+|   Rpt.UpdtdPtyAndAcctId.Pty.**CtctDtls** - ContactDetails | Set of elements used to indicate how to contact the party.<br> |
+|   Rpt.UpdtdPtyAndAcctId.**Acct** - Account | Unambiguous identification of the account of a party.<br> |
+|   Rpt.UpdtdPtyAndAcctId.**Agt** - Agent | Financial institution servicing an account for a party.<br> |
 |   Rpt.**Rsn** - Reason | Specifies the reason why the verified identification information is incorrect.<br> |
 |   Rpt.**OrgnlPtyAndAcctId** - OriginalPartyAndAccountIdentification | Provides party and/or account identification information as given in the original message.<br> |
-|   Rpt.**UpdtdPtyAndAcctId** - UpdatedPartyAndAccountIdentification | Provides party and/or account identification information.<br> |
 |   **SplmtryData** - SupplementaryData | Additional information that cannot be captured in the structured elements and/or any other specific block.<br> |
 
 
@@ -411,7 +439,7 @@ All error responses return a common payload structure that includes a specific m
 This common error payload helps clients understand the nature of the error and take appropriate actions.
 
 
-### PUT /parties/{type}/{partyIdentifier}[/{subId}]/error
+## 7.3 PUT /parties/{type}/{partyIdentifier}[/{subId}]/error
 |**Account Identification Verification Report - acmt.024.001.04**|
 |--|
 
@@ -424,7 +452,7 @@ Here is an example of the message:
 ```json
 {
   "Assgnmt": {
-  "MsgId": "01JBVM14S6SC453EY9XB9GXQBW",
+    "MsgId": "01JBVM14S6SC453EY9XB9GXQBW",
     "CreDtTm": "2013-03-07T16:30:00",
     "Assgnr": { "Agt": { "FinInstnId": { "Othr": { "Id": "payee-dfsp" } } } },
     "Assgne": { "Agt": { "FinInstnId": { "Othr": { "Id": "payer-dfsp" } } } }
@@ -488,6 +516,9 @@ Here are the required fields that are needed by the switch to operate.
 |  * **Rpt** - Report | Information concerning the verification of the identification data for which verification was requested.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **OrgnlId** - OriginalIdentification | Unique identification, as assigned by a sending party, to unambiguously identify the party and account identification information group within the original message.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **Vrfctn** - Verification | Identifies whether the party and/or account information received is correct. Boolean value.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **Rsn** - Reason | Specifies the reason why the verified identification information is incorrect.<br> |
+| {or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Cd** - Code | Reason why the verified identification information is incorrect, as published in an external reason code list.<br> |
+| or}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Prtry** - Proprietary | Reason why the verified identification information is incorrect, in a free text form.<br> |
 
 
 
@@ -528,7 +559,6 @@ Here is a list of all the optional fields. Some of these fields when specified r
 |   Assgnmt.Assgne.Agt.FinInstnId.**PstlAdr** - PostalAddress | Information that locates and identifies a specific address, as defined by postal services.<br> |
 |   Assgnmt.Assgne.Agt.FinInstnId.**Othr** - Other | Unique identification of an agent, as assigned by an institution, using an identification scheme.<br> |
 |   Assgnmt.Assgne.Agt.**BrnchId** - BranchIdentification | Definition: Identifies a specific branch of a financial institution.<br>Usage: This component should be used in case the identification information in the financial institution component does not provide identification up to branch level.<br> |
-|   Rpt.**Rsn** - Reason | Specifies the reason why the verified identification information is incorrect.<br> |
 |   Rpt.**OrgnlPtyAndAcctId** - OriginalPartyAndAccountIdentification | Provides party and/or account identification information as given in the original message.<br> |
 |   Rpt.**UpdtdPtyAndAcctId** - UpdatedPartyAndAccountIdentification | Provides party and/or account identification information.<br> |
 |   **SplmtryData** - SupplementaryData | Additional information that cannot be captured in the structured elements and/or any other specific block.<br> |
@@ -558,7 +588,7 @@ Mojaloop is an end-to-end messaging system where messages are signed at each end
 |   Rpt.UpdtdPtyAndAcctId.Agt.BrnchId.PstlAdr.**CareOf** - MaxText | Specifies a character string with a maximum length of 140 characters. |
 |   Rpt.UpdtdPtyAndAcctId.Agt.BrnchId.PstlAdr.**UnitNb** - MaxText | Specifies a character string with a maximum length of 16 characters. |
 
-### POST /fxQuotes/
+## 7.4 POST /fxQuotes/
 | Financial Institution Credit Transfer Quote Request - **pacs.091.001.01**|
 |--|
 
@@ -642,16 +672,34 @@ Here are the required fields that are needed by the switch to operate.
 | &nbsp;&nbsp;&nbsp;&nbsp; * **NbOfTxs** - Number of Transactions | Specifies a numeric string with a maximum length of 15 digits.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **SttlmInf** - Settlement Information | Specifies the details on how the settlement of the original transaction(s) between the<br>instructing agent and the instructed agent was completed.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **SttlmMtd** - SettlementMethodCode | Specifies the method used to settle the credit transfer instruction.<br><br>INDA: Indirect Account<br>INGA: Indirect Agent<br>COVE: Cover<br>CLRG: Clearing<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **PmtInstrXpryDtTm** - Payment Instruction Expiry Date and Time | A particular point in the progression of time defined by a mandatory<br>date and a mandatory time component, expressed in either UTC time<br>format (YYYY-MM-DDThh:mm:ss.sssZ), local time with UTC offset format<br>(YYYY-MM-DDThh:mm:ss.sss+/-hh:mm), or local time format<br>(YYYY-MM-DDThh:mm:ss.sss). These representations are defined in<br>"XML Schema Part 2: Datatypes Second Edition -<br>W3C Recommendation 28 October 2004" which is aligned with ISO 8601.<br><br>Note on the time format:<br>1) beginning / end of calendar day<br>00:00:00 = the beginning of a calendar day<br>24:00:00 = the end of a calendar day<br><br>2) fractions of second in time format<br>Decimal fractions of seconds may be included. In this case, the<br>involved parties shall agree on the maximum number of digits that are allowed.<br> |
 |  * **CdtTrfTxInf** - Credit Transfer Transaction Information | Provides further details specific to the individual transaction(s) included in the message.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **PmtId** - PaymentIdentification | Set of elements used to reference a payment instruction.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **TxId** - TransactionIdentification (FSPIOP equivalent: quoteId in quote request, transferId in transfer request) | <br>Definition: Unique identification, as assigned by the first instructing agent, to unambiguously identify the<br>transaction that is passed on, unchanged, throughout the entire interbank chain.<br><br>Usage: The transaction identification can be used for reconciliation, tracking or to link tasks relating to<br>the transaction on the interbank level.<br><br>Usage: The instructing agent has to make sure that the transaction identification is unique for a preagreed period.<br><br>This field has been changed from the original ISO20022 `Max35Text`` schema to a ULIDIdentifier schema.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **IntrBkSttlmAmt** - InterbankSettlementAmount | Amount of money moved between the instructing agent and the instructed agent.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **ActiveCurrencyAndAmount** |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Ccy** - Currency | Identification of the currency in which the account is held.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **UndrlygCstmrCdtTrf** - Underlying Customer Credit Transfer | TBD<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Dbtr** - Party that owes an amount of money to the (ultimate) creditor. | Specifies the identification of a person or an organisation.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Id** - Identification | Unique and unambiguous identification of a party.<br> |
+| {or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **OrgId** - Organisation | Unique and unambiguous way to identify an organisation.<br> |
+| or}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **PrvtId** - Person | Unique and unambiguous identification of a person, for example a passport.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Cdtr** - Party to which an amount of money is due. | Specifies the identification of a person or an organisation.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Id** - Identification | Unique and unambiguous identification of a party.<br> |
+| {or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **OrgId** - Organisation | Unique and unambiguous way to identify an organisation.<br> |
+| or}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **PrvtId** - Person | Unique and unambiguous identification of a person, for example a passport.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **DbtrAgt** - Financial institution servicing an account for the debtor. | Unique and unambiguous identification of a financial institution or a branch of a financial institution.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **FinInstnId** - FinancialInstitutionIdentification | Unique and unambiguous identification of a financial institution or a branch of a financial institution.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **CdtrAgt** - Financial institution servicing an account for the creditor. | Unique and unambiguous identification of a financial institution or a branch of a financial institution.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **FinInstnId** - FinancialInstitutionIdentification | Unique and unambiguous identification of a financial institution or a branch of a financial institution.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **InstdAmt** - InstructedAmount | Amount of money to be moved between the debtor and creditor, before deduction of charges, expressed in the currency as ordered by the initiating party.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **ActiveOrHistoricCurrencyAndAmount** - Amount of money to be moved between the debtor and creditor, before deduction of charges, expressed in the currency as ordered by the initiating party. | Amount of money to be moved between the debtor and creditor, before deduction of charges, expressed in the currency as ordered by the initiating party.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Ccy** - Currency | Identification of the currency in which the account is held.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **Dbtr** - Debtor | Party that owes an amount of money to the (ultimate) creditor.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **FinInstnId** - FinancialInstitutionIdentification | Unique and unambiguous identification of a financial institution or a branch of a financial institution.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **Cdtr** - Creditor | Party to which an amount of money is due.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **FinInstnId** - FinancialInstitutionIdentification | Unique and unambiguous identification of a financial institution or a branch of a financial institution.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **InstrForCdtrAgt** - InstructionForCreditorAgent | Set of elements used to provide information on the remittance advice.<br> |
 
 
 
@@ -660,13 +708,42 @@ Here is a list of all the optional fields. Some of these fields when specified r
 
 | **ISO 20022 Field** | **Description** |
 | --- | --- |
-|   GrpHdr.SttlmInf.**PmtTpInf** - PaymentTypeInformation | Provides further details of the type of payment.<br> |
-|   GrpHdr.**TtlIntrBkSttlmAmt** - Total Interbank Settlement Amount | A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.<br> |
-|   GrpHdr.**PmtTpInf** - Payment Type Information | Provides further details of the type of payment.<br> |
 |   CdtTrfTxInf.PmtId.**InstrId** - InstructionIdentification (FSPIOP equivalent: transactionRequestId) | <br>Definition: Unique identification, as assigned by an instructing party for an instructed party, to<br>unambiguously identify the instruction.<br><br>Usage: The instruction identification is a point to point reference that can be used between the<br>instructing party and the instructed party to refer to the individual instruction. It can be included in<br>several messages related to the instruction.<br><br>This field has been changed from the original ISO20022 `Max35Text`` schema to a ULIDIdentifier schema.<br> |
 |   CdtTrfTxInf.PmtId.**EndToEndId** - EndToEndIdentification (FSPIOP equivalent: transactionId) | <br>Definition: Unique identification, as assigned by the initiating party, to unambiguously identify the<br>transaction. This identification is passed on, unchanged, throughout the entire end-to-end chain.<br><br>Usage: The end-to-end identification can be used for reconciliation or to link tasks relating to the<br>transaction. It can be included in several messages related to the transaction.<br><br>Usage: In case there are technical limitations to pass on multiple references, the end-to-end<br>identification must be passed on throughout the entire end-to-end chain.<br><br>This field has been changed from the original ISO20022 `Max35Text`` schema to a ULIDIdentifier schema.<br> |
 |   CdtTrfTxInf.PmtId.**UETR** - UETR | Universally unique identifier to provide an end-to-end reference of a payment transaction.<br> |
 |   CdtTrfTxInf.PmtId.**ClrSysRef** - ClearingSystemReference | Unique reference, as assigned by a clearing system, to unambiguously identify the instruction.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Dbtr.Id.OrgId.**AnyBIC** - AnyBIC | Business identification code of the organisation.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Dbtr.Id.OrgId.**LEI** - LEI | Legal entity identification as an alternate identification for a party.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Dbtr.Id.OrgId.**Othr** - Other | Unique identification of an organisation, as assigned by an institution, using an identification scheme.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Dbtr.Id.PrvtId.**DtAndPlcOfBirth** - DateAndPlaceOfBirth | Date and place of birth of a person.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Dbtr.Id.PrvtId.**Othr** - Other | Unique identification of a person, as assigned by an institution, using an identification scheme.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Dbtr.**Nm** - Name | Name by which a party is known and which is usually used to identify that party.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Dbtr.**PstlAdr** - Postal Address | Information that locates and identifies a specific address, as defined by postal services.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Dbtr.**CtryOfRes** - Country of Residence | Country in which a person resides (the place of a person's home). In the case of a company, it is the country from which the affairs of that company are directed.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Dbtr.**CtctDtls** - Contact Details | Set of elements used to indicate how to contact the party.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Cdtr.Id.OrgId.**AnyBIC** - AnyBIC | Business identification code of the organisation.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Cdtr.Id.OrgId.**LEI** - LEI | Legal entity identification as an alternate identification for a party.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Cdtr.Id.OrgId.**Othr** - Other | Unique identification of an organisation, as assigned by an institution, using an identification scheme.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Cdtr.Id.PrvtId.**DtAndPlcOfBirth** - DateAndPlaceOfBirth | Date and place of birth of a person.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Cdtr.Id.PrvtId.**Othr** - Other | Unique identification of a person, as assigned by an institution, using an identification scheme.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Cdtr.**Nm** - Name | Name by which a party is known and which is usually used to identify that party.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Cdtr.**PstlAdr** - Postal Address | Information that locates and identifies a specific address, as defined by postal services.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Cdtr.**CtryOfRes** - Country of Residence | Country in which a person resides (the place of a person's home). In the case of a company, it is the country from which the affairs of that company are directed.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Cdtr.**CtctDtls** - Contact Details | Set of elements used to indicate how to contact the party.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.DbtrAgt.FinInstnId.**BICFI** - BICFI | Code allocated to a financial institution by the ISO 9362 Registration Authority as described in ISO 9362 "Banking - Banking telecommunication messages - Business identifier code (BIC)"<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.DbtrAgt.FinInstnId.**ClrSysMmbId** - ClearingSystemMemberIdentification | Information used to identify a member within a clearing system<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.DbtrAgt.FinInstnId.**LEI** - LEI | Legal entity identifier of the financial institution.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.DbtrAgt.FinInstnId.**Nm** - Name | Name by which an agent is known and which is usually used to identify that agent<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.DbtrAgt.FinInstnId.**PstlAdr** - PostalAddress | Information that locates and identifies a specific address, as defined by postal services.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.DbtrAgt.FinInstnId.**Othr** - Other | Unique identification of an agent, as assigned by an institution, using an identification scheme.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.DbtrAgt.**BrnchId** - BranchIdentification | Identifies a specific branch of a financial institution.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.CdtrAgt.FinInstnId.**BICFI** - BICFI | Code allocated to a financial institution by the ISO 9362 Registration Authority as described in ISO 9362 "Banking - Banking telecommunication messages - Business identifier code (BIC)"<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.CdtrAgt.FinInstnId.**ClrSysMmbId** - ClearingSystemMemberIdentification | Information used to identify a member within a clearing system<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.CdtrAgt.FinInstnId.**LEI** - LEI | Legal entity identifier of the financial institution.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.CdtrAgt.FinInstnId.**Nm** - Name | Name by which an agent is known and which is usually used to identify that agent<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.CdtrAgt.FinInstnId.**PstlAdr** - PostalAddress | Information that locates and identifies a specific address, as defined by postal services.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.CdtrAgt.FinInstnId.**Othr** - Other | Unique identification of an agent, as assigned by an institution, using an identification scheme.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.CdtrAgt.**BrnchId** - BranchIdentification | Identifies a specific branch of a financial institution.<br> |
 |   CdtTrfTxInf.Dbtr.FinInstnId.**BICFI** - BICFI | Code allocated to a financial institution by the ISO 9362 Registration Authority as described in ISO 9362 "Banking - Banking telecommunication messages - Business identifier code (BIC)"<br> |
 |   CdtTrfTxInf.Dbtr.FinInstnId.**ClrSysMmbId** - ClearingSystemMemberIdentification | Information used to identify a member within a clearing system<br> |
 |   CdtTrfTxInf.Dbtr.FinInstnId.**LEI** - LEI | Legal entity identifier of the financial institution.<br> |
@@ -681,13 +758,13 @@ Here is a list of all the optional fields. Some of these fields when specified r
 |   CdtTrfTxInf.Cdtr.FinInstnId.**PstlAdr** - PostalAddress | Information that locates and identifies a specific address, as defined by postal services.<br> |
 |   CdtTrfTxInf.Cdtr.FinInstnId.**Othr** - Other | Unique identification of an agent, as assigned by an institution, using an identification scheme.<br> |
 |   CdtTrfTxInf.Cdtr.**BrnchId** - BranchIdentification | Identifies a specific branch of a financial institution.<br> |
+|   CdtTrfTxInf.InstrForCdtrAgt.**Cd** - Code | Coded information related to the processing of the payment instruction, provided by the initiating party, and intended for the creditor's agent.<br> |
+|   CdtTrfTxInf.InstrForCdtrAgt.**InstrInf** - InstructionInformation | Further information complementing the coded instruction or instruction to the creditor's agent that is bilaterally agreed or specific to a user community.<br> |
 |   CdtTrfTxInf.**PmtTpInf** - PaymentTypeInformation | Set of elements used to further specify the type of transaction.<br> |
-|   CdtTrfTxInf.**UndrlygCstmrCdtTrf** - Underlying Customer Credit Transfer | TBD<br> |
 |   CdtTrfTxInf.**DbtrAcct** - DebtorAccount | Account used to process a payment.<br> |
 |   CdtTrfTxInf.**DbtrAgt** - DebtorAgent | Financial institution servicing an account for the debtor.<br> |
 |   CdtTrfTxInf.**CdtrAgt** - CreditorAgent | Financial institution servicing an account for the creditor.<br> |
 |   CdtTrfTxInf.**CdtrAcct** - CreditorAccount | Account to which a credit entry is made.<br> |
-|   CdtTrfTxInf.**InstrForCdtrAgt** - InstructionForCreditorAgent | Set of elements used to provide information on the remittance advice.<br> |
 |   CdtTrfTxInf.**Purp** - Purpose | Underlying reason for the payment transaction.<br> |
 |   CdtTrfTxInf.**VrfctnOfTerms** - VerificationOfTerms | Set of elements used to provide information on the underlying terms of the transaction.<br> |
 
@@ -700,6 +777,7 @@ Mojaloop is an end-to-end messaging system where messages are signed at each end
 | --- | --- |
 |   GrpHdr.**BtchBookg** - BatchBookingIndicator |  |
 |   GrpHdr.**CtrlSum** - DecimalNumber |  |
+|   GrpHdr.**TtlIntrBkSttlmAmt** - ActiveCurrencyAndAmount | A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217. |
 |   GrpHdr.**IntrBkSttlmDt** - ISODate | A particular point in the progression of time in a calendar year expressed in the YYYY-MM-DD format. This representation is defined in "XML Schema Part 2: Datatypes Second Edition - W3C Recommendation 28 October 2004" which is aligned with ISO 8601. |
 |   GrpHdr.SttlmInf.**SttlmAcct** - CashAccount | Provides the details to identify an account. |
 |   GrpHdr.SttlmInf.**ClrSys** - ClearingSystemIdentification3Choice |  |
@@ -709,6 +787,7 @@ Mojaloop is an end-to-end messaging system where messages are signed at each end
 |   GrpHdr.SttlmInf.**InstdRmbrsmntAgtAcct** - CashAccount | Provides the details to identify an account. |
 |   GrpHdr.SttlmInf.**ThrdRmbrsmntAgt** - BranchAndFinancialInstitutionIdentification | Unique and unambiguous identification of a financial institution or a branch of a financial institution. |
 |   GrpHdr.SttlmInf.**ThrdRmbrsmntAgtAcct** - CashAccount | Provides the details to identify an account. |
+|   GrpHdr.**PmtTpInf** - PaymentTypeInformation | Provides further details of the type of payment. |
 |   GrpHdr.**InstgAgt** - BranchAndFinancialInstitutionIdentification | Unique and unambiguous identification of a financial institution or a branch of a financial institution. |
 |   GrpHdr.**InstdAgt** - BranchAndFinancialInstitutionIdentification | Unique and unambiguous identification of a financial institution or a branch of a financial institution. |
 |   CdtTrfTxInf.**IntrBkSttlmDt** - ISODate | A particular point in the progression of time in a calendar year expressed in the YYYY-MM-DD format. This representation is defined in "XML Schema Part 2: Datatypes Second Edition - W3C Recommendation 28 October 2004" which is aligned with ISO 8601. |
@@ -774,7 +853,7 @@ Mojaloop is an end-to-end messaging system where messages are signed at each end
 |   CdtTrfTxInf.**SplmtryData** - SupplementaryData | Additional information that cannot be captured in the structured fields and/or any other specific block. |
 |   **SplmtryData** - SupplementaryData | Additional information that cannot be captured in the structured fields and/or any other specific block. |
 
-### PUT /fxQuotes/{ID}
+## 7.5 PUT /fxQuotes/{ID}
 |Financial Institution Credit Transfer Quote Response - **pacs.092.001.01**|
 |--|
 
@@ -855,16 +934,37 @@ Here are the required fields that are needed by the switch to operate.
 | &nbsp;&nbsp;&nbsp;&nbsp; * **NbOfTxs** - Number of Transactions | Specifies a numeric string with a maximum length of 15 digits.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **SttlmInf** - Settlement Information | Specifies the details on how the settlement of the original transaction(s) between the<br>instructing agent and the instructed agent was completed.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **SttlmMtd** - SettlementMethodCode | Specifies the method used to settle the credit transfer instruction.<br><br>INDA: Indirect Account<br>INGA: Indirect Agent<br>COVE: Cover<br>CLRG: Clearing<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **PmtInstrXpryDtTm** - Payment Instruction Expiry Date and Time | A particular point in the progression of time defined by a mandatory<br>date and a mandatory time component, expressed in either UTC time<br>format (YYYY-MM-DDThh:mm:ss.sssZ), local time with UTC offset format<br>(YYYY-MM-DDThh:mm:ss.sss+/-hh:mm), or local time format<br>(YYYY-MM-DDThh:mm:ss.sss). These representations are defined in<br>"XML Schema Part 2: Datatypes Second Edition -<br>W3C Recommendation 28 October 2004" which is aligned with ISO 8601.<br><br>Note on the time format:<br>1) beginning / end of calendar day<br>00:00:00 = the beginning of a calendar day<br>24:00:00 = the end of a calendar day<br><br>2) fractions of second in time format<br>Decimal fractions of seconds may be included. In this case, the<br>involved parties shall agree on the maximum number of digits that are allowed.<br> |
 |  * **CdtTrfTxInf** - CreditTransferTransaction68_FX_Quotes | Set of elements providing information specific to the individual credit transfer(s).<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **PmtId** - PaymentIdentification | Set of elements used to reference a payment instruction.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **TxId** - TransactionIdentification (FSPIOP equivalent: quoteId in quote request, transferId in transfer request) | <br>Definition: Unique identification, as assigned by the first instructing agent, to unambiguously identify the<br>transaction that is passed on, unchanged, throughout the entire interbank chain.<br><br>Usage: The transaction identification can be used for reconciliation, tracking or to link tasks relating to<br>the transaction on the interbank level.<br><br>Usage: The instructing agent has to make sure that the transaction identification is unique for a preagreed period.<br><br>This field has been changed from the original ISO20022 `Max35Text`` schema to a ULIDIdentifier schema.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **IntrBkSttlmAmt** - InterbankSettlementAmount | Amount of money moved between the instructing agent and the instructed agent.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **ActiveCurrencyAndAmount** |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Ccy** - Currency | Identification of the currency in which the account is held.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **UndrlygCstmrCdtTrf** - Underlying Customer Credit Transfer | TBD<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Dbtr** - Party that owes an amount of money to the (ultimate) creditor. | Specifies the identification of a person or an organisation.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Id** - Identification | Unique and unambiguous identification of a party.<br> |
+| {or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **OrgId** - Organisation | Unique and unambiguous way to identify an organisation.<br> |
+| or}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **PrvtId** - Person | Unique and unambiguous identification of a person, for example a passport.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Cdtr** - Party to which an amount of money is due. | Specifies the identification of a person or an organisation.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Id** - Identification | Unique and unambiguous identification of a party.<br> |
+| {or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **OrgId** - Organisation | Unique and unambiguous way to identify an organisation.<br> |
+| or}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **PrvtId** - Person | Unique and unambiguous identification of a person, for example a passport.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **DbtrAgt** - Financial institution servicing an account for the debtor. | Unique and unambiguous identification of a financial institution or a branch of a financial institution.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **FinInstnId** - FinancialInstitutionIdentification | Unique and unambiguous identification of a financial institution or a branch of a financial institution.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **CdtrAgt** - Financial institution servicing an account for the creditor. | Unique and unambiguous identification of a financial institution or a branch of a financial institution.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **FinInstnId** - FinancialInstitutionIdentification | Unique and unambiguous identification of a financial institution or a branch of a financial institution.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **InstdAmt** - InstructedAmount | Amount of money to be moved between the debtor and creditor, before deduction of charges, expressed in the currency as ordered by the initiating party.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **ActiveOrHistoricCurrencyAndAmount** - Amount of money to be moved between the debtor and creditor, before deduction of charges, expressed in the currency as ordered by the initiating party. | Amount of money to be moved between the debtor and creditor, before deduction of charges, expressed in the currency as ordered by the initiating party.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Ccy** - Currency | Identification of the currency in which the account is held.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **Dbtr** - Debtor | Party that owes an amount of money to the (ultimate) creditor.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **FinInstnId** - FinancialInstitutionIdentification | Unique and unambiguous identification of a financial institution or a branch of a financial institution.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **Cdtr** - Creditor | Party to which an amount of money is due.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **FinInstnId** - FinancialInstitutionIdentification | Unique and unambiguous identification of a financial institution or a branch of a financial institution.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **VrfctnOfTerms** - VerificationOfTerms | Set of elements used to provide information on the underlying terms of the transaction.<br> |
+| {or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **IlpV4PrepPacket** - Interledger Protocol packet (ILPv4) containing Cryptographically signed terms | Interledger Protocol packet (ILPv4) containing Cryptographically signed terms<br> |
+| or}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Sh256Sgntr** - SHA-256 signature of the terms | Specifies a hexadecimal string.<br><br>NOTE: This pattern is not the original ISO20022 specification.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **InstrForCdtrAgt** - InstructionForCreditorAgent | Set of elements used to provide information on the remittance advice.<br> |
 
 
 #### Optional Fields
@@ -872,13 +972,42 @@ Here is a list of all the optional fields. Some of these fields when specified r
 
 | **ISO 20022 Field** | **Description** |
 | --- | --- |
-|   GrpHdr.SttlmInf.**PmtTpInf** - PaymentTypeInformation | Provides further details of the type of payment.<br> |
-|   GrpHdr.**TtlIntrBkSttlmAmt** - Total Interbank Settlement Amount | A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.<br> |
-|   GrpHdr.**PmtTpInf** - Payment Type Information | Provides further details of the type of payment.<br> |
 |   CdtTrfTxInf.PmtId.**InstrId** - InstructionIdentification (FSPIOP equivalent: transactionRequestId) | <br>Definition: Unique identification, as assigned by an instructing party for an instructed party, to<br>unambiguously identify the instruction.<br><br>Usage: The instruction identification is a point to point reference that can be used between the<br>instructing party and the instructed party to refer to the individual instruction. It can be included in<br>several messages related to the instruction.<br><br>This field has been changed from the original ISO20022 `Max35Text`` schema to a ULIDIdentifier schema.<br> |
 |   CdtTrfTxInf.PmtId.**EndToEndId** - EndToEndIdentification (FSPIOP equivalent: transactionId) | <br>Definition: Unique identification, as assigned by the initiating party, to unambiguously identify the<br>transaction. This identification is passed on, unchanged, throughout the entire end-to-end chain.<br><br>Usage: The end-to-end identification can be used for reconciliation or to link tasks relating to the<br>transaction. It can be included in several messages related to the transaction.<br><br>Usage: In case there are technical limitations to pass on multiple references, the end-to-end<br>identification must be passed on throughout the entire end-to-end chain.<br><br>This field has been changed from the original ISO20022 `Max35Text`` schema to a ULIDIdentifier schema.<br> |
 |   CdtTrfTxInf.PmtId.**UETR** - UETR | Universally unique identifier to provide an end-to-end reference of a payment transaction.<br> |
 |   CdtTrfTxInf.PmtId.**ClrSysRef** - ClearingSystemReference | Unique reference, as assigned by a clearing system, to unambiguously identify the instruction.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Dbtr.Id.OrgId.**AnyBIC** - AnyBIC | Business identification code of the organisation.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Dbtr.Id.OrgId.**LEI** - LEI | Legal entity identification as an alternate identification for a party.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Dbtr.Id.OrgId.**Othr** - Other | Unique identification of an organisation, as assigned by an institution, using an identification scheme.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Dbtr.Id.PrvtId.**DtAndPlcOfBirth** - DateAndPlaceOfBirth | Date and place of birth of a person.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Dbtr.Id.PrvtId.**Othr** - Other | Unique identification of a person, as assigned by an institution, using an identification scheme.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Dbtr.**Nm** - Name | Name by which a party is known and which is usually used to identify that party.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Dbtr.**PstlAdr** - Postal Address | Information that locates and identifies a specific address, as defined by postal services.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Dbtr.**CtryOfRes** - Country of Residence | Country in which a person resides (the place of a person's home). In the case of a company, it is the country from which the affairs of that company are directed.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Dbtr.**CtctDtls** - Contact Details | Set of elements used to indicate how to contact the party.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Cdtr.Id.OrgId.**AnyBIC** - AnyBIC | Business identification code of the organisation.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Cdtr.Id.OrgId.**LEI** - LEI | Legal entity identification as an alternate identification for a party.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Cdtr.Id.OrgId.**Othr** - Other | Unique identification of an organisation, as assigned by an institution, using an identification scheme.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Cdtr.Id.PrvtId.**DtAndPlcOfBirth** - DateAndPlaceOfBirth | Date and place of birth of a person.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Cdtr.Id.PrvtId.**Othr** - Other | Unique identification of a person, as assigned by an institution, using an identification scheme.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Cdtr.**Nm** - Name | Name by which a party is known and which is usually used to identify that party.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Cdtr.**PstlAdr** - Postal Address | Information that locates and identifies a specific address, as defined by postal services.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Cdtr.**CtryOfRes** - Country of Residence | Country in which a person resides (the place of a person's home). In the case of a company, it is the country from which the affairs of that company are directed.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Cdtr.**CtctDtls** - Contact Details | Set of elements used to indicate how to contact the party.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.DbtrAgt.FinInstnId.**BICFI** - BICFI | Code allocated to a financial institution by the ISO 9362 Registration Authority as described in ISO 9362 "Banking - Banking telecommunication messages - Business identifier code (BIC)"<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.DbtrAgt.FinInstnId.**ClrSysMmbId** - ClearingSystemMemberIdentification | Information used to identify a member within a clearing system<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.DbtrAgt.FinInstnId.**LEI** - LEI | Legal entity identifier of the financial institution.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.DbtrAgt.FinInstnId.**Nm** - Name | Name by which an agent is known and which is usually used to identify that agent<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.DbtrAgt.FinInstnId.**PstlAdr** - PostalAddress | Information that locates and identifies a specific address, as defined by postal services.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.DbtrAgt.FinInstnId.**Othr** - Other | Unique identification of an agent, as assigned by an institution, using an identification scheme.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.DbtrAgt.**BrnchId** - BranchIdentification | Identifies a specific branch of a financial institution.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.CdtrAgt.FinInstnId.**BICFI** - BICFI | Code allocated to a financial institution by the ISO 9362 Registration Authority as described in ISO 9362 "Banking - Banking telecommunication messages - Business identifier code (BIC)"<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.CdtrAgt.FinInstnId.**ClrSysMmbId** - ClearingSystemMemberIdentification | Information used to identify a member within a clearing system<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.CdtrAgt.FinInstnId.**LEI** - LEI | Legal entity identifier of the financial institution.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.CdtrAgt.FinInstnId.**Nm** - Name | Name by which an agent is known and which is usually used to identify that agent<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.CdtrAgt.FinInstnId.**PstlAdr** - PostalAddress | Information that locates and identifies a specific address, as defined by postal services.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.CdtrAgt.FinInstnId.**Othr** - Other | Unique identification of an agent, as assigned by an institution, using an identification scheme.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.CdtrAgt.**BrnchId** - BranchIdentification | Identifies a specific branch of a financial institution.<br> |
 |   CdtTrfTxInf.Dbtr.FinInstnId.**BICFI** - BICFI | Code allocated to a financial institution by the ISO 9362 Registration Authority as described in ISO 9362 "Banking - Banking telecommunication messages - Business identifier code (BIC)"<br> |
 |   CdtTrfTxInf.Dbtr.FinInstnId.**ClrSysMmbId** - ClearingSystemMemberIdentification | Information used to identify a member within a clearing system<br> |
 |   CdtTrfTxInf.Dbtr.FinInstnId.**LEI** - LEI | Legal entity identifier of the financial institution.<br> |
@@ -893,15 +1022,14 @@ Here is a list of all the optional fields. Some of these fields when specified r
 |   CdtTrfTxInf.Cdtr.FinInstnId.**PstlAdr** - PostalAddress | Information that locates and identifies a specific address, as defined by postal services.<br> |
 |   CdtTrfTxInf.Cdtr.FinInstnId.**Othr** - Other | Unique identification of an agent, as assigned by an institution, using an identification scheme.<br> |
 |   CdtTrfTxInf.Cdtr.**BrnchId** - BranchIdentification | Identifies a specific branch of a financial institution.<br> |
+|   CdtTrfTxInf.InstrForCdtrAgt.**Cd** - Code | Coded information related to the processing of the payment instruction, provided by the initiating party, and intended for the creditor's agent.<br> |
+|   CdtTrfTxInf.InstrForCdtrAgt.**InstrInf** - InstructionInformation | Further information complementing the coded instruction or instruction to the creditor's agent that is bilaterally agreed or specific to a user community.<br> |
 |   CdtTrfTxInf.**PmtTpInf** - PaymentTypeInformation | Set of elements used to further specify the type of transaction.<br> |
-|   CdtTrfTxInf.**UndrlygCstmrCdtTrf** - Underlying Customer Credit Transfer | TBD<br> |
 |   CdtTrfTxInf.**DbtrAcct** - DebtorAccount | Account used to process a payment.<br> |
 |   CdtTrfTxInf.**DbtrAgt** - DebtorAgent | Financial institution servicing an account for the debtor.<br> |
 |   CdtTrfTxInf.**CdtrAgt** - CreditorAgent | Financial institution servicing an account for the creditor.<br> |
 |   CdtTrfTxInf.**CdtrAcct** - CreditorAccount | Account to which a credit entry is made.<br> |
-|   CdtTrfTxInf.**InstrForCdtrAgt** - InstructionForCreditorAgent | Set of elements used to provide information on the remittance advice.<br> |
 |   CdtTrfTxInf.**Purp** - Purpose | Underlying reason for the payment transaction.<br> |
-|   CdtTrfTxInf.**VrfctnOfTerms** - VerificationOfTerms | Set of elements used to provide information on the underlying terms of the transaction.<br> |
 
 
 #### Unsupported Fields
@@ -912,6 +1040,7 @@ Mojaloop is an end-to-end messaging system where messages are signed at each end
 | --- | --- |
 |   GrpHdr.**BtchBookg** - BatchBookingIndicator |  |
 |   GrpHdr.**CtrlSum** - DecimalNumber |  |
+|   GrpHdr.**TtlIntrBkSttlmAmt** - ActiveCurrencyAndAmount | A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217. |
 |   GrpHdr.**IntrBkSttlmDt** - ISODate | A particular point in the progression of time in a calendar year expressed in the YYYY-MM-DD format. This representation is defined in "XML Schema Part 2: Datatypes Second Edition - W3C Recommendation 28 October 2004" which is aligned with ISO 8601. |
 |   GrpHdr.SttlmInf.**SttlmAcct** - CashAccount | Provides the details to identify an account. |
 |   GrpHdr.SttlmInf.**ClrSys** - ClearingSystemIdentification3Choice |  |
@@ -921,6 +1050,7 @@ Mojaloop is an end-to-end messaging system where messages are signed at each end
 |   GrpHdr.SttlmInf.**InstdRmbrsmntAgtAcct** - CashAccount | Provides the details to identify an account. |
 |   GrpHdr.SttlmInf.**ThrdRmbrsmntAgt** - BranchAndFinancialInstitutionIdentification | Unique and unambiguous identification of a financial institution or a branch of a financial institution. |
 |   GrpHdr.SttlmInf.**ThrdRmbrsmntAgtAcct** - CashAccount | Provides the details to identify an account. |
+|   GrpHdr.**PmtTpInf** - PaymentTypeInformation | Provides further details of the type of payment. |
 |   GrpHdr.**InstgAgt** - BranchAndFinancialInstitutionIdentification | Unique and unambiguous identification of a financial institution or a branch of a financial institution. |
 |   GrpHdr.**InstdAgt** - BranchAndFinancialInstitutionIdentification | Unique and unambiguous identification of a financial institution or a branch of a financial institution. |
 |   CdtTrfTxInf.**IntrBkSttlmDt** - ISODate | A particular point in the progression of time in a calendar year expressed in the YYYY-MM-DD format. This representation is defined in "XML Schema Part 2: Datatypes Second Edition - W3C Recommendation 28 October 2004" which is aligned with ISO 8601. |
@@ -1010,7 +1140,7 @@ All error responses return a common payload structure that includes a specific m
 
 This common error payload helps clients understand the nature of the error and take appropriate actions.
 
-### PUT /fxQuotes/{ID}/error
+## 7.6 PUT /fxQuotes/{ID}/error
 
 |Financial Institution to Financial Institution Payment Status Report - **pacs.002.001.15** |
 |--|
@@ -1065,6 +1195,11 @@ Here are the required fields that are needed by the switch to operate.
 |  * **GrpHdr** - Set of characteristics shared by all individual transactions included in the message. | Set of characteristics shared by all individual transactions included in the message.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **MsgId** - MessageIdentification | Definition: Point to point reference, as assigned by the instructing party, and sent to the next party in the chain to unambiguously identify the message.<br>Usage: The instructing party has to make sure that MessageIdentification is unique per instructed party for a pre-agreed period.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **CreDtTm** - CreationDateTime | Date and time at which the message was created.<br> |
+|  * **TxInfAndSts** - Information concerning the original transactions, to which the status report message refers. | Provides further details on the original transactions, to which the status report message refers.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **StsRsnInf** - Information concerning the reason for the status. | Unsure on description.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Rsn** - Reason | Specifies the reason for the status report.<br> |
+| {or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Cd** - Code | Reason for the status, as published in an external reason code list.<br> |
+| or}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Prtry** - Proprietary | Reason for the status, in a proprietary form.<br> |
 
 
 #### Optional Fields
@@ -1072,7 +1207,20 @@ Here is a list of all the optional fields. Some of these fields when specified r
 
 | **ISO 20022 Field** | **Description** |
 | --- | --- |
-|   **TxInfAndSts** - Information concerning the original transactions, to which the status report message refers. | Provides further details on the original transactions, to which the status report message refers.<br> |
+|   TxInfAndSts.StsRsnInf.**Orgtr** - Originator | Party that issues the status.<br> |
+|   TxInfAndSts.StsRsnInf.**AddtlInf** - AdditionalInformation | Additional information about the status report.<br> |
+|   TxInfAndSts.**StsId** - Unique identification, as assigned by the original sending party, to unambiguously identify the status report. | Specifies a character string with a maximum length of 35 characters.<br> |
+|   TxInfAndSts.**OrgnlInstrId** - Unique identification, as assigned by the original sending party, to | unambiguously identify the original instruction.<br><br>(FSPIOP equivalent: transactionRequestId)<br> |
+|   TxInfAndSts.**OrgnlEndToEndId** - Unique identification, as assigned by the original sending party, to | unambiguously identify the original end-to-end transaction.<br><br>(FSPIOP equivalent: transactionId)<br> |
+|   TxInfAndSts.**OrgnlTxId** - Unique identification, as assigned by the original sending party, to | unambiguously identify the original transaction.<br><br>(FSPIOP equivalent: quoteId)<br> |
+|   TxInfAndSts.**OrgnlUETR** - Unique end-to-end transaction reference, as assigned by the original sending party, to unambiguously identify the original transaction. | Unique end-to-end transaction reference, as assigned by the original sending party, to unambiguously identify the original transaction.<br> |
+|   TxInfAndSts.**TxSts** - Specifies the status of the transaction. | Specifies the external payment transaction status code.<br><br>For FSPIOP transfer state enumeration mappings:<br>{<br>  "COMM": "COMMITED",<br>  "RESV": "RESERVED",<br>  "RECV": "RECEIVED",<br>  "ABOR": "ABORTED"<br>}<br><br>NOTE: enum enforcement is not apart of the ISO20022 specification, but is added here for FSPIOP mappings.<br> |
+|   TxInfAndSts.**AccptncDtTm** - Date and time at which the status was accepted. | A particular point in the progression of time defined by a mandatory<br>date and a mandatory time component, expressed in either UTC time<br>format (YYYY-MM-DDThh:mm:ss.sssZ), local time with UTC offset format<br>(YYYY-MM-DDThh:mm:ss.sss+/-hh:mm), or local time format<br>(YYYY-MM-DDThh:mm:ss.sss). These representations are defined in<br>"XML Schema Part 2: Datatypes Second Edition -<br>W3C Recommendation 28 October 2004" which is aligned with ISO 8601.<br><br>Note on the time format:<br>1) beginning / end of calendar day<br>00:00:00 = the beginning of a calendar day<br>24:00:00 = the end of a calendar day<br><br>2) fractions of second in time format<br>Decimal fractions of seconds may be included. In this case, the<br>involved parties shall agree on the maximum number of digits that are allowed.<br> |
+|   TxInfAndSts.**AcctSvcrRef** - Unique reference, as assigned by the account servicing institution, to unambiguously identify the status report. | Specifies a character string with a maximum length of 35 characters.<br> |
+|   TxInfAndSts.**ClrSysRef** - Reference that is assigned by the account servicing institution and sent to the account owner to unambiguously identify the transaction. | Specifies a character string with a maximum length of 35 characters.<br> |
+|   TxInfAndSts.**ExctnConf** - Unique reference, as assigned by the account servicing institution, to unambiguously identify the confirmation. | Specifies a hexadecimal string.<br><br>NOTE: This pattern is not the original ISO20022 specification.<br> |
+|   TxInfAndSts.**SplmtryData** - Additional information that cannot be captured in the structured elements and/or any other specific block. | Additional information that cannot be captured in the structured fields and/or any other specific block.<br> |
+|   TxInfAndSts.**PrcgDt** - Date/time at which the instruction was processed by the specified party. | Specifies the reason for the status.<br> |
 |   **SplmtryData** - Additional information that cannot be captured in the structured elements and/or any other specific block. | Additional information that cannot be captured in the structured fields and/or any other specific block.<br> |
 
 
@@ -1094,7 +1242,7 @@ Mojaloop is an end-to-end messaging system where messages are signed at each end
 |   TxInfAndSts.**InstdAgt** - BranchAndFinancialInstitutionIdentification | Unique and unambiguous identification of a financial institution or a branch of a financial institution. |
 |   TxInfAndSts.**OrgnlTxRef** - OriginalTransactionReference42 |  |
 
-### POST /quotes
+## 7.7 POST /quotes
 |**Financial Institution to Financial Institution Customer Credit Transfer Quote Request - pacs.081.001.01**|
 |--|
 
@@ -1198,6 +1346,9 @@ Here are the required fields that are needed by the switch to operate.
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Id** - Identification | Unique and unambiguous identification of a party.<br> |
 | {or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **OrgId** - Organisation | Unique and unambiguous way to identify an organisation.<br> |
 | or}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **PrvtId** - Person | Unique and unambiguous identification of a person, for example a passport.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **Purp** - Purpose | Underlying reason for the payment transaction.<br> |
+| {or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Cd** - Code | <br>Underlying reason for the payment transaction, as published in an external purpose code list.<br> |
+| or}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Prtry** - Proprietary | <br>Purpose, in a proprietary form.<br> |
 
 
 #### Optional Fields
@@ -1205,7 +1356,6 @@ Here is a list of all the optional fields. Some of these fields when specified r
 
 | **ISO 20022 Field** | **Description** |
 | --- | --- |
-|   GrpHdr.SttlmInf.**PmtTpInf** - PaymentTypeInformation | Provides further details of the type of payment.<br> |
 |   GrpHdr.**PmtInstrXpryDtTm** - Payment Instruction Expiry Date and Time | A particular point in the progression of time defined by a mandatory<br>date and a mandatory time component, expressed in either UTC time<br>format (YYYY-MM-DDThh:mm:ss.sssZ), local time with UTC offset format<br>(YYYY-MM-DDThh:mm:ss.sss+/-hh:mm), or local time format<br>(YYYY-MM-DDThh:mm:ss.sss). These representations are defined in<br>"XML Schema Part 2: Datatypes Second Edition -<br>W3C Recommendation 28 October 2004" which is aligned with ISO 8601.<br><br>Note on the time format:<br>1) beginning / end of calendar day<br>00:00:00 = the beginning of a calendar day<br>24:00:00 = the end of a calendar day<br><br>2) fractions of second in time format<br>Decimal fractions of seconds may be included. In this case, the<br>involved parties shall agree on the maximum number of digits that are allowed.<br> |
 |   CdtTrfTxInf.PmtId.**InstrId** - InstructionIdentification (FSPIOP equivalent: transactionRequestId) | <br>Definition: Unique identification, as assigned by an instructing party for an instructed party, to<br>unambiguously identify the instruction.<br><br>Usage: The instruction identification is a point to point reference that can be used between the<br>instructing party and the instructed party to refer to the individual instruction. It can be included in<br>several messages related to the instruction.<br><br>This field has been changed from the original ISO20022 `Max35Text`` schema to a ULIDIdentifier schema.<br> |
 |   CdtTrfTxInf.PmtId.**EndToEndId** - EndToEndIdentification (FSPIOP equivalent: transactionId) | <br>Definition: Unique identification, as assigned by the initiating party, to unambiguously identify the<br>transaction. This identification is passed on, unchanged, throughout the entire end-to-end chain.<br><br>Usage: The end-to-end identification can be used for reconciliation or to link tasks relating to the<br>transaction. It can be included in several messages related to the transaction.<br><br>Usage: In case there are technical limitations to pass on multiple references, the end-to-end<br>identification must be passed on throughout the entire end-to-end chain.<br><br>This field has been changed from the original ISO20022 `Max35Text`` schema to a ULIDIdentifier schema.<br> |
@@ -1252,7 +1402,6 @@ Here is a list of all the optional fields. Some of these fields when specified r
 |   CdtTrfTxInf.**CdtrAcct** - CreditorAccount | Unambiguous identification of the account of the creditor to which a credit entry will be posted as a result of the payment transaction.<br> |
 |   CdtTrfTxInf.**InstrForCdtrAgt** - InstructionForCreditorAgent | Set of elements used to provide information on the remittance advice.<br> |
 |   CdtTrfTxInf.**InstrForNxtAgt** - InstructionForNextAgent | Set of elements used to provide information on the remittance advice.<br> |
-|   CdtTrfTxInf.**Purp** - Purpose | Underlying reason for the payment transaction.<br> |
 |   CdtTrfTxInf.**RgltryRptg** - RegulatoryReporting | Information needed due to regulatory and statutory requirements.<br> |
 |   CdtTrfTxInf.**Tax** - Tax | Provides details on the tax.<br> |
 |   CdtTrfTxInf.**VrfctnOfTerms** - CryptographicLockChoice | Cryptographically signed terms<br> |
@@ -1339,7 +1488,7 @@ All error responses return a common payload structure that includes a specific m
 - **extensionList**: An optional list of key-value pairs providing additional information about the error.
 
 This common error payload helps clients understand the nature of the error and take appropriate actions.
-### PUT /quotes/{ID}
+## PUT 7.8 /quotes/{ID}
 |Financial Institution to Financial Institution Customer Credit Transfer Quote Response - **pacs.082.001.01**|
 |--|
 
@@ -1366,7 +1515,8 @@ Here is an example of the message:
     "SttlmInf": { "SttlmMtd": "CLRG" },
     "PmtInstrXpryDtTm": "2024-11-04T12:58:42.450Z"
 },
-"CdtTrfTxInf": { "PmtId": { "TxId": "01JBVM19DFKNRWC21FGJNTHRAT" },
+"CdtTrfTxInf": { 
+    "PmtId": { "TxId": "01JBVM19DFKNRWC21FGJNTHRAT" },
     "Dbtr": { "Id": { "PrvtId": { "Othr": { "SchmeNm": { "Prtry": "MSISDN" },
                                             "Id": "16135551001"}}},
         "Name": "Payer Joe" },
@@ -1427,6 +1577,7 @@ Here are the required fields that are needed by the switch to operate.
 | &nbsp;&nbsp;&nbsp;&nbsp; * **NbOfTxs** - Number of Transactions | Specifies a numeric string with a maximum length of 15 digits.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **SttlmInf** - Settlement Information | Specifies the details on how the settlement of the original transaction(s) between the<br>instructing agent and the instructed agent was completed.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **SttlmMtd** - SettlementMethodCode | Specifies the method used to settle the credit transfer instruction.<br><br>INDA: Indirect Account<br>INGA: Indirect Agent<br>COVE: Cover<br>CLRG: Clearing<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **PmtInstrXpryDtTm** - Payment Instruction Expiry Date and Time | A particular point in the progression of time defined by a mandatory<br>date and a mandatory time component, expressed in either UTC time<br>format (YYYY-MM-DDThh:mm:ss.sssZ), local time with UTC offset format<br>(YYYY-MM-DDThh:mm:ss.sss+/-hh:mm), or local time format<br>(YYYY-MM-DDThh:mm:ss.sss). These representations are defined in<br>"XML Schema Part 2: Datatypes Second Edition -<br>W3C Recommendation 28 October 2004" which is aligned with ISO 8601.<br><br>Note on the time format:<br>1) beginning / end of calendar day<br>00:00:00 = the beginning of a calendar day<br>24:00:00 = the end of a calendar day<br><br>2) fractions of second in time format<br>Decimal fractions of seconds may be included. In this case, the<br>involved parties shall agree on the maximum number of digits that are allowed.<br> |
 |  * **CdtTrfTxInf** - Credit Transfer Transaction Information | Set of elements providing information specific to the individual credit transfer(s).<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **PmtId** - PaymentIdentification | Set of elements used to reference a payment instruction.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **TxId** - TransactionIdentification (FSPIOP equivalent: quoteId in quote request, transferId in transfer request) | <br>Definition: Unique identification, as assigned by the first instructing agent, to unambiguously identify the<br>transaction that is passed on, unchanged, throughout the entire interbank chain.<br><br>Usage: The transaction identification can be used for reconciliation, tracking or to link tasks relating to<br>the transaction on the interbank level.<br><br>Usage: The instructing agent has to make sure that the transaction identification is unique for a preagreed period.<br><br>This field has been changed from the original ISO20022 `Max35Text`` schema to a ULIDIdentifier schema.<br> |
@@ -1446,6 +1597,9 @@ Here are the required fields that are needed by the switch to operate.
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Id** - Identification | Unique and unambiguous identification of a party.<br> |
 | {or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **OrgId** - Organisation | Unique and unambiguous way to identify an organisation.<br> |
 | or}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **PrvtId** - Person | Unique and unambiguous identification of a person, for example a passport.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **VrfctnOfTerms** - CryptographicLockChoice | Cryptographically signed terms<br> |
+| {or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **IlpV4PrepPacket** - Interledger Protocol packet (ILPv4) containing Cryptographically signed terms | Interledger Protocol packet (ILPv4) containing Cryptographically signed terms<br> |
+| or}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Sh256Sgntr** - SHA-256 signature of the terms | Specifies a hexadecimal string.<br><br>NOTE: This pattern is not the original ISO20022 specification.<br> |
 
 
 #### Optional Fields
@@ -1453,8 +1607,6 @@ Here is a list of all the optional fields. Some of these fields when specified r
 
 | **ISO 20022 Field** | **Description** |
 | --- | --- |
-|   GrpHdr.SttlmInf.**PmtTpInf** - PaymentTypeInformation | Provides further details of the type of payment.<br> |
-|   GrpHdr.**PmtInstrXpryDtTm** - Payment Instruction Expiry Date and Time | A particular point in the progression of time defined by a mandatory<br>date and a mandatory time component, expressed in either UTC time<br>format (YYYY-MM-DDThh:mm:ss.sssZ), local time with UTC offset format<br>(YYYY-MM-DDThh:mm:ss.sss+/-hh:mm), or local time format<br>(YYYY-MM-DDThh:mm:ss.sss). These representations are defined in<br>"XML Schema Part 2: Datatypes Second Edition -<br>W3C Recommendation 28 October 2004" which is aligned with ISO 8601.<br><br>Note on the time format:<br>1) beginning / end of calendar day<br>00:00:00 = the beginning of a calendar day<br>24:00:00 = the end of a calendar day<br><br>2) fractions of second in time format<br>Decimal fractions of seconds may be included. In this case, the<br>involved parties shall agree on the maximum number of digits that are allowed.<br> |
 |   CdtTrfTxInf.PmtId.**InstrId** - InstructionIdentification (FSPIOP equivalent: transactionRequestId) | <br>Definition: Unique identification, as assigned by an instructing party for an instructed party, to<br>unambiguously identify the instruction.<br><br>Usage: The instruction identification is a point to point reference that can be used between the<br>instructing party and the instructed party to refer to the individual instruction. It can be included in<br>several messages related to the instruction.<br><br>This field has been changed from the original ISO20022 `Max35Text`` schema to a ULIDIdentifier schema.<br> |
 |   CdtTrfTxInf.PmtId.**EndToEndId** - EndToEndIdentification (FSPIOP equivalent: transactionId) | <br>Definition: Unique identification, as assigned by the initiating party, to unambiguously identify the<br>transaction. This identification is passed on, unchanged, throughout the entire end-to-end chain.<br><br>Usage: The end-to-end identification can be used for reconciliation or to link tasks relating to the<br>transaction. It can be included in several messages related to the transaction.<br><br>Usage: In case there are technical limitations to pass on multiple references, the end-to-end<br>identification must be passed on throughout the entire end-to-end chain.<br><br>This field has been changed from the original ISO20022 `Max35Text`` schema to a ULIDIdentifier schema.<br> |
 |   CdtTrfTxInf.PmtId.**UETR** - UETR | Universally unique identifier to provide an end-to-end reference of a payment transaction.<br> |
@@ -1503,7 +1655,6 @@ Here is a list of all the optional fields. Some of these fields when specified r
 |   CdtTrfTxInf.**Purp** - Purpose | Underlying reason for the payment transaction.<br> |
 |   CdtTrfTxInf.**RgltryRptg** - RegulatoryReporting | Information needed due to regulatory and statutory requirements.<br> |
 |   CdtTrfTxInf.**Tax** - Tax | Provides details on the tax.<br> |
-|   CdtTrfTxInf.**VrfctnOfTerms** - CryptographicLockChoice | Cryptographically signed terms<br> |
 
 
 #### Unsupported Fields
@@ -1588,7 +1739,7 @@ All error responses return a common payload structure that includes a specific m
 
 This common error payload helps clients understand the nature of the error and take appropriate actions.
 
-### PUT /quotes/{ID}/error
+## 7.9 PUT /quotes/{ID}/error
 | Financial Institution to Financial Institution Payment Status Report - **pacs.002.001.15**|
 |--|
 
@@ -1643,6 +1794,11 @@ Here are the required fields that are needed by the switch to operate.
 |  * **GrpHdr** - Set of characteristics shared by all individual transactions included in the message. | Set of characteristics shared by all individual transactions included in the message.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **MsgId** - MessageIdentification | Definition: Point to point reference, as assigned by the instructing party, and sent to the next party in the chain to unambiguously identify the message.<br>Usage: The instructing party has to make sure that MessageIdentification is unique per instructed party for a pre-agreed period.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **CreDtTm** - CreationDateTime | Date and time at which the message was created.<br> |
+|  * **TxInfAndSts** - Information concerning the original transactions, to which the status report message refers. | Provides further details on the original transactions, to which the status report message refers.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **StsRsnInf** - Information concerning the reason for the status. | Unsure on description.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Rsn** - Reason | Specifies the reason for the status report.<br> |
+| {or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Cd** - Code | Reason for the status, as published in an external reason code list.<br> |
+| or}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Prtry** - Proprietary | Reason for the status, in a proprietary form.<br> |
 
 
 #### Optional Fields
@@ -1650,7 +1806,20 @@ Here is a list of all the optional fields. Some of these fields when specified r
 
 | **ISO 20022 Field** | **Description** |
 | --- | --- |
-|   **TxInfAndSts** - Information concerning the original transactions, to which the status report message refers. | Provides further details on the original transactions, to which the status report message refers.<br> |
+|   TxInfAndSts.StsRsnInf.**Orgtr** - Originator | Party that issues the status.<br> |
+|   TxInfAndSts.StsRsnInf.**AddtlInf** - AdditionalInformation | Additional information about the status report.<br> |
+|   TxInfAndSts.**StsId** - Unique identification, as assigned by the original sending party, to unambiguously identify the status report. | Specifies a character string with a maximum length of 35 characters.<br> |
+|   TxInfAndSts.**OrgnlInstrId** - Unique identification, as assigned by the original sending party, to | unambiguously identify the original instruction.<br><br>(FSPIOP equivalent: transactionRequestId)<br> |
+|   TxInfAndSts.**OrgnlEndToEndId** - Unique identification, as assigned by the original sending party, to | unambiguously identify the original end-to-end transaction.<br><br>(FSPIOP equivalent: transactionId)<br> |
+|   TxInfAndSts.**OrgnlTxId** - Unique identification, as assigned by the original sending party, to | unambiguously identify the original transaction.<br><br>(FSPIOP equivalent: quoteId)<br> |
+|   TxInfAndSts.**OrgnlUETR** - Unique end-to-end transaction reference, as assigned by the original sending party, to unambiguously identify the original transaction. | Unique end-to-end transaction reference, as assigned by the original sending party, to unambiguously identify the original transaction.<br> |
+|   TxInfAndSts.**TxSts** - Specifies the status of the transaction. | Specifies the external payment transaction status code.<br><br>For FSPIOP transfer state enumeration mappings:<br>{<br>  "COMM": "COMMITED",<br>  "RESV": "RESERVED",<br>  "RECV": "RECEIVED",<br>  "ABOR": "ABORTED"<br>}<br><br>NOTE: enum enforcement is not apart of the ISO20022 specification, but is added here for FSPIOP mappings.<br> |
+|   TxInfAndSts.**AccptncDtTm** - Date and time at which the status was accepted. | A particular point in the progression of time defined by a mandatory<br>date and a mandatory time component, expressed in either UTC time<br>format (YYYY-MM-DDThh:mm:ss.sssZ), local time with UTC offset format<br>(YYYY-MM-DDThh:mm:ss.sss+/-hh:mm), or local time format<br>(YYYY-MM-DDThh:mm:ss.sss). These representations are defined in<br>"XML Schema Part 2: Datatypes Second Edition -<br>W3C Recommendation 28 October 2004" which is aligned with ISO 8601.<br><br>Note on the time format:<br>1) beginning / end of calendar day<br>00:00:00 = the beginning of a calendar day<br>24:00:00 = the end of a calendar day<br><br>2) fractions of second in time format<br>Decimal fractions of seconds may be included. In this case, the<br>involved parties shall agree on the maximum number of digits that are allowed.<br> |
+|   TxInfAndSts.**AcctSvcrRef** - Unique reference, as assigned by the account servicing institution, to unambiguously identify the status report. | Specifies a character string with a maximum length of 35 characters.<br> |
+|   TxInfAndSts.**ClrSysRef** - Reference that is assigned by the account servicing institution and sent to the account owner to unambiguously identify the transaction. | Specifies a character string with a maximum length of 35 characters.<br> |
+|   TxInfAndSts.**ExctnConf** - Unique reference, as assigned by the account servicing institution, to unambiguously identify the confirmation. | Specifies a hexadecimal string.<br><br>NOTE: This pattern is not the original ISO20022 specification.<br> |
+|   TxInfAndSts.**SplmtryData** - Additional information that cannot be captured in the structured elements and/or any other specific block. | Additional information that cannot be captured in the structured fields and/or any other specific block.<br> |
+|   TxInfAndSts.**PrcgDt** - Date/time at which the instruction was processed by the specified party. | Specifies the reason for the status.<br> |
 |   **SplmtryData** - Additional information that cannot be captured in the structured elements and/or any other specific block. | Additional information that cannot be captured in the structured fields and/or any other specific block.<br> |
 
 
@@ -1695,7 +1864,7 @@ All error responses return a common payload structure that includes a specific m
 
 This common error payload helps clients understand the nature of the error and take appropriate actions.
 
-### POST /fxTransfers
+## 7.10 POST /fxTransfers
 | Execute Financial Institution Credit Transfer - **pacs.009.001.12**|
 |--|
 
@@ -1732,10 +1901,10 @@ Here is an example of the message:
             "CdtrAgt":{"FinInstnId":{"Othr":{"Id":"fxp"}}},
             "InstdAmt":{"Ccy":"ZMW",
                 "ActiveOrHistoricCurrencyAndAmount":"21"}},
-            "Cdtr":{"FinInstnId":{"Othr":{"Id":"fxp"}}},
-            "IntrBkSttlmAmt":{"Ccy":"MWK",
+    "Cdtr":{"FinInstnId":{"Othr":{"Id":"fxp"}}},
+    "IntrBkSttlmAmt":{"Ccy":"MWK",
                 "ActiveCurrencyAndAmount":"1080"},
-            "VrfctnOfTerms":{"Sh256Sgntr":"KVHFmdTD6A..."}}
+    "VrfctnOfTerms":{"Sh256Sgntr":"KVHFmdTD6A..."}}
 }
 ```
 #### Message Details
@@ -1776,6 +1945,7 @@ Here are the required fields that are needed by the switch to operate.
 | &nbsp;&nbsp;&nbsp;&nbsp; * **NbOfTxs** - Number of Transactions | Specifies a numeric string with a maximum length of 15 digits.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **SttlmInf** - Settlement Information | Specifies the details on how the settlement of the original transaction(s) between the<br>instructing agent and the instructed agent was completed.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **SttlmMtd** - SettlementMethodCode | Specifies the method used to settle the credit transfer instruction.<br><br>INDA: Indirect Account<br>INGA: Indirect Agent<br>COVE: Cover<br>CLRG: Clearing<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **PmtInstrXpryDtTm** - Payment Instruction Expiry Date and Time | A particular point in the progression of time defined by a mandatory<br>date and a mandatory time component, expressed in either UTC time<br>format (YYYY-MM-DDThh:mm:ss.sssZ), local time with UTC offset format<br>(YYYY-MM-DDThh:mm:ss.sss+/-hh:mm), or local time format<br>(YYYY-MM-DDThh:mm:ss.sss). These representations are defined in<br>"XML Schema Part 2: Datatypes Second Edition -<br>W3C Recommendation 28 October 2004" which is aligned with ISO 8601.<br><br>Note on the time format:<br>1) beginning / end of calendar day<br>00:00:00 = the beginning of a calendar day<br>24:00:00 = the end of a calendar day<br><br>2) fractions of second in time format<br>Decimal fractions of seconds may be included. In this case, the<br>involved parties shall agree on the maximum number of digits that are allowed.<br> |
 |  * **CdtTrfTxInf** - CreditTransferTransactionInformation. | Set of elements providing information specific to the individual credit transfer(s).<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **PmtId** - PaymentIdentification | Set of elements used to reference a payment instruction.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **TxId** - TransactionIdentification (FSPIOP equivalent: quoteId in quote request, transferId in transfer request) | <br>Definition: Unique identification, as assigned by the first instructing agent, to unambiguously identify the<br>transaction that is passed on, unchanged, throughout the entire interbank chain.<br><br>Usage: The transaction identification can be used for reconciliation, tracking or to link tasks relating to<br>the transaction on the interbank level.<br><br>Usage: The instructing agent has to make sure that the transaction identification is unique for a preagreed period.<br><br>This field has been changed from the original ISO20022 `Max35Text`` schema to a ULIDIdentifier schema.<br> |
@@ -1786,6 +1956,25 @@ Here are the required fields that are needed by the switch to operate.
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **FinInstnId** - FinancialInstitutionIdentification | Unique and unambiguous identification of a financial institution or a branch of a financial institution.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **Cdtr** - Creditor | Party to which an amount of money is due.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **FinInstnId** - FinancialInstitutionIdentification | Unique and unambiguous identification of a financial institution or a branch of a financial institution.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **UndrlygCstmrCdtTrf** - Underlying Customer Credit Transfer | TBD<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Dbtr** - Party that owes an amount of money to the (ultimate) creditor. | Specifies the identification of a person or an organisation.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Id** - Identification | Unique and unambiguous identification of a party.<br> |
+| {or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **OrgId** - Organisation | Unique and unambiguous way to identify an organisation.<br> |
+| or}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **PrvtId** - Person | Unique and unambiguous identification of a person, for example a passport.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Cdtr** - Party to which an amount of money is due. | Specifies the identification of a person or an organisation.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Id** - Identification | Unique and unambiguous identification of a party.<br> |
+| {or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **OrgId** - Organisation | Unique and unambiguous way to identify an organisation.<br> |
+| or}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **PrvtId** - Person | Unique and unambiguous identification of a person, for example a passport.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **DbtrAgt** - Financial institution servicing an account for the debtor. | Unique and unambiguous identification of a financial institution or a branch of a financial institution.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **FinInstnId** - FinancialInstitutionIdentification | Unique and unambiguous identification of a financial institution or a branch of a financial institution.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **CdtrAgt** - Financial institution servicing an account for the creditor. | Unique and unambiguous identification of a financial institution or a branch of a financial institution.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **FinInstnId** - FinancialInstitutionIdentification | Unique and unambiguous identification of a financial institution or a branch of a financial institution.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **InstdAmt** - InstructedAmount | Amount of money to be moved between the debtor and creditor, before deduction of charges, expressed in the currency as ordered by the initiating party.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **ActiveOrHistoricCurrencyAndAmount** - Amount of money to be moved between the debtor and creditor, before deduction of charges, expressed in the currency as ordered by the initiating party. | Amount of money to be moved between the debtor and creditor, before deduction of charges, expressed in the currency as ordered by the initiating party.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Ccy** - Currency | Identification of the currency in which the account is held.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **VrfctnOfTerms** - VerificationOfTerms | Set of elements used to provide information on the underlying terms of the transaction.<br> |
+| {or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **IlpV4PrepPacket** - Interledger Protocol packet (ILPv4) containing Cryptographically signed terms | Interledger Protocol packet (ILPv4) containing Cryptographically signed terms<br> |
+| or}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Sh256Sgntr** - SHA-256 signature of the terms | Specifies a hexadecimal string.<br><br>NOTE: This pattern is not the original ISO20022 specification.<br> |
 
 
 
@@ -1794,8 +1983,6 @@ Here is a list of all the optional fields. Some of these fields when specified r
 
 | **ISO 20022 Field** | **Description** |
 | --- | --- |
-|   GrpHdr.SttlmInf.**PmtTpInf** - PaymentTypeInformation | Provides further details of the type of payment.<br> |
-|   GrpHdr.**PmtInstrXpryDtTm** - Payment Instruction Expiry Date and Time | A particular point in the progression of time defined by a mandatory<br>date and a mandatory time component, expressed in either UTC time<br>format (YYYY-MM-DDThh:mm:ss.sssZ), local time with UTC offset format<br>(YYYY-MM-DDThh:mm:ss.sss+/-hh:mm), or local time format<br>(YYYY-MM-DDThh:mm:ss.sss). These representations are defined in<br>"XML Schema Part 2: Datatypes Second Edition -<br>W3C Recommendation 28 October 2004" which is aligned with ISO 8601.<br><br>Note on the time format:<br>1) beginning / end of calendar day<br>00:00:00 = the beginning of a calendar day<br>24:00:00 = the end of a calendar day<br><br>2) fractions of second in time format<br>Decimal fractions of seconds may be included. In this case, the<br>involved parties shall agree on the maximum number of digits that are allowed.<br> |
 |   CdtTrfTxInf.PmtId.**InstrId** - InstructionIdentification (FSPIOP equivalent: transactionRequestId) | <br>Definition: Unique identification, as assigned by an instructing party for an instructed party, to<br>unambiguously identify the instruction.<br><br>Usage: The instruction identification is a point to point reference that can be used between the<br>instructing party and the instructed party to refer to the individual instruction. It can be included in<br>several messages related to the instruction.<br><br>This field has been changed from the original ISO20022 `Max35Text`` schema to a ULIDIdentifier schema.<br> |
 |   CdtTrfTxInf.PmtId.**EndToEndId** - EndToEndIdentification (FSPIOP equivalent: transactionId) | <br>Definition: Unique identification, as assigned by the initiating party, to unambiguously identify the<br>transaction. This identification is passed on, unchanged, throughout the entire end-to-end chain.<br><br>Usage: The end-to-end identification can be used for reconciliation or to link tasks relating to the<br>transaction. It can be included in several messages related to the transaction.<br><br>Usage: In case there are technical limitations to pass on multiple references, the end-to-end<br>identification must be passed on throughout the entire end-to-end chain.<br><br>This field has been changed from the original ISO20022 `Max35Text`` schema to a ULIDIdentifier schema.<br> |
 |   CdtTrfTxInf.PmtId.**UETR** - UETR | Universally unique identifier to provide an end-to-end reference of a payment transaction.<br> |
@@ -1814,15 +2001,45 @@ Here is a list of all the optional fields. Some of these fields when specified r
 |   CdtTrfTxInf.Cdtr.FinInstnId.**PstlAdr** - PostalAddress | Information that locates and identifies a specific address, as defined by postal services.<br> |
 |   CdtTrfTxInf.Cdtr.FinInstnId.**Othr** - Other | Unique identification of an agent, as assigned by an institution, using an identification scheme.<br> |
 |   CdtTrfTxInf.Cdtr.**BrnchId** - BranchIdentification | Identifies a specific branch of a financial institution.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Dbtr.Id.OrgId.**AnyBIC** - AnyBIC | Business identification code of the organisation.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Dbtr.Id.OrgId.**LEI** - LEI | Legal entity identification as an alternate identification for a party.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Dbtr.Id.OrgId.**Othr** - Other | Unique identification of an organisation, as assigned by an institution, using an identification scheme.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Dbtr.Id.PrvtId.**DtAndPlcOfBirth** - DateAndPlaceOfBirth | Date and place of birth of a person.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Dbtr.Id.PrvtId.**Othr** - Other | Unique identification of a person, as assigned by an institution, using an identification scheme.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Dbtr.**Nm** - Name | Name by which a party is known and which is usually used to identify that party.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Dbtr.**PstlAdr** - Postal Address | Information that locates and identifies a specific address, as defined by postal services.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Dbtr.**CtryOfRes** - Country of Residence | Country in which a person resides (the place of a person's home). In the case of a company, it is the country from which the affairs of that company are directed.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Dbtr.**CtctDtls** - Contact Details | Set of elements used to indicate how to contact the party.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Cdtr.Id.OrgId.**AnyBIC** - AnyBIC | Business identification code of the organisation.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Cdtr.Id.OrgId.**LEI** - LEI | Legal entity identification as an alternate identification for a party.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Cdtr.Id.OrgId.**Othr** - Other | Unique identification of an organisation, as assigned by an institution, using an identification scheme.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Cdtr.Id.PrvtId.**DtAndPlcOfBirth** - DateAndPlaceOfBirth | Date and place of birth of a person.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Cdtr.Id.PrvtId.**Othr** - Other | Unique identification of a person, as assigned by an institution, using an identification scheme.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Cdtr.**Nm** - Name | Name by which a party is known and which is usually used to identify that party.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Cdtr.**PstlAdr** - Postal Address | Information that locates and identifies a specific address, as defined by postal services.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Cdtr.**CtryOfRes** - Country of Residence | Country in which a person resides (the place of a person's home). In the case of a company, it is the country from which the affairs of that company are directed.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.Cdtr.**CtctDtls** - Contact Details | Set of elements used to indicate how to contact the party.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.DbtrAgt.FinInstnId.**BICFI** - BICFI | Code allocated to a financial institution by the ISO 9362 Registration Authority as described in ISO 9362 "Banking - Banking telecommunication messages - Business identifier code (BIC)"<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.DbtrAgt.FinInstnId.**ClrSysMmbId** - ClearingSystemMemberIdentification | Information used to identify a member within a clearing system<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.DbtrAgt.FinInstnId.**LEI** - LEI | Legal entity identifier of the financial institution.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.DbtrAgt.FinInstnId.**Nm** - Name | Name by which an agent is known and which is usually used to identify that agent<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.DbtrAgt.FinInstnId.**PstlAdr** - PostalAddress | Information that locates and identifies a specific address, as defined by postal services.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.DbtrAgt.FinInstnId.**Othr** - Other | Unique identification of an agent, as assigned by an institution, using an identification scheme.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.DbtrAgt.**BrnchId** - BranchIdentification | Identifies a specific branch of a financial institution.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.CdtrAgt.FinInstnId.**BICFI** - BICFI | Code allocated to a financial institution by the ISO 9362 Registration Authority as described in ISO 9362 "Banking - Banking telecommunication messages - Business identifier code (BIC)"<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.CdtrAgt.FinInstnId.**ClrSysMmbId** - ClearingSystemMemberIdentification | Information used to identify a member within a clearing system<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.CdtrAgt.FinInstnId.**LEI** - LEI | Legal entity identifier of the financial institution.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.CdtrAgt.FinInstnId.**Nm** - Name | Name by which an agent is known and which is usually used to identify that agent<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.CdtrAgt.FinInstnId.**PstlAdr** - PostalAddress | Information that locates and identifies a specific address, as defined by postal services.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.CdtrAgt.FinInstnId.**Othr** - Other | Unique identification of an agent, as assigned by an institution, using an identification scheme.<br> |
+|   CdtTrfTxInf.UndrlygCstmrCdtTrf.CdtrAgt.**BrnchId** - BranchIdentification | Identifies a specific branch of a financial institution.<br> |
 |   CdtTrfTxInf.**PmtTpInf** - PaymentTypeInformation | Set of elements used to further specify the type of transaction.<br> |
-|   CdtTrfTxInf.**UndrlygCstmrCdtTrf** - Underlying Customer Credit Transfer | TBD<br> |
 |   CdtTrfTxInf.**DbtrAcct** - DebtorAccount | Account used to process a payment.<br> |
 |   CdtTrfTxInf.**DbtrAgt** - DebtorAgent | Financial institution servicing an account for the debtor.<br> |
 |   CdtTrfTxInf.**CdtrAgt** - CreditorAgent | Financial institution servicing an account for the creditor.<br> |
 |   CdtTrfTxInf.**CdtrAcct** - CreditorAccount | Account to which a credit entry is made.<br> |
 |   CdtTrfTxInf.**InstrForCdtrAgt** - InstructionForCreditorAgent | Set of elements used to provide information on the remittance advice.<br> |
 |   CdtTrfTxInf.**Purp** - Purpose | Underlying reason for the payment transaction.<br> |
-|   CdtTrfTxInf.**VrfctnOfTerms** - VerificationOfTerms | Set of elements used to provide information on the underlying terms of the transaction.<br> |
 
 
 #### Unsupported Fields
@@ -1909,7 +2126,7 @@ Mojaloop is an end-to-end messaging system where messages are signed at each end
 |   CdtTrfTxInf.**SplmtryData** - SupplementaryData | Additional information that cannot be captured in the structured fields and/or any other specific block. |
 |   **SplmtryData** - SupplementaryData | Additional information that cannot be captured in the structured fields and/or any other specific block. |
 
-### PUT /fxTransfers/{ID}
+## 7.11 PUT /fxTransfers/{ID}
 
 | Financial Institution to Financial Institution Payment Status Report - **pacs.002.001.15**|
 |--|
@@ -1968,6 +2185,12 @@ Here are the required fields that are needed by the switch to operate.
 |  * **GrpHdr** - Set of characteristics shared by all individual transactions included in the message. | Set of characteristics shared by all individual transactions included in the message.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **MsgId** - MessageIdentification | Definition: Point to point reference, as assigned by the instructing party, and sent to the next party in the chain to unambiguously identify the message.<br>Usage: The instructing party has to make sure that MessageIdentification is unique per instructed party for a pre-agreed period.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **CreDtTm** - CreationDateTime | Date and time at which the message was created.<br> |
+|  * **TxInfAndSts** - Information concerning the original transactions, to which the status report message refers. | Provides further details on the original transactions, to which the status report message refers.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **ExctnConf** - Unique reference, as assigned by the account servicing institution, to unambiguously identify the confirmation. | Specifies a hexadecimal string.<br><br>NOTE: This pattern is not the original ISO20022 specification.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **PrcgDt** - Date/time at which the instruction was processed by the specified party. | Specifies the reason for the status.<br> |
+| {or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Dt** - Date | Specified date.<br> |
+| or}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **DtTm** - DateTime | Specified date and time.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **TxSts** - Specifies the status of the transaction. | Specifies the external payment transaction status code.<br><br>For FSPIOP transfer state enumeration mappings:<br>{<br>  "COMM": "COMMITED",<br>  "RESV": "RESERVED",<br>  "RECV": "RECEIVED",<br>  "ABOR": "ABORTED"<br>}<br><br>NOTE: enum enforcement is not apart of the ISO20022 specification, but is added here for FSPIOP mappings.<br> |
 
 
 
@@ -1976,7 +2199,16 @@ Here is a list of all the optional fields. Some of these fields when specified r
 
 | **ISO 20022 Field** | **Description** |
 | --- | --- |
-|   **TxInfAndSts** - Information concerning the original transactions, to which the status report message refers. | Provides further details on the original transactions, to which the status report message refers.<br> |
+|   TxInfAndSts.**StsId** - Unique identification, as assigned by the original sending party, to unambiguously identify the status report. | Specifies a character string with a maximum length of 35 characters.<br> |
+|   TxInfAndSts.**OrgnlInstrId** - Unique identification, as assigned by the original sending party, to | unambiguously identify the original instruction.<br><br>(FSPIOP equivalent: transactionRequestId)<br> |
+|   TxInfAndSts.**OrgnlEndToEndId** - Unique identification, as assigned by the original sending party, to | unambiguously identify the original end-to-end transaction.<br><br>(FSPIOP equivalent: transactionId)<br> |
+|   TxInfAndSts.**OrgnlTxId** - Unique identification, as assigned by the original sending party, to | unambiguously identify the original transaction.<br><br>(FSPIOP equivalent: quoteId)<br> |
+|   TxInfAndSts.**OrgnlUETR** - Unique end-to-end transaction reference, as assigned by the original sending party, to unambiguously identify the original transaction. | Unique end-to-end transaction reference, as assigned by the original sending party, to unambiguously identify the original transaction.<br> |
+|   TxInfAndSts.**StsRsnInf** - Information concerning the reason for the status. | Unsure on description.<br> |
+|   TxInfAndSts.**AccptncDtTm** - Date and time at which the status was accepted. | A particular point in the progression of time defined by a mandatory<br>date and a mandatory time component, expressed in either UTC time<br>format (YYYY-MM-DDThh:mm:ss.sssZ), local time with UTC offset format<br>(YYYY-MM-DDThh:mm:ss.sss+/-hh:mm), or local time format<br>(YYYY-MM-DDThh:mm:ss.sss). These representations are defined in<br>"XML Schema Part 2: Datatypes Second Edition -<br>W3C Recommendation 28 October 2004" which is aligned with ISO 8601.<br><br>Note on the time format:<br>1) beginning / end of calendar day<br>00:00:00 = the beginning of a calendar day<br>24:00:00 = the end of a calendar day<br><br>2) fractions of second in time format<br>Decimal fractions of seconds may be included. In this case, the<br>involved parties shall agree on the maximum number of digits that are allowed.<br> |
+|   TxInfAndSts.**AcctSvcrRef** - Unique reference, as assigned by the account servicing institution, to unambiguously identify the status report. | Specifies a character string with a maximum length of 35 characters.<br> |
+|   TxInfAndSts.**ClrSysRef** - Reference that is assigned by the account servicing institution and sent to the account owner to unambiguously identify the transaction. | Specifies a character string with a maximum length of 35 characters.<br> |
+|   TxInfAndSts.**SplmtryData** - Additional information that cannot be captured in the structured elements and/or any other specific block. | Additional information that cannot be captured in the structured fields and/or any other specific block.<br> |
 |   **SplmtryData** - Additional information that cannot be captured in the structured elements and/or any other specific block. | Additional information that cannot be captured in the structured fields and/or any other specific block.<br> |
 
 
@@ -1997,7 +2229,7 @@ Mojaloop is an end-to-end messaging system where messages are signed at each end
 |   GrpHdr.**InstdAgt** - BranchAndFinancialInstitutionIdentification | Unique and unambiguous identification of a financial institution or a branch of a financial institution. |
 |   **CdtTrfTxInf** - CreditTransferTransaction62 |  |
 
-### PUT /fxTransfers/{ID}/error
+## 7.12 PUT /fxTransfers/{ID}/error
 
 | Financial Institution to Financial Institution Payment Status Report - **pacs.002.001.15**|
 |--|
@@ -2051,6 +2283,11 @@ Here are the required fields that are needed by the switch to operate.
 |  * **GrpHdr** - Set of characteristics shared by all individual transactions included in the message. | Set of characteristics shared by all individual transactions included in the message.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **MsgId** - MessageIdentification | Definition: Point to point reference, as assigned by the instructing party, and sent to the next party in the chain to unambiguously identify the message.<br>Usage: The instructing party has to make sure that MessageIdentification is unique per instructed party for a pre-agreed period.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **CreDtTm** - CreationDateTime | Date and time at which the message was created.<br> |
+|  * **TxInfAndSts** - Information concerning the original transactions, to which the status report message refers. | Provides further details on the original transactions, to which the status report message refers.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **StsRsnInf** - Information concerning the reason for the status. | Unsure on description.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Rsn** - Reason | Specifies the reason for the status report.<br> |
+| {or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Cd** - Code | Reason for the status, as published in an external reason code list.<br> |
+| or}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Prtry** - Proprietary | Reason for the status, in a proprietary form.<br> |
 
 
 
@@ -2059,7 +2296,20 @@ Here is a list of all the optional fields. Some of these fields when specified r
 
 | **ISO 20022 Field** | **Description** |
 | --- | --- |
-|   **TxInfAndSts** - Information concerning the original transactions, to which the status report message refers. | Provides further details on the original transactions, to which the status report message refers.<br> |
+|   TxInfAndSts.StsRsnInf.**Orgtr** - Originator | Party that issues the status.<br> |
+|   TxInfAndSts.StsRsnInf.**AddtlInf** - AdditionalInformation | Additional information about the status report.<br> |
+|   TxInfAndSts.**StsId** - Unique identification, as assigned by the original sending party, to unambiguously identify the status report. | Specifies a character string with a maximum length of 35 characters.<br> |
+|   TxInfAndSts.**OrgnlInstrId** - Unique identification, as assigned by the original sending party, to | unambiguously identify the original instruction.<br><br>(FSPIOP equivalent: transactionRequestId)<br> |
+|   TxInfAndSts.**OrgnlEndToEndId** - Unique identification, as assigned by the original sending party, to | unambiguously identify the original end-to-end transaction.<br><br>(FSPIOP equivalent: transactionId)<br> |
+|   TxInfAndSts.**OrgnlTxId** - Unique identification, as assigned by the original sending party, to | unambiguously identify the original transaction.<br><br>(FSPIOP equivalent: quoteId)<br> |
+|   TxInfAndSts.**OrgnlUETR** - Unique end-to-end transaction reference, as assigned by the original sending party, to unambiguously identify the original transaction. | Unique end-to-end transaction reference, as assigned by the original sending party, to unambiguously identify the original transaction.<br> |
+|   TxInfAndSts.**TxSts** - Specifies the status of the transaction. | Specifies the external payment transaction status code.<br><br>For FSPIOP transfer state enumeration mappings:<br>{<br>  "COMM": "COMMITED",<br>  "RESV": "RESERVED",<br>  "RECV": "RECEIVED",<br>  "ABOR": "ABORTED"<br>}<br><br>NOTE: enum enforcement is not apart of the ISO20022 specification, but is added here for FSPIOP mappings.<br> |
+|   TxInfAndSts.**AccptncDtTm** - Date and time at which the status was accepted. | A particular point in the progression of time defined by a mandatory<br>date and a mandatory time component, expressed in either UTC time<br>format (YYYY-MM-DDThh:mm:ss.sssZ), local time with UTC offset format<br>(YYYY-MM-DDThh:mm:ss.sss+/-hh:mm), or local time format<br>(YYYY-MM-DDThh:mm:ss.sss). These representations are defined in<br>"XML Schema Part 2: Datatypes Second Edition -<br>W3C Recommendation 28 October 2004" which is aligned with ISO 8601.<br><br>Note on the time format:<br>1) beginning / end of calendar day<br>00:00:00 = the beginning of a calendar day<br>24:00:00 = the end of a calendar day<br><br>2) fractions of second in time format<br>Decimal fractions of seconds may be included. In this case, the<br>involved parties shall agree on the maximum number of digits that are allowed.<br> |
+|   TxInfAndSts.**AcctSvcrRef** - Unique reference, as assigned by the account servicing institution, to unambiguously identify the status report. | Specifies a character string with a maximum length of 35 characters.<br> |
+|   TxInfAndSts.**ClrSysRef** - Reference that is assigned by the account servicing institution and sent to the account owner to unambiguously identify the transaction. | Specifies a character string with a maximum length of 35 characters.<br> |
+|   TxInfAndSts.**ExctnConf** - Unique reference, as assigned by the account servicing institution, to unambiguously identify the confirmation. | Specifies a hexadecimal string.<br><br>NOTE: This pattern is not the original ISO20022 specification.<br> |
+|   TxInfAndSts.**SplmtryData** - Additional information that cannot be captured in the structured elements and/or any other specific block. | Additional information that cannot be captured in the structured fields and/or any other specific block.<br> |
+|   TxInfAndSts.**PrcgDt** - Date/time at which the instruction was processed by the specified party. | Specifies the reason for the status.<br> |
 |   **SplmtryData** - Additional information that cannot be captured in the structured elements and/or any other specific block. | Additional information that cannot be captured in the structured fields and/or any other specific block.<br> |
 
 
@@ -2080,7 +2330,7 @@ Mojaloop is an end-to-end messaging system where messages are signed at each end
 |   TxInfAndSts.**InstdAgt** - BranchAndFinancialInstitutionIdentification | Unique and unambiguous identification of a financial institution or a branch of a financial institution. |
 |   TxInfAndSts.**OrgnlTxRef** - OriginalTransactionReference42 |  |
 
-### PATCH /fxTransfers/{ID}
+## 7.13 PATCH /fxTransfers/{ID}
 | Financial Institution to Financial Institution Payment Status Report - **pacs.002.001.15**|
 |--|
 
@@ -2098,7 +2348,7 @@ Here is an example of the message:
 "TxInfAndSts":{
     "PrcgDt":{
         "DtTm":"2024-11-04T12:57:45.213Z"},
-        "TxSts":"COMM"}
+    "TxSts":"COMM"}
 }
 ```
 
@@ -2137,6 +2387,11 @@ Here are the required fields that are needed by the switch to operate.
 |  * **GrpHdr** - Set of characteristics shared by all individual transactions included in the message. | Set of characteristics shared by all individual transactions included in the message.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **MsgId** - MessageIdentification | Definition: Point to point reference, as assigned by the instructing party, and sent to the next party in the chain to unambiguously identify the message.<br>Usage: The instructing party has to make sure that MessageIdentification is unique per instructed party for a pre-agreed period.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **CreDtTm** - CreationDateTime | Date and time at which the message was created.<br> |
+|  * **TxInfAndSts** - Information concerning the original transactions, to which the status report message refers. | Provides further details on the original transactions, to which the status report message refers.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **PrcgDt** - Date/time at which the instruction was processed by the specified party. | Specifies the reason for the status.<br> |
+| {or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Dt** - Date | Specified date.<br> |
+| or}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **DtTm** - DateTime | Specified date and time.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **TxSts** - Specifies the status of the transaction. | Specifies the external payment transaction status code.<br><br>For FSPIOP transfer state enumeration mappings:<br>{<br>  "COMM": "COMMITED",<br>  "RESV": "RESERVED",<br>  "RECV": "RECEIVED",<br>  "ABOR": "ABORTED"<br>}<br><br>NOTE: enum enforcement is not apart of the ISO20022 specification, but is added here for FSPIOP mappings.<br> |
 
 
 
@@ -2145,7 +2400,17 @@ Here is a list of all the optional fields. Some of these fields when specified r
 
 | **ISO 20022 Field** | **Description** |
 | --- | --- |
-|   **TxInfAndSts** - Information concerning the original transactions, to which the status report message refers. | Provides further details on the original transactions, to which the status report message refers.<br> |
+|   TxInfAndSts.**StsId** - Unique identification, as assigned by the original sending party, to unambiguously identify the status report. | Specifies a character string with a maximum length of 35 characters.<br> |
+|   TxInfAndSts.**OrgnlInstrId** - Unique identification, as assigned by the original sending party, to | unambiguously identify the original instruction.<br><br>(FSPIOP equivalent: transactionRequestId)<br> |
+|   TxInfAndSts.**OrgnlEndToEndId** - Unique identification, as assigned by the original sending party, to | unambiguously identify the original end-to-end transaction.<br><br>(FSPIOP equivalent: transactionId)<br> |
+|   TxInfAndSts.**OrgnlTxId** - Unique identification, as assigned by the original sending party, to | unambiguously identify the original transaction.<br><br>(FSPIOP equivalent: quoteId)<br> |
+|   TxInfAndSts.**OrgnlUETR** - Unique end-to-end transaction reference, as assigned by the original sending party, to unambiguously identify the original transaction. | Unique end-to-end transaction reference, as assigned by the original sending party, to unambiguously identify the original transaction.<br> |
+|   TxInfAndSts.**StsRsnInf** - Information concerning the reason for the status. | Unsure on description.<br> |
+|   TxInfAndSts.**AccptncDtTm** - Date and time at which the status was accepted. | A particular point in the progression of time defined by a mandatory<br>date and a mandatory time component, expressed in either UTC time<br>format (YYYY-MM-DDThh:mm:ss.sssZ), local time with UTC offset format<br>(YYYY-MM-DDThh:mm:ss.sss+/-hh:mm), or local time format<br>(YYYY-MM-DDThh:mm:ss.sss). These representations are defined in<br>"XML Schema Part 2: Datatypes Second Edition -<br>W3C Recommendation 28 October 2004" which is aligned with ISO 8601.<br><br>Note on the time format:<br>1) beginning / end of calendar day<br>00:00:00 = the beginning of a calendar day<br>24:00:00 = the end of a calendar day<br><br>2) fractions of second in time format<br>Decimal fractions of seconds may be included. In this case, the<br>involved parties shall agree on the maximum number of digits that are allowed.<br> |
+|   TxInfAndSts.**AcctSvcrRef** - Unique reference, as assigned by the account servicing institution, to unambiguously identify the status report. | Specifies a character string with a maximum length of 35 characters.<br> |
+|   TxInfAndSts.**ClrSysRef** - Reference that is assigned by the account servicing institution and sent to the account owner to unambiguously identify the transaction. | Specifies a character string with a maximum length of 35 characters.<br> |
+|   TxInfAndSts.**ExctnConf** - Unique reference, as assigned by the account servicing institution, to unambiguously identify the confirmation. | Specifies a hexadecimal string.<br><br>NOTE: This pattern is not the original ISO20022 specification.<br> |
+|   TxInfAndSts.**SplmtryData** - Additional information that cannot be captured in the structured elements and/or any other specific block. | Additional information that cannot be captured in the structured fields and/or any other specific block.<br> |
 |   **SplmtryData** - Additional information that cannot be captured in the structured elements and/or any other specific block. | Additional information that cannot be captured in the structured fields and/or any other specific block.<br> |
 
 
@@ -2166,7 +2431,7 @@ Mojaloop is an end-to-end messaging system where messages are signed at each end
 |   TxInfAndSts.**InstdAgt** - BranchAndFinancialInstitutionIdentification | Unique and unambiguous identification of a financial institution or a branch of a financial institution. |
 |   TxInfAndSts.**OrgnlTxRef** - OriginalTransactionReference42 |  |
 
-### POST /transfers
+## 7.14 POST /transfers
 | Financial Institution to Financial Institution Customer Credit Transfer - **pacs.008.001.13**|
 |--|
 
@@ -2243,6 +2508,7 @@ Here are the required fields that are needed by the switch to operate.
 | &nbsp;&nbsp;&nbsp;&nbsp; * **NbOfTxs** - Number of Transactions | Specifies a numeric string with a maximum length of 15 digits.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **SttlmInf** - Settlement Information | Specifies the details on how the settlement of the original transaction(s) between the<br>instructing agent and the instructed agent was completed.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **SttlmMtd** - SettlementMethodCode | Specifies the method used to settle the credit transfer instruction.<br><br>INDA: Indirect Account<br>INGA: Indirect Agent<br>COVE: Cover<br>CLRG: Clearing<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **PmtInstrXpryDtTm** - Payment Instruction Expiry Date and Time | A particular point in the progression of time defined by a mandatory<br>date and a mandatory time component, expressed in either UTC time<br>format (YYYY-MM-DDThh:mm:ss.sssZ), local time with UTC offset format<br>(YYYY-MM-DDThh:mm:ss.sss+/-hh:mm), or local time format<br>(YYYY-MM-DDThh:mm:ss.sss). These representations are defined in<br>"XML Schema Part 2: Datatypes Second Edition -<br>W3C Recommendation 28 October 2004" which is aligned with ISO 8601.<br><br>Note on the time format:<br>1) beginning / end of calendar day<br>00:00:00 = the beginning of a calendar day<br>24:00:00 = the end of a calendar day<br><br>2) fractions of second in time format<br>Decimal fractions of seconds may be included. In this case, the<br>involved parties shall agree on the maximum number of digits that are allowed.<br> |
 |  * **CdtTrfTxInf** - Credit Transfer Transaction Information | Set of elements providing information specific to the individual credit transfer(s).<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **PmtId** - PaymentIdentification | Set of elements used to reference a payment instruction.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **TxId** - TransactionIdentification (FSPIOP equivalent: quoteId in quote request, transferId in transfer request) | <br>Definition: Unique identification, as assigned by the first instructing agent, to unambiguously identify the<br>transaction that is passed on, unchanged, throughout the entire interbank chain.<br><br>Usage: The transaction identification can be used for reconciliation, tracking or to link tasks relating to<br>the transaction on the interbank level.<br><br>Usage: The instructing agent has to make sure that the transaction identification is unique for a preagreed period.<br><br>This field has been changed from the original ISO20022 `Max35Text`` schema to a ULIDIdentifier schema.<br> |
@@ -2262,6 +2528,9 @@ Here are the required fields that are needed by the switch to operate.
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Id** - Identification | Unique and unambiguous identification of a party.<br> |
 | {or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **OrgId** - Organisation | Unique and unambiguous way to identify an organisation.<br> |
 | or}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **PrvtId** - Person | Unique and unambiguous identification of a person, for example a passport.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **VrfctnOfTerms** - CryptographicLockChoice | Cryptographically signed terms<br> |
+| {or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **IlpV4PrepPacket** - Interledger Protocol packet (ILPv4) containing Cryptographically signed terms | Interledger Protocol packet (ILPv4) containing Cryptographically signed terms<br> |
+| or}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Sh256Sgntr** - SHA-256 signature of the terms | Specifies a hexadecimal string.<br><br>NOTE: This pattern is not the original ISO20022 specification.<br> |
 
 
 
@@ -2270,8 +2539,6 @@ Here is a list of all the optional fields. Some of these fields when specified r
 
 | **ISO 20022 Field** | **Description** |
 | --- | --- |
-|   GrpHdr.SttlmInf.**PmtTpInf** - PaymentTypeInformation | Provides further details of the type of payment.<br> |
-|   GrpHdr.**PmtInstrXpryDtTm** - Payment Instruction Expiry Date and Time | A particular point in the progression of time defined by a mandatory<br>date and a mandatory time component, expressed in either UTC time<br>format (YYYY-MM-DDThh:mm:ss.sssZ), local time with UTC offset format<br>(YYYY-MM-DDThh:mm:ss.sss+/-hh:mm), or local time format<br>(YYYY-MM-DDThh:mm:ss.sss). These representations are defined in<br>"XML Schema Part 2: Datatypes Second Edition -<br>W3C Recommendation 28 October 2004" which is aligned with ISO 8601.<br><br>Note on the time format:<br>1) beginning / end of calendar day<br>00:00:00 = the beginning of a calendar day<br>24:00:00 = the end of a calendar day<br><br>2) fractions of second in time format<br>Decimal fractions of seconds may be included. In this case, the<br>involved parties shall agree on the maximum number of digits that are allowed.<br> |
 |   CdtTrfTxInf.PmtId.**InstrId** - InstructionIdentification (FSPIOP equivalent: transactionRequestId) | <br>Definition: Unique identification, as assigned by an instructing party for an instructed party, to<br>unambiguously identify the instruction.<br><br>Usage: The instruction identification is a point to point reference that can be used between the<br>instructing party and the instructed party to refer to the individual instruction. It can be included in<br>several messages related to the instruction.<br><br>This field has been changed from the original ISO20022 `Max35Text`` schema to a ULIDIdentifier schema.<br> |
 |   CdtTrfTxInf.PmtId.**EndToEndId** - EndToEndIdentification (FSPIOP equivalent: transactionId) | <br>Definition: Unique identification, as assigned by the initiating party, to unambiguously identify the<br>transaction. This identification is passed on, unchanged, throughout the entire end-to-end chain.<br><br>Usage: The end-to-end identification can be used for reconciliation or to link tasks relating to the<br>transaction. It can be included in several messages related to the transaction.<br><br>Usage: In case there are technical limitations to pass on multiple references, the end-to-end<br>identification must be passed on throughout the entire end-to-end chain.<br><br>This field has been changed from the original ISO20022 `Max35Text`` schema to a ULIDIdentifier schema.<br> |
 |   CdtTrfTxInf.PmtId.**UETR** - UETR | Universally unique identifier to provide an end-to-end reference of a payment transaction.<br> |
@@ -2320,7 +2587,6 @@ Here is a list of all the optional fields. Some of these fields when specified r
 |   CdtTrfTxInf.**Purp** - Purpose | Underlying reason for the payment transaction.<br> |
 |   CdtTrfTxInf.**RgltryRptg** - RegulatoryReporting | Information needed due to regulatory and statutory requirements.<br> |
 |   CdtTrfTxInf.**Tax** - Tax | Provides details on the tax.<br> |
-|   CdtTrfTxInf.**VrfctnOfTerms** - CryptographicLockChoice | Cryptographically signed terms<br> |
 
 
 #### Unsupported Fields
@@ -2381,7 +2647,7 @@ Mojaloop is an end-to-end messaging system where messages are signed at each end
 |   CdtTrfTxInf.**SplmtryData** - SupplementaryData | Additional information that cannot be captured in the structured fields and/or any other specific block. |
 |   **SplmtryData** - SupplementaryData | Additional information that cannot be captured in the structured fields and/or any other specific block. |
 
-### PUT /transfers/{ID}
+## 7.15 PUT /transfers/{ID}
 | Financial Institution to Financial Institution Payment Status Report - **pacs.002.001.15**|
 |--|
 
@@ -2441,6 +2707,12 @@ Here are the required fields that are needed by the switch to operate.
 |  * **GrpHdr** - Set of characteristics shared by all individual transactions included in the message. | Set of characteristics shared by all individual transactions included in the message.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **MsgId** - MessageIdentification | Definition: Point to point reference, as assigned by the instructing party, and sent to the next party in the chain to unambiguously identify the message.<br>Usage: The instructing party has to make sure that MessageIdentification is unique per instructed party for a pre-agreed period.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **CreDtTm** - CreationDateTime | Date and time at which the message was created.<br> |
+|  * **TxInfAndSts** - Information concerning the original transactions, to which the status report message refers. | Provides further details on the original transactions, to which the status report message refers.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **ExctnConf** - Unique reference, as assigned by the account servicing institution, to unambiguously identify the confirmation. | Specifies a hexadecimal string.<br><br>NOTE: This pattern is not the original ISO20022 specification.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **PrcgDt** - Date/time at which the instruction was processed by the specified party. | Specifies the reason for the status.<br> |
+| {or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Dt** - Date | Specified date.<br> |
+| or}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **DtTm** - DateTime | Specified date and time.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **TxSts** - Specifies the status of the transaction. | Specifies the external payment transaction status code.<br><br>For FSPIOP transfer state enumeration mappings:<br>{<br>  "COMM": "COMMITED",<br>  "RESV": "RESERVED",<br>  "RECV": "RECEIVED",<br>  "ABOR": "ABORTED"<br>}<br><br>NOTE: enum enforcement is not apart of the ISO20022 specification, but is added here for FSPIOP mappings.<br> |
 
 
 
@@ -2449,7 +2721,16 @@ Here is a list of all the optional fields. Some of these fields when specified r
 
 | **ISO 20022 Field** | **Description** |
 | --- | --- |
-|   **TxInfAndSts** - Information concerning the original transactions, to which the status report message refers. | Provides further details on the original transactions, to which the status report message refers.<br> |
+|   TxInfAndSts.**StsId** - Unique identification, as assigned by the original sending party, to unambiguously identify the status report. | Specifies a character string with a maximum length of 35 characters.<br> |
+|   TxInfAndSts.**OrgnlInstrId** - Unique identification, as assigned by the original sending party, to | unambiguously identify the original instruction.<br><br>(FSPIOP equivalent: transactionRequestId)<br> |
+|   TxInfAndSts.**OrgnlEndToEndId** - Unique identification, as assigned by the original sending party, to | unambiguously identify the original end-to-end transaction.<br><br>(FSPIOP equivalent: transactionId)<br> |
+|   TxInfAndSts.**OrgnlTxId** - Unique identification, as assigned by the original sending party, to | unambiguously identify the original transaction.<br><br>(FSPIOP equivalent: quoteId)<br> |
+|   TxInfAndSts.**OrgnlUETR** - Unique end-to-end transaction reference, as assigned by the original sending party, to unambiguously identify the original transaction. | Unique end-to-end transaction reference, as assigned by the original sending party, to unambiguously identify the original transaction.<br> |
+|   TxInfAndSts.**StsRsnInf** - Information concerning the reason for the status. | Unsure on description.<br> |
+|   TxInfAndSts.**AccptncDtTm** - Date and time at which the status was accepted. | A particular point in the progression of time defined by a mandatory<br>date and a mandatory time component, expressed in either UTC time<br>format (YYYY-MM-DDThh:mm:ss.sssZ), local time with UTC offset format<br>(YYYY-MM-DDThh:mm:ss.sss+/-hh:mm), or local time format<br>(YYYY-MM-DDThh:mm:ss.sss). These representations are defined in<br>"XML Schema Part 2: Datatypes Second Edition -<br>W3C Recommendation 28 October 2004" which is aligned with ISO 8601.<br><br>Note on the time format:<br>1) beginning / end of calendar day<br>00:00:00 = the beginning of a calendar day<br>24:00:00 = the end of a calendar day<br><br>2) fractions of second in time format<br>Decimal fractions of seconds may be included. In this case, the<br>involved parties shall agree on the maximum number of digits that are allowed.<br> |
+|   TxInfAndSts.**AcctSvcrRef** - Unique reference, as assigned by the account servicing institution, to unambiguously identify the status report. | Specifies a character string with a maximum length of 35 characters.<br> |
+|   TxInfAndSts.**ClrSysRef** - Reference that is assigned by the account servicing institution and sent to the account owner to unambiguously identify the transaction. | Specifies a character string with a maximum length of 35 characters.<br> |
+|   TxInfAndSts.**SplmtryData** - Additional information that cannot be captured in the structured elements and/or any other specific block. | Additional information that cannot be captured in the structured fields and/or any other specific block.<br> |
 |   **SplmtryData** - Additional information that cannot be captured in the structured elements and/or any other specific block. | Additional information that cannot be captured in the structured fields and/or any other specific block.<br> |
 
 
@@ -2470,7 +2751,7 @@ Mojaloop is an end-to-end messaging system where messages are signed at each end
 |   GrpHdr.**InstdAgt** - BranchAndFinancialInstitutionIdentification | Unique and unambiguous identification of a financial institution or a branch of a financial institution. |
 |   **CdtTrfTxInf** - CreditTransferTransaction64 |  |
 
-### PUT /transfers/{ID}/error
+## 7.16 PUT /transfers/{ID}/error
 
 | Financial Institution to Financial Institution Payment Status Report - **pacs.002.001.15**|
 |--|
@@ -2524,6 +2805,11 @@ Here are the required fields that are needed by the switch to operate.
 |  * **GrpHdr** - Set of characteristics shared by all individual transactions included in the message. | Set of characteristics shared by all individual transactions included in the message.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **MsgId** - MessageIdentification | Definition: Point to point reference, as assigned by the instructing party, and sent to the next party in the chain to unambiguously identify the message.<br>Usage: The instructing party has to make sure that MessageIdentification is unique per instructed party for a pre-agreed period.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **CreDtTm** - CreationDateTime | Date and time at which the message was created.<br> |
+|  * **TxInfAndSts** - Information concerning the original transactions, to which the status report message refers. | Provides further details on the original transactions, to which the status report message refers.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **StsRsnInf** - Information concerning the reason for the status. | Unsure on description.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Rsn** - Reason | Specifies the reason for the status report.<br> |
+| {or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Cd** - Code | Reason for the status, as published in an external reason code list.<br> |
+| or}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Prtry** - Proprietary | Reason for the status, in a proprietary form.<br> |
 
 
 
@@ -2532,7 +2818,20 @@ Here is a list of all the optional fields. Some of these fields when specified r
 
 | **ISO 20022 Field** | **Description** |
 | --- | --- |
-|   **TxInfAndSts** - Information concerning the original transactions, to which the status report message refers. | Provides further details on the original transactions, to which the status report message refers.<br> |
+|   TxInfAndSts.StsRsnInf.**Orgtr** - Originator | Party that issues the status.<br> |
+|   TxInfAndSts.StsRsnInf.**AddtlInf** - AdditionalInformation | Additional information about the status report.<br> |
+|   TxInfAndSts.**StsId** - Unique identification, as assigned by the original sending party, to unambiguously identify the status report. | Specifies a character string with a maximum length of 35 characters.<br> |
+|   TxInfAndSts.**OrgnlInstrId** - Unique identification, as assigned by the original sending party, to | unambiguously identify the original instruction.<br><br>(FSPIOP equivalent: transactionRequestId)<br> |
+|   TxInfAndSts.**OrgnlEndToEndId** - Unique identification, as assigned by the original sending party, to | unambiguously identify the original end-to-end transaction.<br><br>(FSPIOP equivalent: transactionId)<br> |
+|   TxInfAndSts.**OrgnlTxId** - Unique identification, as assigned by the original sending party, to | unambiguously identify the original transaction.<br><br>(FSPIOP equivalent: quoteId)<br> |
+|   TxInfAndSts.**OrgnlUETR** - Unique end-to-end transaction reference, as assigned by the original sending party, to unambiguously identify the original transaction. | Unique end-to-end transaction reference, as assigned by the original sending party, to unambiguously identify the original transaction.<br> |
+|   TxInfAndSts.**TxSts** - Specifies the status of the transaction. | Specifies the external payment transaction status code.<br><br>For FSPIOP transfer state enumeration mappings:<br>{<br>  "COMM": "COMMITED",<br>  "RESV": "RESERVED",<br>  "RECV": "RECEIVED",<br>  "ABOR": "ABORTED"<br>}<br><br>NOTE: enum enforcement is not apart of the ISO20022 specification, but is added here for FSPIOP mappings.<br> |
+|   TxInfAndSts.**AccptncDtTm** - Date and time at which the status was accepted. | A particular point in the progression of time defined by a mandatory<br>date and a mandatory time component, expressed in either UTC time<br>format (YYYY-MM-DDThh:mm:ss.sssZ), local time with UTC offset format<br>(YYYY-MM-DDThh:mm:ss.sss+/-hh:mm), or local time format<br>(YYYY-MM-DDThh:mm:ss.sss). These representations are defined in<br>"XML Schema Part 2: Datatypes Second Edition -<br>W3C Recommendation 28 October 2004" which is aligned with ISO 8601.<br><br>Note on the time format:<br>1) beginning / end of calendar day<br>00:00:00 = the beginning of a calendar day<br>24:00:00 = the end of a calendar day<br><br>2) fractions of second in time format<br>Decimal fractions of seconds may be included. In this case, the<br>involved parties shall agree on the maximum number of digits that are allowed.<br> |
+|   TxInfAndSts.**AcctSvcrRef** - Unique reference, as assigned by the account servicing institution, to unambiguously identify the status report. | Specifies a character string with a maximum length of 35 characters.<br> |
+|   TxInfAndSts.**ClrSysRef** - Reference that is assigned by the account servicing institution and sent to the account owner to unambiguously identify the transaction. | Specifies a character string with a maximum length of 35 characters.<br> |
+|   TxInfAndSts.**ExctnConf** - Unique reference, as assigned by the account servicing institution, to unambiguously identify the confirmation. | Specifies a hexadecimal string.<br><br>NOTE: This pattern is not the original ISO20022 specification.<br> |
+|   TxInfAndSts.**SplmtryData** - Additional information that cannot be captured in the structured elements and/or any other specific block. | Additional information that cannot be captured in the structured fields and/or any other specific block.<br> |
+|   TxInfAndSts.**PrcgDt** - Date/time at which the instruction was processed by the specified party. | Specifies the reason for the status.<br> |
 |   **SplmtryData** - Additional information that cannot be captured in the structured elements and/or any other specific block. | Additional information that cannot be captured in the structured fields and/or any other specific block.<br> |
 
 
@@ -2553,15 +2852,14 @@ Mojaloop is an end-to-end messaging system where messages are signed at each end
 |   TxInfAndSts.**InstdAgt** - BranchAndFinancialInstitutionIdentification | Unique and unambiguous identification of a financial institution or a branch of a financial institution. |
 |   TxInfAndSts.**OrgnlTxRef** - OriginalTransactionReference42 |  |
 
-### PUT /transfers/{ID}/error
-
+## 7.17 PATCH /transfers/{ID}
 | Financial Institution to Financial Institution Payment Status Report - **pacs.002.001.15**|
 |--|
 
 #### Context 
-*(DFSP -> DFSP, DFSP -> HUB, HUB -> DFSP)*
+*(HUB -> DFSP)*
 
-This is triggered as a callback response to the POST /transfers call when an error occurs. The message is generated by the entity who first encounter the error which can either be the DFSP, or the HUB. All other participants involved are informed by this message. The `TxInfAndSts.StsRsnInf.Rsn.Cd` contains the Mojaloop error code, which specified the source and cause of the error.
+This message use by the HUB to inform a payee DFSP participant of the successful conclusion of a transfer. This message is only generated if the payee DFSP response with a Reserved status when providing the fulfillment in the `PUT \transfers` message.
 
 Here is an example of the message:
 ```json
@@ -2569,9 +2867,12 @@ Here is an example of the message:
 "GrpHdr": {
     "MsgId":"01JBVM1CGC5A18XQVYYRF68FD1",
     "CreDtTm":"2024-11-04T12:57:45.228Z"},
-"TxInfAndSts":{"StsRsnInf":{"Rsn": {"Cd":"ErrorCode"}}}
-}
+"TxInfAndSts":{
+    "PrcgDt":{"DtTm":"2024-11-04T12:57:45.213Z"},
+    "TxSts":"COMM"}
+}        
 ```
+
 #### Message Details
 The details on how to compose and make this API are covered in the following sections:
 1. [Header Details](#header-details)<br> This section specifies the header requirements for the API are specified.
@@ -2607,6 +2908,11 @@ Here are the required fields that are needed by the switch to operate.
 |  * **GrpHdr** - Set of characteristics shared by all individual transactions included in the message. | Set of characteristics shared by all individual transactions included in the message.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **MsgId** - MessageIdentification | Definition: Point to point reference, as assigned by the instructing party, and sent to the next party in the chain to unambiguously identify the message.<br>Usage: The instructing party has to make sure that MessageIdentification is unique per instructed party for a pre-agreed period.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **CreDtTm** - CreationDateTime | Date and time at which the message was created.<br> |
+|  * **TxInfAndSts** - Information concerning the original transactions, to which the status report message refers. | Provides further details on the original transactions, to which the status report message refers.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **PrcgDt** - Date/time at which the instruction was processed by the specified party. | Specifies the reason for the status.<br> |
+| {or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Dt** - Date | Specified date.<br> |
+| or}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **DtTm** - DateTime | Specified date and time.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **TxSts** - Specifies the status of the transaction. | Specifies the external payment transaction status code.<br><br>For FSPIOP transfer state enumeration mappings:<br>{<br>  "COMM": "COMMITED",<br>  "RESV": "RESERVED",<br>  "RECV": "RECEIVED",<br>  "ABOR": "ABORTED"<br>}<br><br>NOTE: enum enforcement is not apart of the ISO20022 specification, but is added here for FSPIOP mappings.<br> |
 
 
 
@@ -2615,7 +2921,17 @@ Here is a list of all the optional fields. Some of these fields when specified r
 
 | **ISO 20022 Field** | **Description** |
 | --- | --- |
-|   **TxInfAndSts** - Information concerning the original transactions, to which the status report message refers. | Provides further details on the original transactions, to which the status report message refers.<br> |
+|   TxInfAndSts.**StsId** - Unique identification, as assigned by the original sending party, to unambiguously identify the status report. | Specifies a character string with a maximum length of 35 characters.<br> |
+|   TxInfAndSts.**OrgnlInstrId** - Unique identification, as assigned by the original sending party, to | unambiguously identify the original instruction.<br><br>(FSPIOP equivalent: transactionRequestId)<br> |
+|   TxInfAndSts.**OrgnlEndToEndId** - Unique identification, as assigned by the original sending party, to | unambiguously identify the original end-to-end transaction.<br><br>(FSPIOP equivalent: transactionId)<br> |
+|   TxInfAndSts.**OrgnlTxId** - Unique identification, as assigned by the original sending party, to | unambiguously identify the original transaction.<br><br>(FSPIOP equivalent: quoteId)<br> |
+|   TxInfAndSts.**OrgnlUETR** - Unique end-to-end transaction reference, as assigned by the original sending party, to unambiguously identify the original transaction. | Unique end-to-end transaction reference, as assigned by the original sending party, to unambiguously identify the original transaction.<br> |
+|   TxInfAndSts.**StsRsnInf** - Information concerning the reason for the status. | Unsure on description.<br> |
+|   TxInfAndSts.**AccptncDtTm** - Date and time at which the status was accepted. | A particular point in the progression of time defined by a mandatory<br>date and a mandatory time component, expressed in either UTC time<br>format (YYYY-MM-DDThh:mm:ss.sssZ), local time with UTC offset format<br>(YYYY-MM-DDThh:mm:ss.sss+/-hh:mm), or local time format<br>(YYYY-MM-DDThh:mm:ss.sss). These representations are defined in<br>"XML Schema Part 2: Datatypes Second Edition -<br>W3C Recommendation 28 October 2004" which is aligned with ISO 8601.<br><br>Note on the time format:<br>1) beginning / end of calendar day<br>00:00:00 = the beginning of a calendar day<br>24:00:00 = the end of a calendar day<br><br>2) fractions of second in time format<br>Decimal fractions of seconds may be included. In this case, the<br>involved parties shall agree on the maximum number of digits that are allowed.<br> |
+|   TxInfAndSts.**AcctSvcrRef** - Unique reference, as assigned by the account servicing institution, to unambiguously identify the status report. | Specifies a character string with a maximum length of 35 characters.<br> |
+|   TxInfAndSts.**ClrSysRef** - Reference that is assigned by the account servicing institution and sent to the account owner to unambiguously identify the transaction. | Specifies a character string with a maximum length of 35 characters.<br> |
+|   TxInfAndSts.**ExctnConf** - Unique reference, as assigned by the account servicing institution, to unambiguously identify the confirmation. | Specifies a hexadecimal string.<br><br>NOTE: This pattern is not the original ISO20022 specification.<br> |
+|   TxInfAndSts.**SplmtryData** - Additional information that cannot be captured in the structured elements and/or any other specific block. | Additional information that cannot be captured in the structured fields and/or any other specific block.<br> |
 |   **SplmtryData** - Additional information that cannot be captured in the structured elements and/or any other specific block. | Additional information that cannot be captured in the structured fields and/or any other specific block.<br> |
 
 
@@ -2636,8 +2952,8 @@ Mojaloop is an end-to-end messaging system where messages are signed at each end
 |   TxInfAndSts.**InstdAgt** - BranchAndFinancialInstitutionIdentification | Unique and unambiguous identification of a financial institution or a branch of a financial institution. |
 |   TxInfAndSts.**OrgnlTxRef** - OriginalTransactionReference42 |  |
 
-## Appendix A: Payment Identifier Type Codes
-### FSPIOP Identifier types
+# 8. Appendix A: Payment Identifier Type Codes
+## 8.1 FSPIOP Identifier types
 |Code|Description|
 | -- | -- |
 |MSISDN|An MSISDN (Mobile Station International Subscriber Directory Number, that is, the phone number) is used as reference to a participant. The MSISDN identifier should be in international format according to the ITU-T E.164 standard. Optionally, the MSISDN may be prefixed by a single plus sign, indicating the international prefix.|
@@ -2650,7 +2966,7 @@ Mojaloop is an end-to-end messaging system where messages are signed at each end
 |ALIAS| alias is used as reference to a participant. The alias should be created in the FSP as an alternative reference to an account owner. Another example of an alias is a username in the FSP system. The ALIAS identifier can be in any format. It is also possible to use the PartySubIdOrType element for identifying an account under an Alias defined by the PartyIdentifier.|
 
 
-### Personal Identifier Code Table
+## 8.2 Personal Identifier Code Table
 These type are not yet supported.
 
 |Code|Description|
@@ -2667,7 +2983,7 @@ These type are not yet supported.
 |POID|PersonCommercialIdentification|
 
 
-### Organisation Identifier Code Table
+## 8.3 Organisation Identifier Code Table
 These type are not yet supported.
 
 |Code|Description

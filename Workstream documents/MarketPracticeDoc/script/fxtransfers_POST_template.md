@@ -1,4 +1,4 @@
-### POST /fxTransfers
+## 7.10 POST /fxTransfers
 | Execute Financial Institution Credit Transfer - **pacs.009.001.12**|
 |--|
 
@@ -35,10 +35,10 @@ Here is an example of the message:
             "CdtrAgt":{"FinInstnId":{"Othr":{"Id":"fxp"}}},
             "InstdAmt":{"Ccy":"ZMW",
                 "ActiveOrHistoricCurrencyAndAmount":"21"}},
-            "Cdtr":{"FinInstnId":{"Othr":{"Id":"fxp"}}},
-            "IntrBkSttlmAmt":{"Ccy":"MWK",
+    "Cdtr":{"FinInstnId":{"Othr":{"Id":"fxp"}}},
+    "IntrBkSttlmAmt":{"Ccy":"MWK",
                 "ActiveCurrencyAndAmount":"1080"},
-            "VrfctnOfTerms":{"Sh256Sgntr":"KVHFmdTD6A..."}}
+    "VrfctnOfTerms":{"Sh256Sgntr":"KVHFmdTD6A..."}}
 }
 ```
 #### Message Details

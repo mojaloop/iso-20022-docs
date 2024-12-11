@@ -1,4 +1,4 @@
-### PUT /Parties/{type}/{partyIdentifier}[/{subId}]
+## 7.2 PUT /Parties/{type}/{partyIdentifier}[/{subId}]
 |**Account Identification Verification Report - acmt.024.001.04**|
 |--|
 

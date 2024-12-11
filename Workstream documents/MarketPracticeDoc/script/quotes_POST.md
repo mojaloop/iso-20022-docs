@@ -1,4 +1,4 @@
-### POST /quotes
+## 7.7 POST /quotes
 |**Financial Institution to Financial Institution Customer Credit Transfer Quote Request - pacs.081.001.01**|
 |--|
 
@@ -102,6 +102,9 @@ Here are the required fields that are needed by the switch to operate.
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Id** - Identification | Unique and unambiguous identification of a party.<br> |
 | {or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **OrgId** - Organisation | Unique and unambiguous way to identify an organisation.<br> |
 | or}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **PrvtId** - Person | Unique and unambiguous identification of a person, for example a passport.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **Purp** - Purpose | Underlying reason for the payment transaction.<br> |
+| {or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Cd** - Code | <br>Underlying reason for the payment transaction, as published in an external purpose code list.<br> |
+| or}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Prtry** - Proprietary | <br>Purpose, in a proprietary form.<br> |
 
 
 #### Optional Fields
@@ -109,7 +112,6 @@ Here is a list of all the optional fields. Some of these fields when specified r
 
 | **ISO 20022 Field** | **Description** |
 | --- | --- |
-|   GrpHdr.SttlmInf.**PmtTpInf** - PaymentTypeInformation | Provides further details of the type of payment.<br> |
 |   GrpHdr.**PmtInstrXpryDtTm** - Payment Instruction Expiry Date and Time | A particular point in the progression of time defined by a mandatory<br>date and a mandatory time component, expressed in either UTC time<br>format (YYYY-MM-DDThh:mm:ss.sssZ), local time with UTC offset format<br>(YYYY-MM-DDThh:mm:ss.sss+/-hh:mm), or local time format<br>(YYYY-MM-DDThh:mm:ss.sss). These representations are defined in<br>"XML Schema Part 2: Datatypes Second Edition -<br>W3C Recommendation 28 October 2004" which is aligned with ISO 8601.<br><br>Note on the time format:<br>1) beginning / end of calendar day<br>00:00:00 = the beginning of a calendar day<br>24:00:00 = the end of a calendar day<br><br>2) fractions of second in time format<br>Decimal fractions of seconds may be included. In this case, the<br>involved parties shall agree on the maximum number of digits that are allowed.<br> |
 |   CdtTrfTxInf.PmtId.**InstrId** - InstructionIdentification (FSPIOP equivalent: transactionRequestId) | <br>Definition: Unique identification, as assigned by an instructing party for an instructed party, to<br>unambiguously identify the instruction.<br><br>Usage: The instruction identification is a point to point reference that can be used between the<br>instructing party and the instructed party to refer to the individual instruction. It can be included in<br>several messages related to the instruction.<br><br>This field has been changed from the original ISO20022 `Max35Text`` schema to a ULIDIdentifier schema.<br> |
 |   CdtTrfTxInf.PmtId.**EndToEndId** - EndToEndIdentification (FSPIOP equivalent: transactionId) | <br>Definition: Unique identification, as assigned by the initiating party, to unambiguously identify the<br>transaction. This identification is passed on, unchanged, throughout the entire end-to-end chain.<br><br>Usage: The end-to-end identification can be used for reconciliation or to link tasks relating to the<br>transaction. It can be included in several messages related to the transaction.<br><br>Usage: In case there are technical limitations to pass on multiple references, the end-to-end<br>identification must be passed on throughout the entire end-to-end chain.<br><br>This field has been changed from the original ISO20022 `Max35Text`` schema to a ULIDIdentifier schema.<br> |
@@ -156,7 +158,6 @@ Here is a list of all the optional fields. Some of these fields when specified r
 |   CdtTrfTxInf.**CdtrAcct** - CreditorAccount | Unambiguous identification of the account of the creditor to which a credit entry will be posted as a result of the payment transaction.<br> |
 |   CdtTrfTxInf.**InstrForCdtrAgt** - InstructionForCreditorAgent | Set of elements used to provide information on the remittance advice.<br> |
 |   CdtTrfTxInf.**InstrForNxtAgt** - InstructionForNextAgent | Set of elements used to provide information on the remittance advice.<br> |
-|   CdtTrfTxInf.**Purp** - Purpose | Underlying reason for the payment transaction.<br> |
 |   CdtTrfTxInf.**RgltryRptg** - RegulatoryReporting | Information needed due to regulatory and statutory requirements.<br> |
 |   CdtTrfTxInf.**Tax** - Tax | Provides details on the tax.<br> |
 |   CdtTrfTxInf.**VrfctnOfTerms** - CryptographicLockChoice | Cryptographically signed terms<br> |

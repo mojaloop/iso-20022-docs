@@ -1,5 +1,5 @@
 
-### PUT /parties/{type}/{partyIdentifier}[/{subId}]/error
+## 7.3 PUT /parties/{type}/{partyIdentifier}[/{subId}]/error
 |**Account Identification Verification Report - acmt.024.001.04**|
 |--|
 
@@ -12,7 +12,7 @@ Here is an example of the message:
 ```json
 {
   "Assgnmt": {
-  "MsgId": "01JBVM14S6SC453EY9XB9GXQBW",
+    "MsgId": "01JBVM14S6SC453EY9XB9GXQBW",
     "CreDtTm": "2013-03-07T16:30:00",
     "Assgnr": { "Agt": { "FinInstnId": { "Othr": { "Id": "payee-dfsp" } } } },
     "Assgne": { "Agt": { "FinInstnId": { "Othr": { "Id": "payer-dfsp" } } } }

@@ -1,5 +1,5 @@
 
-### PUT /quotes/{ID}/error
+## 7.9 PUT /quotes/{ID}/error
 | Financial Institution to Financial Institution Payment Status Report - **pacs.002.001.15**|
 |--|
 

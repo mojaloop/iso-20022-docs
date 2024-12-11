@@ -1,5 +1,5 @@
 
-### PUT /parties/{type}/{partyIdentifier}[/{subId}]/error
+## 7.3 PUT /parties/{type}/{partyIdentifier}[/{subId}]/error
 |**Account Identification Verification Report - acmt.024.001.04**|
 |--|
 
@@ -12,7 +12,7 @@ Here is an example of the message:
 ```json
 {
   "Assgnmt": {
-  "MsgId": "01JBVM14S6SC453EY9XB9GXQBW",
+    "MsgId": "01JBVM14S6SC453EY9XB9GXQBW",
     "CreDtTm": "2013-03-07T16:30:00",
     "Assgnr": { "Agt": { "FinInstnId": { "Othr": { "Id": "payee-dfsp" } } } },
     "Assgne": { "Agt": { "FinInstnId": { "Othr": { "Id": "payer-dfsp" } } } }
@@ -76,6 +76,9 @@ Here are the required fields that are needed by the switch to operate.
 |  * **Rpt** - Report | Information concerning the verification of the identification data for which verification was requested.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **OrgnlId** - OriginalIdentification | Unique identification, as assigned by a sending party, to unambiguously identify the party and account identification information group within the original message.<br> |
 | &nbsp;&nbsp;&nbsp;&nbsp; * **Vrfctn** - Verification | Identifies whether the party and/or account information received is correct. Boolean value.<br> |
+| &nbsp;&nbsp;&nbsp;&nbsp; * **Rsn** - Reason | Specifies the reason why the verified identification information is incorrect.<br> |
+| {or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Cd** - Code | Reason why the verified identification information is incorrect, as published in an external reason code list.<br> |
+| or}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Prtry** - Proprietary | Reason why the verified identification information is incorrect, in a free text form.<br> |
 
 
 
@@ -116,7 +119,6 @@ Here is a list of all the optional fields. Some of these fields when specified r
 |   Assgnmt.Assgne.Agt.FinInstnId.**PstlAdr** - PostalAddress | Information that locates and identifies a specific address, as defined by postal services.<br> |
 |   Assgnmt.Assgne.Agt.FinInstnId.**Othr** - Other | Unique identification of an agent, as assigned by an institution, using an identification scheme.<br> |
 |   Assgnmt.Assgne.Agt.**BrnchId** - BranchIdentification | Definition: Identifies a specific branch of a financial institution.<br>Usage: This component should be used in case the identification information in the financial institution component does not provide identification up to branch level.<br> |
-|   Rpt.**Rsn** - Reason | Specifies the reason why the verified identification information is incorrect.<br> |
 |   Rpt.**OrgnlPtyAndAcctId** - OriginalPartyAndAccountIdentification | Provides party and/or account identification information as given in the original message.<br> |
 |   Rpt.**UpdtdPtyAndAcctId** - UpdatedPartyAndAccountIdentification | Provides party and/or account identification information.<br> |
 |   **SplmtryData** - SupplementaryData | Additional information that cannot be captured in the structured elements and/or any other specific block.<br> |
