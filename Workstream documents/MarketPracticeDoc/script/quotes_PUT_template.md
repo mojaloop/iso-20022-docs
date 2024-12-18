@@ -1,4 +1,4 @@
-## PUT 7.8 /quotes/{ID}
+## 7.8 PUT /quotes/{ID}
 |Financial Institution to Financial Institution Customer Credit Transfer Quote Response - **pacs.082.001.01**|
 |--|
 
