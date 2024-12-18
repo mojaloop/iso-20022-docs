@@ -1,5 +1,5 @@
 # Mojaloop ISO 20022 Market Practice Document
-
+    
 <!-- TOC depthfrom:1 depthto:3 orderedlist:true -->
 
 - [1. Mojaloop ISO 20022 Market Practice Document](#1-mojaloop-iso-20022-market-practice-document)
@@ -39,7 +39,7 @@
     - [7.5. PUT /fxQuotes/{ID}](#75-put-fxquotesid)
     - [7.6. PUT /fxQuotes/{ID}/error](#76-put-fxquotesiderror)
     - [7.7. POST /quotes](#77-post-quotes)
-    - [7.8. PUT 7.8 /quotes/{ID}](#78-put-78-quotesid)
+    - [7.8. PUT /quotes/{ID}](#78-put-quotesid)
     - [7.9. PUT /quotes/{ID}/error](#79-put-quotesiderror)
     - [7.10. POST /fxTransfers](#710-post-fxtransfers)
     - [7.11. PUT /fxTransfers/{ID}](#711-put-fxtransfersid)
@@ -55,7 +55,6 @@
     - [8.3. Organisation Identifier Code Table](#83-organisation-identifier-code-table)
 
 <!-- /TOC -->
-  
 
 # 2. Introduction
 
@@ -215,7 +214,7 @@ The sequence diagram shows the discovery example messages in a Payer initiated P
 
 # 7. API Message Details
 
-## GET /parties/{type}/{partyIdentifier}[/{subId}]
+## 7.1 GET /parties/{type}/{partyIdentifier}[/{subId}]
 The GET /parties endpoint does not support or require a payload, and can be seen as an instruction to trigger an Account identification Verification report.
 - **{type}** - Party identifier types<br>
 The **{type}** refers to the classification of the party Identifier type. Each scheme only supports a limited number of these codes. The codes supported by the scheme may be derived from the ISO 20022 external organisation or personal identification codes, or they could be FSPIOP supported codes. The full list of supported codes is available in the [**Appendix A**](#appendix_A).
@@ -1488,7 +1487,7 @@ All error responses return a common payload structure that includes a specific m
 - **extensionList**: An optional list of key-value pairs providing additional information about the error.
 
 This common error payload helps clients understand the nature of the error and take appropriate actions.
-## PUT 7.8 /quotes/{ID}
+## 7.8 PUT /quotes/{ID}
 |Financial Institution to Financial Institution Customer Credit Transfer Quote Response - **pacs.082.001.01**|
 |--|
 
