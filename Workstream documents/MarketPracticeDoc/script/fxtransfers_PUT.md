@@ -24,79 +24,75 @@ Here is an example of the message:
 ```
 #### Message Details
 The details on how to compose and make this API are covered in the following sections:
-1. [Core Data Elements](#header-details)<br>This section specifies which fields are required, which fields are optional, and which fields are unsupported in order to meet the message validating requirements.
-2. [Header Details](#header-details)<br> This section specifies the header requirements for the API are specified.
+1. [Core Data Elements](#core-data-elements)<br>This section specifies which fields are required, which fields are optional, and which fields are unsupported in order to meet the message validating requirements.
+2. [Header Details](#331-header-details)<br> This general section specifies the header requirements for the API are specified.
+3. [Supported HTTP Responses](#332-supported-http-responses)<br> This general section specifies the http responses that must be supported.
+4. [Common Error Payload](#333-common-error-payload)<br> This general section specifies the common error payload that is provided in synchronous http error response.
 
 #### Core Data Elements
 Here are the core data elements that are needed to meet this market practice requirement.
 
-**key**
-| **key** | **Description** |
-| --- | --- |
-| <font color='black'>**required**<font> | These fields are required |
-| <font color='darkgrey'>**optional**<font> | These fields are optional, and may be included if desired. |
-| <font color='red'>**unsupported**<font> | These fields are not supported and must not be provided. |
+The background colours indicate the classification of the data element.
 
+   <style>
+    td:nth-child(1) {
+        width: 25%;
+    }
+    tr.unsupported {  
+    color: black;
+    background-color:rgb(241, 188, 188);
+    font-size:0.8em;
+    line-height: 1; /* Adjust the line height as needed */
+    }
+    tr.required {  
+    color: black;
+    background-color: white;
+    font-size:0.8em;
+    line-height: 1; /* Adjust the line height as needed */
+    }
+    tr.optional {  
+    color: black;
+    background-color:rgb(207, 206, 206);
+    font-size:0.8em;
+    line-height: 1; /* Adjust the line height as needed */
+    }
+    td, th {
+        padding: 1px;
+        margin: 1px; 
+    }  
+  </style>
 
-| **ISO 20022 Field** | Data Model | **Description** |
-| --- |--- | --- |
-| <font color=black>  **GrpHdr** - GroupHeader113</font> | <font color=black>[1..1]</font> | <font color=black></font> |
-| <font color=black>&nbsp;&nbsp;&nbsp;&nbsp;  **MsgId** - MaxText</font> | <font color=black>[1..1]</font> | <font color=black>Specifies a character string with a maximum length of 35 characters.</font> |
-| <font color=black>&nbsp;&nbsp;&nbsp;&nbsp;  **CreDtTm** - A particular point in the progression of time defined by a mandatory</font> | <font color=black>[1..1]</font> | <font color=black>date and a mandatory time component, expressed in either UTC time<br>format (YYYY-MM-DDThh:mm:ss.sssZ), local time with UTC offset format<br>(YYYY-MM-DDThh:mm:ss.sss+/-hh:mm), or local time format<br>(YYYY-MM-DDThh:mm:ss.sss). These representations are defined in<br>"XML Schema Part 2: Datatypes Second Edition -<br>W3C Recommendation 28 October 2004" which is aligned with ISO 8601.<br><br>Note on the time format:<br>1) beginning / end of calendar day<br>00:00:00 = the beginning of a calendar day<br>24:00:00 = the end of a calendar day<br><br>2) fractions of second in time format<br>Decimal fractions of seconds may be included. In this case, the<br>involved parties shall agree on the maximum number of digits that are allowed.<br></font> |
-| <font color=red>&nbsp;&nbsp;&nbsp;&nbsp;  **BtchBookg** - BatchBookingIndicator</font> | <font color=red>[0..0]</font> | <font color=red></font> |
-| <font color=red>&nbsp;&nbsp;&nbsp;&nbsp;  **NbOfTxs** - MaxNumericText</font> | <font color=red>[0..0]</font> | <font color=red>Specifies a numeric string with a maximum length of 15 digits.</font> |
-| <font color=red>&nbsp;&nbsp;&nbsp;&nbsp;  **CtrlSum** - DecimalNumber</font> | <font color=red>[0..0]</font> | <font color=red></font> |
-| <font color=red>&nbsp;&nbsp;&nbsp;&nbsp;  **TtlIntrBkSttlmAmt** - ActiveCurrencyAndAmount</font> | <font color=red>[0..0]</font> | <font color=red>A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.</font> |
-| <font color=red>&nbsp;&nbsp;&nbsp;&nbsp;  **IntrBkSttlmDt** - ISODate</font> | <font color=red>[0..0]</font> | <font color=red>A particular point in the progression of time in a calendar year expressed in the YYYY-MM-DD format. This representation is defined in "XML Schema Part 2: Datatypes Second Edition - W3C Recommendation 28 October 2004" which is aligned with ISO 8601.</font> |
-| <font color=red>&nbsp;&nbsp;&nbsp;&nbsp;  **SttlmInf** - Specifies the details on how the settlement of the original transaction(s) between the</font> | <font color=red>[0..0]</font> | <font color=red>instructing agent and the instructed agent was completed.<br></font> |
-| <font color=red>&nbsp;&nbsp;&nbsp;&nbsp;  **PmtTpInf** - PaymentTypeInformation</font> | <font color=red>[0..0]</font> | <font color=red>Provides further details of the type of payment.</font> |
-| <font color=red>&nbsp;&nbsp;&nbsp;&nbsp;  **InstgAgt** - BranchAndFinancialInstitutionIdentification</font> | <font color=red>[0..0]</font> | <font color=red>Unique and unambiguous identification of a financial institution or a branch of a financial institution.</font> |
-| <font color=red>&nbsp;&nbsp;&nbsp;&nbsp;  **InstdAgt** - BranchAndFinancialInstitutionIdentification</font> | <font color=red>[0..0]</font> | <font color=red>Unique and unambiguous identification of a financial institution or a branch of a financial institution.</font> |
-| <font color=red>  **CdtTrfTxInf** - CreditTransferTransaction62</font> | <font color=red>[0..0]</font> | <font color=red></font> |
-| <font color=darkgrey>  **SplmtryData** - SupplementaryData</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Additional information that cannot be captured in the structured fields and/or any other specific block.</font> |
-| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;  **PlcAndNm** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 350 characters.</font> |
-| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;  **Envlp** - SupplementaryDataEnvelope1</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Technical component that contains the validated supplementary data information. This technical envelope allows to segregate the supplementary data information from any other information.<br></font> |
+  <table> <tr> <th>Data Model Type Key</th> <th>Description</th> </tr>
+   <tr class="required"> <td><b>required</b></td><td>These fields are required in order to meet the message validating requirements.</td></tr>
+   <tr class="optional"> <td><b>optional</b></td><td>These fields can be optionally included in the message. (Some of these fields may be required for a specific scheme as defined in the Scheme Rules for that scheme.)</td></tr>
+   <tr class="unsupported"> <td><b>unsupported</b></td><td>These fields are actively not supported. The functionality specifying data in these fields are not compatible with a Mojaloop scheme, and will fail message validation if provided.</td></tr>
+  </table>
+   <br><br>
+    
 
+Here is the defined core data element table.
 
-
-#### Header Details 
-The API message header should contain the following details. Required headers are specified with an `*` asterisks.
-
-| Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| Description |
-|--|--|
-|**Content-Length**<br>*integer*<br>(header)|The `Content-Length` header field indicates the anticipated size of the payload body. Only sent if there is a body.**Note:** The API supports a maximum size of 5242880 bytes (5 Megabytes).|
-| * **Type**<br>*string*<br>(path)|The type of the party identifier. For example, `MSISDN`, `PERSONAL_ID`.|
-| * **ID**<br>*string*<br>(path)| The identifier value.|
-| * **Content-Type** <br>*string*<br>(header)|The `Content-Type` header indicates the specific version of the API used to send the payload body.|
-| * **Date**<br>*string*<br>(header)|The `Date` header field indicates the date when the request was sent.|
-| **X-Forwarded-For** <br> *string*<br>(header)|The `X-Forwarded-For` header field is an unofficially accepted standard used for informational purposes of the originating client IP address, as a request might pass multiple proxies, firewalls, and so on. Multiple `X-Forwarded-For` values should be expected and supported by implementers of the API.**Note:** An alternative to `X-Forwarded-For` is defined in [RFC 7239](https://tools.ietf.org/html/rfc7239). However, to this point RFC 7239 is less-used and supported than `X-Forwarded-For`.|
-| * **FSPIOP-Source** <br> *string*<br>(header)|The `FSPIOP-Source` header field is a non-HTTP standard field used by the API for identifying the sender of the HTTP request. The field should be set by the original sender of the request. Required for routing and signature verification (see header field `FSPIOP-Signature`).|
-| **FSPIOP-Destination** <br> *string*<br>(header)|The `FSPIOP-Destination` header field is a non-HTTP standard field used by the API for HTTP header based routing of requests and responses to the destination. The field must be set by the original sender of the request if the destination is known (valid for all services except GET /parties) so that any entities between the client and the server do not need to parse the payload for routing purposes. If the destination is not known (valid for service GET /parties), the field should be left empty.|
-| **FSPIOP-Encryption** <br> *string*<br>(header) | The `FSPIOP-Encryption` header field is a non-HTTP standard field used by the API for applying end-to-end encryption of the request.|
-| **FSPIOP-Signature** <br> *string* <br> (header)| The `FSPIOP-Signature` header field is a non-HTTP standard field used by the API for applying an end-to-end request signature.|
-| **FSPIOP-URI** <br> *string* <br> (header) | The `FSPIOP-URI` header field is a non-HTTP standard field used by the API for signature verification, should contain the service URI. Required if signature verification is used, for more information, see [the API Signature document](https://github.com/mojaloop/docs/tree/main/Specification%20Document%20Set).|
-| **FSPIOP-HTTP-Method** <br> *string* <br> (header) | The `FSPIOP-HTTP-Method` header field is a non-HTTP standard field used by the API for signature verification, should contain the service HTTP method. Required if signature verification is used, for more information, see [the API Signature document](https://github.com/mojaloop/docs/tree/main/Specification%20Document%20Set).|
-
-#### Supported HTTP Responses
-
-| **HTTP Error Code** | **Description and Common Causes** |
-|---|----|
-|**400 Bad Request** | **Description**: The server could not understand the request due to invalid syntax. This response indicates that the request was malformed or contained invalid parameters.<br>**Common Causes**: Missing required fields, invalid field values, or incorrect request format. |
-|**401 Unauthorized** | **Description**: The client must authenticate itself to get the requested response. This response indicates that the request lacks valid authentication credentials.<br>**Common Causes**: Missing or invalid authentication token. |
-|**403 Forbidden** | **Description**: The client does not have access rights to the content. This response indicates that the server understood the request but refuses to authorize it.<br>**Common Causes**: Insufficient permissions to access the resource. |
-|**404 Not Found** | **Description**: The server can not find the requested resource. This response indicates that the specified resource does not exist.<br>**Common Causes**: Incorrect resource identifier or the resource has been deleted. |
-|**405 Method Not Allowed** | **Description**: The request method is known by the server but is not supported by the target resource. This response indicates that the HTTP method used is not allowed for the endpoint.<br>**Common Causes**: Using an unsupported HTTP method (e.g., POST instead of PUT). |
-|**406 Not Acceptable** | **Description**: The server cannot produce a response matching the list of acceptable values defined in the request's proactive content negotiation headers. This response indicates that the server cannot generate a response that is acceptable according to the Accept headers sent in the request.<br>**Common Causes**: Unsupported media type or format specified in the Accept header. |
-|**501 Not Implemented** | **Description**: The server does not support the functionality required to fulfill the request. This response indicates that the server does not recognize the request method or lacks the ability to fulfill the request.<br>**Common Causes**: The requested functionality is not implemented on the server. |
-|**503 Service Unavailable** | **Description**: The server is not ready to handle the request. This response indicates that the server is temporarily unable to handle the request due to maintenance or overload.<br>**Common Causes**: Server maintenance, temporary overload, or server downtime. |
-
-#### Common Error Payload
-
-All error responses return a common payload structure that includes a specific message. The payload typically contains the following fields:
-
-- **errorCode**: A code representing the specific error.
-- **errorDescription**: A description of the error.
-- **extensionList**: An optional list of key-value pairs providing additional information about the error.
-
-This common error payload helps clients understand the nature of the error and take appropriate actions.
+<table>
+  <tr>
+    <th>ISO 20022 Field</th>
+    <th>Data Model</th>
+    <th>Description</th>
+  </tr>
+      <tr class=required><td>  <b>GrpHdr</b> - GroupHeader113</td><td>[1..1]</td><td></td></tr>
+<tr class=required><td>&nbsp;&nbsp;&nbsp;&nbsp;  <b>MsgId</b> - MaxText</td><td>[1..1]</td><td>Specifies a character string with a maximum length of 35 characters.</td></tr>
+<tr class=required><td>&nbsp;&nbsp;&nbsp;&nbsp;  <b>CreDtTm</b> - A particular point in the progression of time defined by a mandatory</td><td>[1..1]</td><td>date and a mandatory time component, expressed in either UTC time<br>format (YYYY-MM-DDThh:mm:ss.sssZ), local time with UTC offset format<br>(YYYY-MM-DDThh:mm:ss.sss+/-hh:mm), or local time format<br>(YYYY-MM-DDThh:mm:ss.sss). These representations are defined in<br>"XML Schema Part 2: Datatypes Second Edition -<br>W3C Recommendation 28 October 2004" which is aligned with ISO 8601.<br><br>Note on the time format:<br>1) beginning / end of calendar day<br>00:00:00 = the beginning of a calendar day<br>24:00:00 = the end of a calendar day<br><br>2) fractions of second in time format<br>Decimal fractions of seconds may be included. In this case, the<br>involved parties shall agree on the maximum number of digits that are allowed.<br></td></tr>
+<tr class=unsupported><td>&nbsp;&nbsp;&nbsp;&nbsp;  <b>BtchBookg</b> - BatchBookingIndicator</td><td>[0..0]</td><td></td></tr>
+<tr class=unsupported><td>&nbsp;&nbsp;&nbsp;&nbsp;  <b>NbOfTxs</b> - MaxNumericText</td><td>[0..0]</td><td>Specifies a numeric string with a maximum length of 15 digits.</td></tr>
+<tr class=unsupported><td>&nbsp;&nbsp;&nbsp;&nbsp;  <b>CtrlSum</b> - DecimalNumber</td><td>[0..0]</td><td></td></tr>
+<tr class=unsupported><td>&nbsp;&nbsp;&nbsp;&nbsp;  <b>TtlIntrBkSttlmAmt</b> - ActiveCurrencyAndAmount</td><td>[0..0]</td><td>A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.</td></tr>
+<tr class=unsupported><td>&nbsp;&nbsp;&nbsp;&nbsp;  <b>IntrBkSttlmDt</b> - ISODate</td><td>[0..0]</td><td>A particular point in the progression of time in a calendar year expressed in the YYYY-MM-DD format. This representation is defined in "XML Schema Part 2: Datatypes Second Edition - W3C Recommendation 28 October 2004" which is aligned with ISO 8601.</td></tr>
+<tr class=unsupported><td>&nbsp;&nbsp;&nbsp;&nbsp;  <b>SttlmInf</b> - Specifies the details on how the settlement of the original transaction(s) between the</td><td>[0..0]</td><td>instructing agent and the instructed agent was completed.<br></td></tr>
+<tr class=unsupported><td>&nbsp;&nbsp;&nbsp;&nbsp;  <b>PmtTpInf</b> - PaymentTypeInformation</td><td>[0..0]</td><td>Provides further details of the type of payment.</td></tr>
+<tr class=unsupported><td>&nbsp;&nbsp;&nbsp;&nbsp;  <b>InstgAgt</b> - BranchAndFinancialInstitutionIdentification</td><td>[0..0]</td><td>Unique and unambiguous identification of a financial institution or a branch of a financial institution.</td></tr>
+<tr class=unsupported><td>&nbsp;&nbsp;&nbsp;&nbsp;  <b>InstdAgt</b> - BranchAndFinancialInstitutionIdentification</td><td>[0..0]</td><td>Unique and unambiguous identification of a financial institution or a branch of a financial institution.</td></tr>
+<tr class=unsupported><td>  <b>CdtTrfTxInf</b> - CreditTransferTransaction62</td><td>[0..0]</td><td></td></tr>
+<tr class=optional><td>  <b>SplmtryData</b> - SupplementaryData</td><td>[0..1]</td><td>Additional information that cannot be captured in the structured fields and/or any other specific block.</td></tr>
+<tr class=optional><td>&nbsp;&nbsp;&nbsp;&nbsp;  <b>PlcAndNm</b> - MaxText</td><td>[0..1]</td><td>Specifies a character string with a maximum length of 350 characters.</td></tr>
+<tr class=optional><td>&nbsp;&nbsp;&nbsp;&nbsp;  <b>Envlp</b> - SupplementaryDataEnvelope1</td><td>[0..1]</td><td>Technical component that contains the validated supplementary data information. This technical envelope allows to segregate the supplementary data information from any other information.<br></td></tr>
+</table>
 

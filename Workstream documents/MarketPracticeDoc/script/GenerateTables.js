@@ -330,8 +330,7 @@ parser.parseString(iso20022Xml, (err, iso20022Doc) => {
       return;
     }
   
-    const keyTable = `| **key** | **Description** |\n| --- | --- |\n| <font color='black'>**required**<font> | These fields are required |\n| <font color='darkgrey'>**optional**<font> | These fields are optional, and may be included if desired. |\n| <font color='red'>**unsupported**<font> | These fields are not supported and must not be provided. |\n`; 
-
+    
       // Determine optionalFields fields
       const optionalFields = SupportedFields.flatMap(f => f.getAllFields(OptionalFieldsSet)).filter(field => {
         return (!requiredFieldsSet.find(f => f==field.fullName));
@@ -395,13 +394,94 @@ parser.parseString(iso20022Xml, (err, iso20022Doc) => {
             dataModel = '[0..0]';
             fontColor = 'red';
           }
-          table += `| <font color=${fontColor}>${fieldName}</font> | <font color=${fontColor}>${dataModel}</font> | <font color=${fontColor}>${sanitizedDescription}</font> |\n`;
+          table += `| <font size=1 color=${fontColor}>${fieldName}</font> | <font color=${fontColor}>${dataModel}</font> | <font size=1 color=${fontColor}>${sanitizedDescription}</font> |\n`;
       }
       });
       return table;
     };
+
+    // Generate combined markdown tables
+    const generateCombinedTableHTML = (fields, requiredSet, optionalSet, unsupportedSet) => {
+      let table = '';
+      // add styles
+      // add headers
+      table += `
+<table>
+  <tr>
+    <th>ISO 20022 Field</th>
+    <th>Data Model</th>
+    <th>Description</th>
+  </tr>
+      `;
+      fields.forEach(field => {
+        const sanitizedDescription = field.description.replace(/\n/g, '<br>');
+        const parentFullName = field?.parentField?.fullName;
+        const parentfieldUnsupported = (!parentFullName)?false:unsupportedSet.find(f=> f==parentFullName)? true: false;
+        if (!parentfieldUnsupported) {
+
+          let fieldName = `${field.or_text}${'&nbsp;'.repeat(field.indent)} ${field.required} <b>${field.name}</b>`;
+          if (field.fieldName?.length > 0) {
+            fieldName += ` - ${field.fieldName}`;
+          }
+          let dataModel = '';
+          let className = '';
+          if (requiredSet.find(f=> f.fullName==field.fullName)) {
+            dataModel = '[1..1]';
+            className = 'required';
+          } else if (optionalSet.find(f=> f==field.fullName)){
+            dataModel = field.required?'[1..1]':'[0..1]';
+            className = 'optional';
+          } else {
+            dataModel = '[0..0]';
+            className = 'unsupported';
+          }
+          table += `<tr class=${className}><td>${fieldName}</td><td>${dataModel}</td><td>${sanitizedDescription}</td></tr>\n`;
+      }
+      });
+      // add closing tags
+      table += `</table>`;
+      return table;
+    };
     
-    const combinedTable = generateCombinedTable(iso20022FieldsList, requiredFields.flatMap(f => f.getAllFields()),OptionalFieldsSet,unsupportedFieldsSet);
+    const keyTable = `
+   <style>
+    td:nth-child(1) {
+        width: 25%;
+    }
+    tr.unsupported {  
+    color: black;
+    background-color:rgb(241, 188, 188);
+    font-size:0.8em;
+    line-height: 1; /* Adjust the line height as needed */
+    }
+    tr.required {  
+    color: black;
+    background-color: white;
+    font-size:0.8em;
+    line-height: 1; /* Adjust the line height as needed */
+    }
+    tr.optional {  
+    color: black;
+    background-color:rgb(207, 206, 206);
+    font-size:0.8em;
+    line-height: 1; /* Adjust the line height as needed */
+    }
+    td, th {
+        padding: 1px;
+        margin: 1px; 
+    }  
+  </style>
+
+  <table> <tr> <th>Data Model Type Key</th> <th>Description</th> </tr>
+   <tr class="required"> <td><b>required</b></td><td>These fields are required in order to meet the message validating requirements.</td></tr>
+   <tr class="optional"> <td><b>optional</b></td><td>These fields can be optionally included in the message. (Some of these fields may be required for a specific scheme as defined in the Scheme Rules for that scheme.)</td></tr>
+   <tr class="unsupported"> <td><b>unsupported</b></td><td>These fields are actively not supported. The functionality specifying data in these fields are not compatible with a Mojaloop scheme, and will fail message validation if provided.</td></tr>
+  </table>
+   <br><br>
+    `;  
+
+  
+    const combinedTable = generateCombinedTableHTML(iso20022FieldsList, requiredFields.flatMap(f => f.getAllFields()),OptionalFieldsSet,unsupportedFieldsSet);
 
 
   // Replace placeholders in the template with the generated tables
