@@ -256,7 +256,6 @@ parser.parseString(iso20022Xml, (err, iso20022Doc) => {
     // Extract fields from ISO 20022 XML schema
     const iso20022Fields = [];
     const iso20022FieldsSet = [];
-    const iso20022FieldsList = [];
     const startDepth = 2;
     const extractIsoFields = (element, parentField = null, depth = 0, parentSchema = null) => {
       if (element['xs:element']) {
@@ -300,9 +299,6 @@ parser.parseString(iso20022Xml, (err, iso20022Doc) => {
             iso20022Fields.push(fieldObj);
             iso20022FieldsSet.push(fullName);
           }
-          if(fieldObj) {
-            iso20022FieldsList.push(fieldObj);
-          }
           if (el['xs:complexType']) {
             extractIsoFields(el['xs:complexType'], fieldObj, depth + 1);
           } else if (el.$.type) {
@@ -330,8 +326,7 @@ parser.parseString(iso20022Xml, (err, iso20022Doc) => {
       return;
     }
   
-    const keyTable = `| **key** | **Description** |\n| --- | --- |\n| <font color='black'>**required**<font> | These fields are required |\n| <font color='darkgrey'>**optional**<font> | These fields are optional, and may be included if desired. |\n| <font color='red'>**unsupported**<font> | These fields are not supported and must not be provided. |\n`; 
-
+  
       // Determine optionalFields fields
       const optionalFields = SupportedFields.flatMap(f => f.getAllFields(OptionalFieldsSet)).filter(field => {
         return (!requiredFieldsSet.find(f => f==field.fullName));
@@ -369,47 +364,14 @@ parser.parseString(iso20022Xml, (err, iso20022Doc) => {
     const requiredTable = generateTable('Required Fields', requiredFields.flatMap(f => f.getAllFields()));
     const optionalTable = generateTable('Optional Fields', optionalFields,OptionalFieldsSet);
     const unsupportedTable = generateTable('Unsupported Fields', unsupportedFields,unsupportedFieldsSet);
-
-    // Generate combined markdown tables
-    const generateCombinedTable = (fields, requiredSet, optionalSet, unsupportedSet) => {
-      let table = `| **ISO 20022 Field** | Data Model | **Description** |\n| --- |--- | --- |\n`;
-      fields.forEach(field => {
-        const sanitizedDescription = field.description.replace(/\n/g, '<br>');
-        const parentFullName = field?.parentField?.fullName;
-        const parentfieldUnsupported = (!parentFullName)?false:unsupportedSet.find(f=> f==parentFullName)? true: false;
-        if (!parentfieldUnsupported) {
-
-          let fieldName = `${field.or_text}${'&nbsp;'.repeat(field.indent)} ${field.required} **${field.name}**`;
-          if (field.fieldName?.length > 0) {
-            fieldName += ` - ${field.fieldName}`;
-          }
-          let dataModel = '';
-          let fontColor = '';
-          if (requiredSet.find(f=> f.fullName==field.fullName)) {
-            dataModel = '[1..1]';
-            fontColor = 'black';
-          } else if (optionalSet.find(f=> f==field.fullName)){
-            dataModel = '[0..1]';
-            fontColor = 'darkgrey';
-          } else {
-            dataModel = '[0..0]';
-            fontColor = 'red';
-          }
-          table += `| <font color=${fontColor}>${fieldName}</font> | <font color=${fontColor}>${dataModel}</font> | <font color=${fontColor}>${sanitizedDescription}</font> |\n`;
-      }
-      });
-      return table;
-    };
-    
-    const combinedTable = generateCombinedTable(iso20022FieldsList, requiredFields.flatMap(f => f.getAllFields()),OptionalFieldsSet,unsupportedFieldsSet);
-
-
+  
   // Replace placeholders in the template with the generated tables
   const markdownDoc = template
     .replace('{{endpoint}}', endpoint)
-    .replace('{{table}}', combinedTable)
-    .replace('{{key}}', keyTable)
-    
+    .replace('{{requiredTable}}', requiredTable)
+    .replace('{{optionalTable}}', optionalTable)
+    .replace('{{unsupportedTable}}', unsupportedTable);
+
   // Output markdown documentation
   fs.writeFileSync(outputFilename, markdownDoc);
   console.log('Market practice document generated successfully.');

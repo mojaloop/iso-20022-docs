@@ -20,11 +20,96 @@ Here is an example of the message:
 ```
 #### Message Details
 The details on how to compose and make this API are covered in the following sections:
-1. [Header Details](#header-details)<br> This section specifies the header requirements for the API are specified.
-2. [Required Fields](#required-fields) <br> This section specifies which fields are required in order to meet the message validating requirements.
-3. [Optional Fields](#optional-fields) <br> This section specifies which fields can optionally be included in the message. (Some of these fields may be required for a specific scheme as defined in the Scheme Rules for that scheme.)
-4. [Unsupported Fields](#unsupported-fields) <br> This section specified which fields are actively not supported. The functionality specifying data in these fields are not compatible with a Mojaloop scheme, and will fail message validation if provided.
-5. [Supported HTTP Responses](#supported-http-responses) <br> This section details which http responses can re returned and are required to be supported.
+1. [Core Data Elements](#header-details)<br>This section specifies which fields are required, which fields are optional, and which fields are unsupported in order to meet the message validating requirements.
+2. [Header Details](#header-details)<br> This section specifies the header requirements for the API are specified.
+
+#### Core Data Elements
+Here are the core data elements that are needed to meet this market practice requirement.
+
+**key**
+| **key** | **Description** |
+| --- | --- |
+| <font color='black'>**required**<font> | These fields are required |
+| <font color='darkgrey'>**optional**<font> | These fields are optional, and may be included if desired. |
+| <font color='red'>**unsupported**<font> | These fields are not supported and must not be provided. |
+
+
+| **ISO 20022 Field** | Data Model | **Description** |
+| --- |--- | --- |
+| <font color=black>  **GrpHdr** - GroupHeader</font> | <font color=black>[1..1]</font> | <font color=black>Set of characteristics shared by all individual transactions included in the message.</font> |
+| <font color=black>&nbsp;&nbsp;&nbsp;&nbsp;  **MsgId** - MaxText</font> | <font color=black>[1..1]</font> | <font color=black>Specifies a character string with a maximum length of 35 characters.</font> |
+| <font color=black>&nbsp;&nbsp;&nbsp;&nbsp;  **CreDtTm** - A particular point in the progression of time defined by a mandatory</font> | <font color=black>[1..1]</font> | <font color=black>date and a mandatory time component, expressed in either UTC time<br>format (YYYY-MM-DDThh:mm:ss.sssZ), local time with UTC offset format<br>(YYYY-MM-DDThh:mm:ss.sss+/-hh:mm), or local time format<br>(YYYY-MM-DDThh:mm:ss.sss). These representations are defined in<br>"XML Schema Part 2: Datatypes Second Edition -<br>W3C Recommendation 28 October 2004" which is aligned with ISO 8601.<br><br>Note on the time format:<br>1) beginning / end of calendar day<br>00:00:00 = the beginning of a calendar day<br>24:00:00 = the end of a calendar day<br><br>2) fractions of second in time format<br>Decimal fractions of seconds may be included. In this case, the<br>involved parties shall agree on the maximum number of digits that are allowed.<br></font> |
+| <font color=red>&nbsp;&nbsp;&nbsp;&nbsp;  **InstgAgt** - BranchAndFinancialInstitutionIdentification</font> | <font color=red>[0..0]</font> | <font color=red>Unique and unambiguous identification of a financial institution or a branch of a financial institution.</font> |
+| <font color=red>&nbsp;&nbsp;&nbsp;&nbsp;  **InstdAgt** - BranchAndFinancialInstitutionIdentification</font> | <font color=red>[0..0]</font> | <font color=red>Unique and unambiguous identification of a financial institution or a branch of a financial institution.</font> |
+| <font color=red>&nbsp;&nbsp;&nbsp;&nbsp;  **OrgnlBizQry** - OriginalBusinessQuery1</font> | <font color=red>[0..0]</font> | <font color=red></font> |
+| <font color=red>  **OrgnlGrpInfAndSts** - OriginalGroupHeader22</font> | <font color=red>[0..0]</font> | <font color=red></font> |
+| <font color=black>  **TxInfAndSts** - PaymentTransaction161</font> | <font color=black>[1..1]</font> | <font color=black></font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;  **StsId** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 35 characters.</font> |
+| <font color=red>&nbsp;&nbsp;&nbsp;&nbsp;  **OrgnlGrpInf** - OriginalGroupInformation29</font> | <font color=red>[0..0]</font> | <font color=red></font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;  **OrgnlInstrId** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 35 characters.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;  **OrgnlEndToEndId** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 35 characters.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;  **OrgnlTxId** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 35 characters.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;  **OrgnlUETR** - UUIDv4Identifier</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey></font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;  **TxSts** - Specifies the external payment transaction status code.</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey><br>For FSPIOP transfer state enumeration mappings:<br>{<br>  "COMM": "COMMITED",<br>  "RESV": "RESERVED",<br>  "RECV": "RECEIVED",<br>  "ABOR": "ABORTED"<br>}<br><br>NOTE: enum enforcement is not apart of the ISO20022 specification, but is added here for FSPIOP mappings.<br></font> |
+| <font color=black>&nbsp;&nbsp;&nbsp;&nbsp;  **StsRsnInf** - StatusReasonInformation</font> | <font color=black>[1..1]</font> | <font color=black>Unsure on description.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **Orgtr** - PartyIdentification</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies the identification of a person or an organisation.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **Nm** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 140 characters.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **PstlAdr** - PostalAddress</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Information that locates and identifies a specific address, as defined by postal services.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **AdrTp** - AddressTypeChoice</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Choice of formats for the type of address.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **CareOf** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 140 characters.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **Dept** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 70 characters.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **SubDept** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 70 characters.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **StrtNm** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 140 characters.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **BldgNb** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 16 characters.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **BldgNm** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 140 characters.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **Flr** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 70 characters.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **UnitNb** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 16 characters.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **PstBx** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 16 characters.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **Room** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 70 characters.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **PstCd** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 16 characters.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **TwnNm** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 140 characters.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **TwnLctnNm** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 140 characters.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **DstrctNm** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 140 characters.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **CtrySubDvsn** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 35 characters.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **Ctry** - CountryCode</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **AdrLine** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 70 characters.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **Id** - PartyChoice</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>NOTE: Unsure on the description.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **CtryOfRes** - CountryCode</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **CtctDtls** - Contact</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies the details of the contact person.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **NmPrfx** - Specifies the terms used to formally address a person.</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey><br>DOCT: Doctor or Dr<br>MADM: Madam<br>MISS: Miss<br>MIST: Mistress<br>MIKS: Mx<br></font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **Nm** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 140 characters.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **PhneNb** - PhoneNumber</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Double check this regex.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **MobNb** - PhoneNumber</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Double check this regex.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **FaxNb** - PhoneNumber</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Double check this regex.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **URLAdr** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 2048 characters.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **EmailAdr** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 256 characters.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **EmailPurp** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 35 characters.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **JobTitl** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 35 characters.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **Rspnsblty** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 35 characters.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **Dept** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 70 characters.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **Othr** - OtherContact</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Communication device number or electronic address used for communication.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **ChanlTp** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 4 characters.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **Id** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 128 characters.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **PrefrdMtd** - Preferred method used to reach the individual contact within an organisation.</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>LETT: Letter<br>MAIL: Email<br>PHON: Phone<br>FAXX: Fax<br>CELL: Mobile phone<br></font> |
+| <font color=black>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **Rsn** - StatusReasonChoice</font> | <font color=black>[1..1]</font> | <font color=black>Specifies the reason for the status.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **AddtlInf** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 105 characters.</font> |
+| <font color=red>&nbsp;&nbsp;&nbsp;&nbsp;  **ChrgsInf** - NOTE: Unsure on description.</font> | <font color=red>[0..0]</font> | <font color=red><br>Seemingly a generic schema for charges, with an amount, agent, and type.<br></font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;  **AccptncDtTm** - A particular point in the progression of time defined by a mandatory</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>date and a mandatory time component, expressed in either UTC time<br>format (YYYY-MM-DDThh:mm:ss.sssZ), local time with UTC offset format<br>(YYYY-MM-DDThh:mm:ss.sss+/-hh:mm), or local time format<br>(YYYY-MM-DDThh:mm:ss.sss). These representations are defined in<br>"XML Schema Part 2: Datatypes Second Edition -<br>W3C Recommendation 28 October 2004" which is aligned with ISO 8601.<br><br>Note on the time format:<br>1) beginning / end of calendar day<br>00:00:00 = the beginning of a calendar day<br>24:00:00 = the end of a calendar day<br><br>2) fractions of second in time format<br>Decimal fractions of seconds may be included. In this case, the<br>involved parties shall agree on the maximum number of digits that are allowed.<br></font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;  **PrcgDt** - StatusReasonChoice</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies the reason for the status.</font> |
+| <font color=red>&nbsp;&nbsp;&nbsp;&nbsp;  **FctvIntrBkSttlmDt** - StatusReasonChoice</font> | <font color=red>[0..0]</font> | <font color=red>Specifies the reason for the status.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;  **AcctSvcrRef** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 35 characters.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;  **ClrSysRef** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 35 characters.</font> |
+| <font color=red>&nbsp;&nbsp;&nbsp;&nbsp;  **InstgAgt** - BranchAndFinancialInstitutionIdentification</font> | <font color=red>[0..0]</font> | <font color=red>Unique and unambiguous identification of a financial institution or a branch of a financial institution.</font> |
+| <font color=red>&nbsp;&nbsp;&nbsp;&nbsp;  **InstdAgt** - BranchAndFinancialInstitutionIdentification</font> | <font color=red>[0..0]</font> | <font color=red>Unique and unambiguous identification of a financial institution or a branch of a financial institution.</font> |
+| <font color=red>&nbsp;&nbsp;&nbsp;&nbsp;  **OrgnlTxRef** - OriginalTransactionReference42</font> | <font color=red>[0..0]</font> | <font color=red></font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;  **SplmtryData** - SupplementaryData</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Additional information that cannot be captured in the structured fields and/or any other specific block.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **PlcAndNm** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 350 characters.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  **Envlp** - SupplementaryDataEnvelope1</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Technical component that contains the validated supplementary data information. This technical envelope allows to segregate the supplementary data information from any other information.<br></font> |
+| <font color=darkgrey>  **SplmtryData** - SupplementaryData</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Additional information that cannot be captured in the structured fields and/or any other specific block.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;  **PlcAndNm** - MaxText</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Specifies a character string with a maximum length of 350 characters.</font> |
+| <font color=darkgrey>&nbsp;&nbsp;&nbsp;&nbsp;  **Envlp** - SupplementaryDataEnvelope1</font> | <font color=darkgrey>[0..1]</font> | <font color=darkgrey>Technical component that contains the validated supplementary data information. This technical envelope allows to segregate the supplementary data information from any other information.<br></font> |
+
+
 
 #### Header Details 
 The API message header should contain the following details. Required headers are specified with an `*` asterisks.
@@ -44,60 +129,26 @@ The API message header should contain the following details. Required headers ar
 | **FSPIOP-URI** <br> *string* <br> (header) | The `FSPIOP-URI` header field is a non-HTTP standard field used by the API for signature verification, should contain the service URI. Required if signature verification is used, for more information, see [the API Signature document](https://github.com/mojaloop/docs/tree/main/Specification%20Document%20Set).|
 | **FSPIOP-HTTP-Method** <br> *string* <br> (header) | The `FSPIOP-HTTP-Method` header field is a non-HTTP standard field used by the API for signature verification, should contain the service HTTP method. Required if signature verification is used, for more information, see [the API Signature document](https://github.com/mojaloop/docs/tree/main/Specification%20Document%20Set).|
 
+#### Supported HTTP Responses
 
+| **HTTP Error Code** | **Description and Common Causes** |
+|---|----|
+|**400 Bad Request** | **Description**: The server could not understand the request due to invalid syntax. This response indicates that the request was malformed or contained invalid parameters.<br>**Common Causes**: Missing required fields, invalid field values, or incorrect request format. |
+|**401 Unauthorized** | **Description**: The client must authenticate itself to get the requested response. This response indicates that the request lacks valid authentication credentials.<br>**Common Causes**: Missing or invalid authentication token. |
+|**403 Forbidden** | **Description**: The client does not have access rights to the content. This response indicates that the server understood the request but refuses to authorize it.<br>**Common Causes**: Insufficient permissions to access the resource. |
+|**404 Not Found** | **Description**: The server can not find the requested resource. This response indicates that the specified resource does not exist.<br>**Common Causes**: Incorrect resource identifier or the resource has been deleted. |
+|**405 Method Not Allowed** | **Description**: The request method is known by the server but is not supported by the target resource. This response indicates that the HTTP method used is not allowed for the endpoint.<br>**Common Causes**: Using an unsupported HTTP method (e.g., POST instead of PUT). |
+|**406 Not Acceptable** | **Description**: The server cannot produce a response matching the list of acceptable values defined in the request's proactive content negotiation headers. This response indicates that the server cannot generate a response that is acceptable according to the Accept headers sent in the request.<br>**Common Causes**: Unsupported media type or format specified in the Accept header. |
+|**501 Not Implemented** | **Description**: The server does not support the functionality required to fulfill the request. This response indicates that the server does not recognize the request method or lacks the ability to fulfill the request.<br>**Common Causes**: The requested functionality is not implemented on the server. |
+|**503 Service Unavailable** | **Description**: The server is not ready to handle the request. This response indicates that the server is temporarily unable to handle the request due to maintenance or overload.<br>**Common Causes**: Server maintenance, temporary overload, or server downtime. |
 
-#### Required Fields
-Here are the required fields that are needed by the switch to operate.
+#### Common Error Payload
 
-| **ISO 20022 Field** | **Description** |
-| --- | --- |
-|  * **GrpHdr** - Set of characteristics shared by all individual transactions included in the message. | Set of characteristics shared by all individual transactions included in the message.<br> |
-| &nbsp;&nbsp;&nbsp;&nbsp; * **MsgId** - MessageIdentification | Definition: Point to point reference, as assigned by the instructing party, and sent to the next party in the chain to unambiguously identify the message.<br>Usage: The instructing party has to make sure that MessageIdentification is unique per instructed party for a pre-agreed period.<br> |
-| &nbsp;&nbsp;&nbsp;&nbsp; * **CreDtTm** - CreationDateTime | Date and time at which the message was created.<br> |
-|  * **TxInfAndSts** - Information concerning the original transactions, to which the status report message refers. | Provides further details on the original transactions, to which the status report message refers.<br> |
-| &nbsp;&nbsp;&nbsp;&nbsp; * **StsRsnInf** - Information concerning the reason for the status. | Unsure on description.<br> |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Rsn** - Reason | Specifies the reason for the status report.<br> |
-| {or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Cd** - Code | Reason for the status, as published in an external reason code list.<br> |
-| or}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * **Prtry** - Proprietary | Reason for the status, in a proprietary form.<br> |
+All error responses return a common payload structure that includes a specific message. The payload typically contains the following fields:
 
+- **errorCode**: A code representing the specific error.
+- **errorDescription**: A description of the error.
+- **extensionList**: An optional list of key-value pairs providing additional information about the error.
 
-#### Optional Fields
-Here is a list of all the optional fields. Some of these fields when specified require other fields to be defined and cannot be specified in isolation. An asterisk `*` indicates a required field in the table to illustrate these requirements. For more information please refer to the ISO 20022 specification.
-
-| **ISO 20022 Field** | **Description** |
-| --- | --- |
-|   TxInfAndSts.StsRsnInf.**Orgtr** - Originator | Party that issues the status.<br> |
-|   TxInfAndSts.StsRsnInf.**AddtlInf** - AdditionalInformation | Additional information about the status report.<br> |
-|   TxInfAndSts.**StsId** - Unique identification, as assigned by the original sending party, to unambiguously identify the status report. | Specifies a character string with a maximum length of 35 characters.<br> |
-|   TxInfAndSts.**OrgnlInstrId** - Unique identification, as assigned by the original sending party, to | unambiguously identify the original instruction.<br><br>(FSPIOP equivalent: transactionRequestId)<br> |
-|   TxInfAndSts.**OrgnlEndToEndId** - Unique identification, as assigned by the original sending party, to | unambiguously identify the original end-to-end transaction.<br><br>(FSPIOP equivalent: transactionId)<br> |
-|   TxInfAndSts.**OrgnlTxId** - Unique identification, as assigned by the original sending party, to | unambiguously identify the original transaction.<br><br>(FSPIOP equivalent: quoteId)<br> |
-|   TxInfAndSts.**OrgnlUETR** - Unique end-to-end transaction reference, as assigned by the original sending party, to unambiguously identify the original transaction. | Unique end-to-end transaction reference, as assigned by the original sending party, to unambiguously identify the original transaction.<br> |
-|   TxInfAndSts.**TxSts** - Specifies the status of the transaction. | Specifies the external payment transaction status code.<br><br>For FSPIOP transfer state enumeration mappings:<br>{<br>  "COMM": "COMMITED",<br>  "RESV": "RESERVED",<br>  "RECV": "RECEIVED",<br>  "ABOR": "ABORTED"<br>}<br><br>NOTE: enum enforcement is not apart of the ISO20022 specification, but is added here for FSPIOP mappings.<br> |
-|   TxInfAndSts.**AccptncDtTm** - Date and time at which the status was accepted. | A particular point in the progression of time defined by a mandatory<br>date and a mandatory time component, expressed in either UTC time<br>format (YYYY-MM-DDThh:mm:ss.sssZ), local time with UTC offset format<br>(YYYY-MM-DDThh:mm:ss.sss+/-hh:mm), or local time format<br>(YYYY-MM-DDThh:mm:ss.sss). These representations are defined in<br>"XML Schema Part 2: Datatypes Second Edition -<br>W3C Recommendation 28 October 2004" which is aligned with ISO 8601.<br><br>Note on the time format:<br>1) beginning / end of calendar day<br>00:00:00 = the beginning of a calendar day<br>24:00:00 = the end of a calendar day<br><br>2) fractions of second in time format<br>Decimal fractions of seconds may be included. In this case, the<br>involved parties shall agree on the maximum number of digits that are allowed.<br> |
-|   TxInfAndSts.**AcctSvcrRef** - Unique reference, as assigned by the account servicing institution, to unambiguously identify the status report. | Specifies a character string with a maximum length of 35 characters.<br> |
-|   TxInfAndSts.**ClrSysRef** - Reference that is assigned by the account servicing institution and sent to the account owner to unambiguously identify the transaction. | Specifies a character string with a maximum length of 35 characters.<br> |
-|   TxInfAndSts.**ExctnConf** - Unique reference, as assigned by the account servicing institution, to unambiguously identify the confirmation. | Specifies a hexadecimal string.<br><br>NOTE: This pattern is not the original ISO20022 specification.<br> |
-|   TxInfAndSts.**SplmtryData** - Additional information that cannot be captured in the structured elements and/or any other specific block. | Additional information that cannot be captured in the structured fields and/or any other specific block.<br> |
-|   TxInfAndSts.**PrcgDt** - Date/time at which the instruction was processed by the specified party. | Specifies the reason for the status.<br> |
-|   **SplmtryData** - Additional information that cannot be captured in the structured elements and/or any other specific block. | Additional information that cannot be captured in the structured fields and/or any other specific block.<br> |
-
-
-
-#### Unsupported Fields
-
-Mojaloop is an end-to-end messaging system where messages are signed at each end by the participating organisation. This is imperative to maintain non-repudiation. The following field therefore are unsupported and if provided will reject the message, as these violate this end-to-end message support.
-
-| **ISO 20022 Field** | **Description** |
-| --- | --- |
-|   GrpHdr.**InstgAgt** - BranchAndFinancialInstitutionIdentification | Unique and unambiguous identification of a financial institution or a branch of a financial institution. |
-|   GrpHdr.**InstdAgt** - BranchAndFinancialInstitutionIdentification | Unique and unambiguous identification of a financial institution or a branch of a financial institution. |
-|   GrpHdr.**OrgnlBizQry** - OriginalBusinessQuery1 |  |
-|   **OrgnlGrpInfAndSts** - OriginalGroupHeader22 |  |
-|   TxInfAndSts.**OrgnlGrpInf** - OriginalGroupInformation29 |  |
-|   TxInfAndSts.**ChrgsInf** - NOTE: Unsure on description. | <br>Seemingly a generic schema for charges, with an amount, agent, and type.<br> |
-|   TxInfAndSts.**FctvIntrBkSttlmDt** - StatusReasonChoice | Specifies the reason for the status. |
-|   TxInfAndSts.**InstgAgt** - BranchAndFinancialInstitutionIdentification | Unique and unambiguous identification of a financial institution or a branch of a financial institution. |
-|   TxInfAndSts.**InstdAgt** - BranchAndFinancialInstitutionIdentification | Unique and unambiguous identification of a financial institution or a branch of a financial institution. |
-|   TxInfAndSts.**OrgnlTxRef** - OriginalTransactionReference42 |  |
+This common error payload helps clients understand the nature of the error and take appropriate actions.
 
