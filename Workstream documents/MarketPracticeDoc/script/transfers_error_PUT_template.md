@@ -14,7 +14,7 @@ Here is an example of the message:
 "GrpHdr": {
     "MsgId":"01JBVM1CGC5A18XQVYYRF68FD1",
     "CreDtTm":"2024-11-04T12:57:45.228Z"},
-"TxInfAndSts":{"StsRsnInf":{"Rsn": {"Cd":"ErrorCode"}}}
+"TxInfAndSts":{"StsRsnInf":{"Rsn": {"Prtry":"ErrorCode"}}}
 }
 ```
 #### Message Details

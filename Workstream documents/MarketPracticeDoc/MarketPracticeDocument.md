@@ -150,7 +150,7 @@ The Agreement Phase provides an opportunity for the calculation and mutual agree
 1. **Pre-Commitment Validation**<br>
 It allows each participating organization to verify whether the transfer can proceed. This step helps identify and address potential issues early, reducing errors during the transfer and minimizing reconciliation discrepancies.
 1. **Cryptographic Signing of Terms**<br>
-The terms of the transfer are cryptographically signed during this phase. This mechanism ensures non-repudiation, meaning that parties cannot deny their involvement in or agreement to the transaction.
+The terms of the transfer are cryptographically signed during this phase. This mechanism ensures non-repudiation, meaning that parties cannot deny their involvement in or agreement to the transaction. The Interledger Protocol is used to perform this cryptographic signing. Details on how to produce an ILP packet are defined here: [Mojaloop FSPIOP API Documentation](https://docs.mojaloop.io/technical/api/fspiop/).
 1. **Promoting Financial Inclusion**<br>
 By presenting all parties with the complete terms of the transfer upfront, the Agreement Phase ensures that participants are fully informed before making any commitments. This transparency supports financial inclusively by enabling fair and informed decision-making for all stakeholders.
 

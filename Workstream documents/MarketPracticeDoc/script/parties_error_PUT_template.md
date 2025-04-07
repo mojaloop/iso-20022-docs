@@ -21,7 +21,7 @@ Here is an example of the message:
     "Vrfctn": false,
     "OrgnlId": "MSISDN/16665551002",
     "CreDtTm": "2013-03-07T16:30:00",
-    "Rsn": { "Cd": 3204 }
+    "Rsn": { "Prtry": 3204 }
   }
 }
 ```
