@@ -410,7 +410,7 @@ Here is an example of the message:
     "Vrfctn": false,
     "OrgnlId": "MSISDN/16665551002",
     "CreDtTm": "2013-03-07T16:30:00",
-    "Rsn": { "Cd": 3204 }
+    "Rsn": { "Prtry": 3204 }
   }
 }
 ```
@@ -1163,7 +1163,7 @@ Here is an example of the message:
 "GrpHdr": {
     "MsgId":"01JBVM1CGC5A18XQVYYRF68FD1",
     "CreDtTm":"2024-11-04T12:57:45.228Z"},
-"TxInfAndSts":{"StsRsnInf":{"Rsn": {"Cd":"ErrorCode"}}
+"TxInfAndSts":{"StsRsnInf":{"Rsn": {"Prtry":"ErrorCode"}}
 ```
 #### Required Fields
 Here are the required fields that are needed by the switch to operate.
